@@ -46,7 +46,7 @@ setup(
     keywords=(
         'derpibooru derpibooru.org python api wrapper my_little_pony mlp '
         'friendship_is_magic FiM fim earthpony unicorn pegasus' + reduce(
-            lambda a, x: a+' '+x, map(lambda x: x[0]+x[1], product(['pon', 'p0n'], ['', 'y', 'e', 'ies', 'es'])), ''
+            lambda a, x: a+' '+x, map(lambda x: x[0]+x[1], product(['pon', 'p0n'], ['', 'y', 'e', 'ies', 'es', 's']))
         )
     ),
     # You can just specify the packages manually here if your project is
