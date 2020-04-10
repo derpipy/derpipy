@@ -40,7 +40,7 @@ setup(
         'Environment :: Web Environment',
         'License :: OSI Approved :: MIT License',
         'Operating System :: Unix',
-        'Operating System :: POSIX :: Linux'
+        'Operating System :: POSIX :: Linux',
         'Operating System :: iOS',
         'Operating System :: MacOS',
         'Operating System :: MacOS :: MacOS X',
