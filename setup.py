@@ -19,7 +19,7 @@ setup(
     author_email='derpi.github+code@luckydonald.de, pingmader@gmail.com',
     # Choose your license
     license='MIT',
-    platforms = ["any"],
+    platforms=["any"],
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 1 - Planning',  # 2 - Pre-Alpha, 3 - Alpha, 4 - Beta, 5 - Production/Stable
@@ -61,9 +61,9 @@ setup(
     # List additional groups of dependencies here (e.g. development dependencies).
     # You can install these using the following syntax, for example:
     # $ pip install -e .[dev,test]
-    extras_require = {
-    'sync': ['requests'],
-    'async': ['httpx'],
+    extras_require={
+        'sync': ['requests'],
+        'async': ['httpx'],
     },
     # If there are data files included in your packages that need to be
     # installed, specify them here. If using Python 2.6 or less, then these
