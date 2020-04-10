@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+import iso8601
 
 from datetime import datetime
 from typing import Union, List, Dict, Type
 
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.typing import JSONType
+from luckydonaldUtils.exceptions import assert_type_or_raise
+
 
 __author__ = 'luckydonald'
 __all__ = ['DerpiModel', {% for class in classes %}{{ class.name.__repr__() }}{% if not loop.last %}, {% endif -%}{% endfor %}]
@@ -56,7 +59,17 @@ if __name__ == '__main__':
 
 class DerpiModel(object):
     """ Base class for all models """
-    pass
+
+    @classmethod
+    def prepare_dict(cls: Type[DerpiModel], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the DerpiModel constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        return {}
+    # end def prepare_dict
 # end class DerpiModel
 
 {% for class in classes %}
@@ -96,8 +109,23 @@ class {{ class.name }}(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[{{ class.name }}], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[{{ class.name }}], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the {{ class.name }} constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) {# -
+        #}{% for param in class.params %}{% if param.type == 'RFC3339 datetime' %}
+        arguments[{{ param.name.__repr__() }}] = iso8601.parse_date(data[{{ param.name.__repr__() }}]) {#-
+        #}{% else %}
+        arguments[{{ param.name.__repr__() }}] = data[{{ param.name.__repr__() }}] {#-
+        #}{% endif %}{% endfor %}{#
+        #}
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -112,7 +140,7 @@ class {{ class.name }}(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: {{ class.name }} = cls(**data)
         instance._raw = data
         return instance

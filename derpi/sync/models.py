@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+import iso8601
 
 from datetime import datetime
 from typing import Union, List, Dict, Type
 
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.typing import JSONType
+from luckydonaldUtils.exceptions import assert_type_or_raise
+
 
 __author__ = 'luckydonald'
 __all__ = ['DerpiModel', 'Intensities', 'Representations', 'Image', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
@@ -19,7 +22,17 @@ if __name__ == '__main__':
 
 class DerpiModel(object):
     """ Base class for all models """
-    pass
+
+    @classmethod
+    def prepare_dict(cls: Type[DerpiModel], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the DerpiModel constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        return {}
+    # end def prepare_dict
 # end class DerpiModel
 
 
@@ -88,8 +101,21 @@ class Intensities(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Intensities], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Intensities], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Intensities constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['ne'] = data['ne']
+        arguments['nw'] = data['nw']
+        arguments['se'] = data['se']
+        arguments['sw'] = data['sw']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -104,7 +130,7 @@ class Intensities(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Intensities = cls(**data)
         instance._raw = data
         return instance
@@ -245,8 +271,25 @@ class Representations(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Representations], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Representations], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Representations constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['full'] = data['full']
+        arguments['large'] = data['large']
+        arguments['medium'] = data['medium']
+        arguments['small'] = data['small']
+        arguments['tall'] = data['tall']
+        arguments['thumb'] = data['thumb']
+        arguments['thumb_small'] = data['thumb_small']
+        arguments['thumb_tiny'] = data['thumb_tiny']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -261,7 +304,7 @@ class Representations(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Representations = cls(**data)
         instance._raw = data
         return instance
@@ -688,8 +731,51 @@ class Image(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Image], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Image], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Image constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['aspect_ratio'] = data['aspect_ratio']
+        arguments['comment_count'] = data['comment_count']
+        arguments['created_at'] = iso8601.parse_date(data['created_at'])
+        arguments['deletion_reason'] = data['deletion_reason']
+        arguments['description'] = data['description']
+        arguments['downvotes'] = data['downvotes']
+        arguments['duplicate_of'] = data['duplicate_of']
+        arguments['faves'] = data['faves']
+        arguments['first_seen_at'] = iso8601.parse_date(data['first_seen_at'])
+        arguments['format'] = data['format']
+        arguments['height'] = data['height']
+        arguments['hidden_from_users'] = data['hidden_from_users']
+        arguments['id'] = data['id']
+        arguments['intensities'] = data['intensities']
+        arguments['mime_type'] = data['mime_type']
+        arguments['name'] = data['name']
+        arguments['orig_sha512_hash'] = data['orig_sha512_hash']
+        arguments['processed'] = data['processed']
+        arguments['representations'] = data['representations']
+        arguments['score'] = data['score']
+        arguments['sha512_hash'] = data['sha512_hash']
+        arguments['source_url'] = data['source_url']
+        arguments['spoilered'] = data['spoilered']
+        arguments['tag_count'] = data['tag_count']
+        arguments['tag_ids'] = data['tag_ids']
+        arguments['tags'] = data['tags']
+        arguments['thumbnails_generated'] = data['thumbnails_generated']
+        arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
+        arguments['uploader'] = data['uploader']
+        arguments['uploader_id'] = data['uploader_id']
+        arguments['upvotes'] = data['upvotes']
+        arguments['view_url'] = data['view_url']
+        arguments['width'] = data['width']
+        arguments['wilson_score'] = data['wilson_score']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -704,7 +790,7 @@ class Image(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Image = cls(**data)
         instance._raw = data
         return instance
@@ -812,8 +898,22 @@ class Comment(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Comment], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Comment], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Comment constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['author'] = data['author']
+        arguments['body'] = data['body']
+        arguments['id'] = data['id']
+        arguments['image_id'] = data['image_id']
+        arguments['user_id'] = data['user_id']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -828,7 +928,7 @@ class Comment(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Comment = cls(**data)
         instance._raw = data
         return instance
@@ -936,8 +1036,22 @@ class Forum(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Forum], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Forum], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Forum constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['name'] = data['name']
+        arguments['short_name'] = data['short_name']
+        arguments['description'] = data['description']
+        arguments['topic_count'] = data['topic_count']
+        arguments['post_count'] = data['post_count']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -952,7 +1066,7 @@ class Forum(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Forum = cls(**data)
         instance._raw = data
         return instance
@@ -1104,8 +1218,26 @@ class Topic(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Topic], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Topic], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Topic constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['slug'] = data['slug']
+        arguments['title'] = data['title']
+        arguments['post_count'] = data['post_count']
+        arguments['view_count'] = data['view_count']
+        arguments['sticky'] = data['sticky']
+        arguments['last_replied_to_at'] = iso8601.parse_date(data['last_replied_to_at'])
+        arguments['locked'] = data['locked']
+        arguments['user_id'] = data['user_id']
+        arguments['author'] = data['author']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1120,7 +1252,7 @@ class Topic(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Topic = cls(**data)
         instance._raw = data
         return instance
@@ -1217,8 +1349,21 @@ class Post(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Post], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Post], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Post constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['author'] = data['author']
+        arguments['body'] = data['body']
+        arguments['id'] = data['id']
+        arguments['user_id'] = data['user_id']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1233,7 +1378,7 @@ class Post(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Post = cls(**data)
         instance._raw = data
         return instance
@@ -1451,8 +1596,32 @@ class Tag(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Tag], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Tag], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Tag constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['aliased_tag'] = data['aliased_tag']
+        arguments['aliases'] = data['aliases']
+        arguments['category'] = data['category']
+        arguments['description'] = data['description']
+        arguments['dnp_entries'] = data['dnp_entries']
+        arguments['id'] = data['id']
+        arguments['images'] = data['images']
+        arguments['implied_by_tags'] = data['implied_by_tags']
+        arguments['implied_tags'] = data['implied_tags']
+        arguments['name'] = data['name']
+        arguments['name_in_namespace'] = data['name_in_namespace']
+        arguments['namespace'] = data['namespace']
+        arguments['short_description'] = data['short_description']
+        arguments['slug'] = data['slug']
+        arguments['spoiler_image'] = data['spoiler_image']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1467,7 +1636,7 @@ class Tag(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Tag = cls(**data)
         instance._raw = data
         return instance
@@ -1663,8 +1832,30 @@ class User(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[User], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[User], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the User constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['id'] = data['id']
+        arguments['name'] = data['name']
+        arguments['slug'] = data['slug']
+        arguments['role'] = data['role']
+        arguments['description'] = data['description']
+        arguments['avatar_url'] = data['avatar_url']
+        arguments['created_at'] = iso8601.parse_date(data['created_at'])
+        arguments['comments_count'] = data['comments_count']
+        arguments['uploads_count'] = data['uploads_count']
+        arguments['posts_count'] = data['posts_count']
+        arguments['topics_count'] = data['topics_count']
+        arguments['links'] = data['links']
+        arguments['awards'] = data['awards']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1679,7 +1870,7 @@ class User(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: User = cls(**data)
         instance._raw = data
         return instance
@@ -1853,8 +2044,28 @@ class Filter(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Filter], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Filter], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Filter constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['id'] = data['id']
+        arguments['name'] = data['name']
+        arguments['description'] = data['description']
+        arguments['user_id'] = data['user_id']
+        arguments['user_count'] = data['user_count']
+        arguments['system'] = data['system']
+        arguments['public'] = data['public']
+        arguments['spoilered_tag_ids'] = data['spoilered_tag_ids']
+        arguments['spoilered_complex'] = data['spoilered_complex']
+        arguments['hidden_tag_ids'] = data['hidden_tag_ids']
+        arguments['hidden_complex'] = data['hidden_complex']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1869,7 +2080,7 @@ class Filter(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Filter = cls(**data)
         instance._raw = data
         return instance
@@ -1966,8 +2177,21 @@ class Links(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Links], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Links], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Links constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['user_id'] = data['user_id']
+        arguments['created_at'] = iso8601.parse_date(data['created_at'])
+        arguments['state'] = data['state']
+        arguments['tag_id'] = data['tag_id']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -1982,7 +2206,7 @@ class Links(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Links = cls(**data)
         instance._raw = data
         return instance
@@ -2090,8 +2314,22 @@ class Awards(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Awards], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Awards], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Awards constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['image_url'] = data['image_url']
+        arguments['title'] = data['title']
+        arguments['id'] = data['id']
+        arguments['label'] = data['label']
+        arguments['awarded_on'] = iso8601.parse_date(data['awarded_on'])
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -2106,7 +2344,7 @@ class Awards(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Awards = cls(**data)
         instance._raw = data
         return instance
@@ -2236,8 +2474,24 @@ class Gallery(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Gallery], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Gallery], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Gallery constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['description'] = data['description']
+        arguments['id'] = data['id']
+        arguments['spoiler_warning'] = data['spoiler_warning']
+        arguments['thumbnail_id'] = data['thumbnail_id']
+        arguments['title'] = data['title']
+        arguments['user'] = data['user']
+        arguments['user_id'] = data['user_id']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -2252,7 +2506,7 @@ class Gallery(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Gallery = cls(**data)
         instance._raw = data
         return instance
@@ -2437,8 +2691,29 @@ class Oembed(DerpiModel):
     # end def __init__
 
     @classmethod
-    def validate_dict(cls: Type[Oembed], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        return data
+    def prepare_dict(cls: Type[Oembed], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Oembed constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="array")
+
+        arguments = super().prepare_dict(data) 
+        arguments['author_name'] = data['author_name']
+        arguments['author_url'] = data['author_url']
+        arguments['cache_age'] = data['cache_age']
+        arguments['derpibooru_comments'] = data['derpibooru_comments']
+        arguments['derpibooru_id'] = data['derpibooru_id']
+        arguments['derpibooru_score'] = data['derpibooru_score']
+        arguments['derpibooru_tags'] = data['derpibooru_tags']
+        arguments['provider_name'] = data['provider_name']
+        arguments['provider_url'] = data['provider_url']
+        arguments['title'] = data['title']
+        arguments['type'] = data['type']
+        arguments['version'] = data['version']
+        return arguments
     # end def validate_dict
 
     @classmethod
@@ -2453,7 +2728,7 @@ class Oembed(DerpiModel):
             return None
         # end if
 
-        data: Dict = cls.validate_dict(data)
+        data: Dict = cls.prepare_dict(data)
         instance: Oembed = cls(**data)
         instance._raw = data
         return instance
