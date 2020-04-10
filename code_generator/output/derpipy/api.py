@@ -67,7 +67,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Comment
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/comments/{comment_id}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['comment']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Comment = Comment.from_dict(result)
+        return result
     # end def comment
     
     def image(
@@ -99,7 +106,17 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Image
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/images/{image_id}'
+        resp: internet.Response = internet.request('GET', url, params={
+            'filter_id': filter_id,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['image']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Image = Image.from_dict(result)
+        return result
     # end def image
     
     def featured_images(
@@ -117,7 +134,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Image
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/images/featured'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['image']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Image = Image.from_dict(result)
+        return result
     # end def featured_images
     
     def tag(
@@ -139,7 +163,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Tag
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/tags/{tag_id}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['tag']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Tag = Tag.from_dict(result)
+        return result
     # end def tag
     
     def post(
@@ -161,7 +192,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Post
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/posts/{post_id}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['post']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Post = Post.from_dict(result)
+        return result
     # end def post
     
     def user(
@@ -183,7 +221,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  User
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/profiles/{user_id}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['user']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: User = User.from_dict(result)
+        return result
     # end def user
     
     def filter(
@@ -211,7 +256,16 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Filter
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/filters/{filter_id}'
+        resp: internet.Response = internet.request('GET', url, params={
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['filter']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Filter = Filter.from_dict(result)
+        return result
     # end def filter
     
     def system_filters(
@@ -233,7 +287,19 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/filters/system'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['filters']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Filter] = [
+            Filter.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def system_filters
     
     def user_filters(
@@ -261,7 +327,20 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/filters/user'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['filters']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Filter] = [
+            Filter.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def user_filters
     
     def oembed(
@@ -283,7 +362,15 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Oembed
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/oembed'
+        resp: internet.Response = internet.request('GET', url, params={
+            'url': url,
+        })
+        self._check_response(resp)
+        result: Dict = resp.json()
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Oembed = Oembed.from_dict(result)
+        return result
     # end def oembed
     
     def search_comments(
@@ -311,7 +398,20 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Comment]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/comments'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['comments']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Comment] = [
+            Comment.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_comments
     
     def search_galleries(
@@ -339,7 +439,20 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Gallery]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/galleries'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['galleries']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Gallery] = [
+            Gallery.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_galleries
     
     def search_posts(
@@ -367,7 +480,20 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Post]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/posts'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['posts']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Post] = [
+            Post.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_posts
     
     def search_images(
@@ -415,7 +541,25 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/images'
+        resp: internet.Response = internet.request('GET', url, params={
+            'filter_id': filter_id,
+            'page': page,
+            'per_page': per_page,
+            'q': q,
+            'sd': sd,
+            'sf': sf,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['images']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Image] = [
+            Image.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_images
     
     def search_tags(
@@ -437,7 +581,19 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Tag]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/tags'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['tags']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Tag] = [
+            Tag.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_tags
     
     def search_reverse(
@@ -469,7 +625,21 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/search/reverse'
+        resp: internet.Response = internet.request('POST', url, params={
+            'url': url,
+            'distance': distance,
+            'key': key,
+        })
+        self._check_response(resp)
+        result: Dict[str, List[Dict]] = resp.json()
+        result: List[Dict] = result['images']
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: List[Image] = [
+            Image.from_dict(item)
+            for item in result
+        ]
+        return result
     # end def search_reverse
     
     def forums(
@@ -487,7 +657,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Forum
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['forums']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Forum = Forum.from_dict(result)
+        return result
     # end def forums
     
     def forum(
@@ -509,7 +686,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Forum
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums/{short_name}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['forum']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Forum = Forum.from_dict(result)
+        return result
     # end def forum
     
     def forum_topics(
@@ -535,7 +719,16 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Topic
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums/{short_name}/topics'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+        })
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['topics']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Topic = Topic.from_dict(result)
+        return result
     # end def forum_topics
     
     def forum_topic(
@@ -561,7 +754,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Topic
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['topic']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Topic = Topic.from_dict(result)
+        return result
     # end def forum_topic
     
     def forum_posts(
@@ -591,7 +791,16 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Post
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts'
+        resp: internet.Response = internet.request('GET', url, params={
+            'page': page,
+        })
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['posts']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Post = Post.from_dict(result)
+        return result
     # end def forum_posts
     
     def forum_post(
@@ -621,7 +830,14 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  Post
         """
-        pass
+        url: str = self._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts/{post_id}'
+        resp: internet.Response = internet.request('GET', url)
+        self._check_response(resp)
+        result: Dict[str, Dict] = resp.json()
+        result: Dict = result['post']
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: Post = Post.from_dict(result)
+        return result
     # end def forum_post
     
 # end class

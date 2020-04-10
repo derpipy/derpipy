@@ -105,7 +105,29 @@ class SyncBot(object):
         :return: The parsed result from the API.
         :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
         """
-        pass
+        url: str = self._base_url + f{{ route.path.template.__repr__() }}
+        resp: internet.Response = internet.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+             #}{% for param in route.allowed_query_parameters if not param.optional %}
+            {{ param.name.__repr__() }}: {{ param.name }},
+            {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+            {{ param.name.__repr__() }}: {{ param.name }},
+            {%- endfor %}
+        {{ '}' }}{% endif %})
+        self._check_response(resp)
+        result: {{ route.response_format.python_typing_representation(json_mode=True) }} = resp.json() {#-
+        #}{% if route.response_format.key %}
+        result: {{ route.response_format.python_typing_representation(json_mode=True, include_dict=False) }} = result[{{ route.response_format.key.__repr__() }}] {#-
+        #}{% endif %}{% if route.response_format.is_list %}
+        assert_type_or_raise(result, list, parameter_name='result')
+        result: {{ route.response_format.python_typing_representation(json_mode=False) }} = [
+            {{ route.response_format.class_name }}.from_dict(item)
+            for item in result
+        ] {#-
+        #}{% else %}
+        assert_type_or_raise(result, dict, parameter_name='result')
+        result: {{ route.response_format.python_typing_representation(json_mode=False) }} = {{ route.response_format.class_name }}.from_dict(result) {#-
+        #}{% endif %}
+        return result
     # end def {{ route.name }}
     {% endfor %}
 # end class
