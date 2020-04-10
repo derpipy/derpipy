@@ -100,8 +100,8 @@ for element in main.find_all('h2'):
 
 
 query_parameters = {}
-query_parameters['url'] = Parameter(param, 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
-query_parameters['distance'] = Parameter(param, 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
+query_parameters['url'] = Parameter('url', 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
+query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
 
 element = main.select_one('h2#parameters')
 table = element.find_next('table')
