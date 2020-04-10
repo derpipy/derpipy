@@ -34,13 +34,24 @@ setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
-        "Operating System :: MIT License",
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Environment :: MacOS X',
+        'Environment :: Web Environment',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: Unix',
         'Operating System :: POSIX :: Linux'
-        'Operating System :: MacOS :: MacOS X',
         'Operating System :: iOS',
+        'Operating System :: MacOS',
+        'Operating System :: MacOS :: MacOS X',
         'Operating System :: Android',
-        'Operating System :: Microsoft :: Windows'
+        'Operating System :: Microsoft :: Windows',
+        'Topic :: Internet',
+        'Topic :: Multimedia',
+        'Topic :: Multimedia :: Video',
+        'Topic :: Multimedia :: Graphics',
+        'Topic :: Software Development :: Libraries',
+        'Typing :: Typed',
     ],
     # What does your project relate to?
     keywords=(
