@@ -80,8 +80,8 @@ class DerpiClient(object):
     def image(
         self, 
         image_id: int,
-        filter_id: int,
         key: Union[str, None] = None,
+        filter_id: Union[int, None] = None,
     ) -> Image:
         """
         Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -95,21 +95,21 @@ class DerpiClient(object):
         :param image_id: the variable image_id part of the url.
         :type  image_id: int
         
-        :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
-        :type  filter_id: int
-        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
+        :type  filter_id: int|None
         
         :return: The parsed result from the API.
         :rtype:  Image
         """
         url: str = self._base_url + f'/api/v1/json/images/{image_id}'
         resp: internet.Response = internet.request('GET', url, params={
-            'filter_id': filter_id,
             'key': key,
+            'filter_id': filter_id,
         })
         self._check_response(resp)
         result: Dict[str, Dict] = resp.json()
@@ -498,13 +498,13 @@ class DerpiClient(object):
     
     def search_images(
         self, 
-        filter_id: int,
         page: int,
         per_page: int,
         q: str,
         sd: str,
         sf: str,
         key: Union[str, None] = None,
+        filter_id: Union[int, None] = None,
     ) -> List[Image]:
         """
         Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -514,9 +514,6 @@ class DerpiClient(object):
         which would for example look like this: https://derpibooru.org/api/v1/json/search/images?q=safe
 
         The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
-        
-        :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
-        :type  filter_id: int
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
@@ -538,18 +535,21 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
+        :type  filter_id: int|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
         url: str = self._base_url + f'/api/v1/json/search/images'
         resp: internet.Response = internet.request('GET', url, params={
-            'filter_id': filter_id,
             'page': page,
             'per_page': per_page,
             'q': q,
             'sd': sd,
             'sf': sf,
             'key': key,
+            'filter_id': filter_id,
         })
         self._check_response(resp)
         result: Dict[str, List[Dict]] = resp.json()

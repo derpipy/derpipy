@@ -100,8 +100,6 @@ for element in main.find_all('h2'):
 
 
 query_parameters = {}
-query_parameters['url'] = Parameter('url', 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
-query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
 
 element = main.select_one('h2#parameters')
 table = element.find_next('table')
@@ -128,12 +126,16 @@ for row in rows:
 # end for
 
 query_parameters['filter_id'].type = 'Integer'
+query_parameters['filter_id'].optional = True
 query_parameters['key'].type = 'String'
 query_parameters['page'].type = 'Integer'
 query_parameters['per_page'].type = 'Integer'
 query_parameters['q'].type = 'String'
 query_parameters['sd'].type = 'String'
 query_parameters['sf'].type = 'String'
+query_parameters['url'] = Parameter('url', 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
+query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
+
 logger.debug(f'query_parameters: {query_parameters!r}')
 
 assert all([p.type is not None for p in query_parameters.values()])
