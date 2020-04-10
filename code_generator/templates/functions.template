@@ -51,9 +51,9 @@ class SyncBot(object):
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
     {%- endfor %}
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
-    """
-    {{ route.description }}
-    """
+        """
+        {{ route.description }}
+        """
         pass
     # end def {{ route.name }}
 {% endfor %}

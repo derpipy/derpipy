@@ -22,9 +22,9 @@ class SyncBot(object):
         self, 
         comment_id: int,
     ) -> Comment:
-    """
-    Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
-    """
+        """
+        Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
+        """
         pass
     # end def comment
 
@@ -38,9 +38,9 @@ class SyncBot(object):
         filter_id: int,
         key: Union[str, None] = None,
     ) -> Image:
-    """
-    Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
-    """
+        """
+        Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
+        """
         pass
     # end def image
 
@@ -51,9 +51,9 @@ class SyncBot(object):
     def featured_images(
         self, 
     ) -> Image:
-    """
-    Fetches an **image response** for the for the current featured image.
-    """
+        """
+        Fetches an **image response** for the for the current featured image.
+        """
         pass
     # end def featured_images
 
@@ -65,9 +65,9 @@ class SyncBot(object):
         self, 
         tag_id: int,
     ) -> Tag:
-    """
-    Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
-    """
+        """
+        Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
+        """
         pass
     # end def tag
 
@@ -79,9 +79,9 @@ class SyncBot(object):
         self, 
         post_id: int,
     ) -> Post:
-    """
-    Fetches a **post response** for the post ID given by the `post_id` URL parameter.
-    """
+        """
+        Fetches a **post response** for the post ID given by the `post_id` URL parameter.
+        """
         pass
     # end def post
 
@@ -93,9 +93,9 @@ class SyncBot(object):
         self, 
         user_id: int,
     ) -> User:
-    """
-    Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
-    """
+        """
+        Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
+        """
         pass
     # end def user
 
@@ -108,9 +108,9 @@ class SyncBot(object):
         filter_id: int,
         key: Union[str, None] = None,
     ) -> Filter:
-    """
-    Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
-    """
+        """
+        Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
+        """
         pass
     # end def filter
 
@@ -122,9 +122,9 @@ class SyncBot(object):
         self, 
         page: int,
     ) -> List[Filter]:
-    """
-    Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
-    """
+        """
+        Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
+        """
         pass
     # end def system_filters
 
@@ -137,9 +137,9 @@ class SyncBot(object):
         page: int,
         key: Union[str, None] = None,
     ) -> List[Filter]:
-    """
-    Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
-    """
+        """
+        Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
+        """
         pass
     # end def user_filters
 
@@ -151,9 +151,9 @@ class SyncBot(object):
         self, 
         version: str,
     ) -> Oembed:
-    """
-    Fetches an **oEmbed response** for the given app link or CDN URL.
-    """
+        """
+        Fetches an **oEmbed response** for the given app link or CDN URL.
+        """
         pass
     # end def oembed
 
@@ -166,9 +166,9 @@ class SyncBot(object):
         page: int,
         key: Union[str, None] = None,
     ) -> List[Comment]:
-    """
-    Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
-    """
+        """
+        Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
+        """
         pass
     # end def search_comments
 
@@ -181,9 +181,9 @@ class SyncBot(object):
         page: int,
         key: Union[str, None] = None,
     ) -> List[Gallery]:
-    """
-    Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
-    """
+        """
+        Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
+        """
         pass
     # end def search_galleries
 
@@ -196,9 +196,9 @@ class SyncBot(object):
         page: int,
         key: Union[str, None] = None,
     ) -> List[Post]:
-    """
-    Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
-    """
+        """
+        Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
+        """
         pass
     # end def search_posts
 
@@ -216,9 +216,9 @@ class SyncBot(object):
         sf: str,
         key: Union[str, None] = None,
     ) -> List[Image]:
-    """
-    Executes the search given by the `q` query parameter, and returns **image responses**.
-    """
+        """
+        Executes the search given by the `q` query parameter, and returns **image responses**.
+        """
         pass
     # end def search_images
 
@@ -230,9 +230,9 @@ class SyncBot(object):
         self, 
         page: int,
     ) -> List[Tag]:
-    """
-    Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
-    """
+        """
+        Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
+        """
         pass
     # end def search_tags
 
@@ -246,9 +246,9 @@ class SyncBot(object):
         version: float,
         key: Union[str, None] = None,
     ) -> List[Image]:
-    """
-    Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
-    """
+        """
+        Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
+        """
         pass
     # end def search_reverse
 
@@ -259,9 +259,9 @@ class SyncBot(object):
     def forums(
         self, 
     ) -> Forum:
-    """
-    Fetches a list of **forum responses**.
-    """
+        """
+        Fetches a list of **forum responses**.
+        """
         pass
     # end def forums
 
@@ -273,9 +273,9 @@ class SyncBot(object):
         self, 
         short_name: str,
     ) -> Forum:
-    """
-    Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
-    """
+        """
+        Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
+        """
         pass
     # end def forum
 
@@ -288,9 +288,9 @@ class SyncBot(object):
         short_name: str,
         page: int,
     ) -> Topic:
-    """
-    Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
-    """
+        """
+        Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
+        """
         pass
     # end def forum_topics
 
@@ -303,9 +303,9 @@ class SyncBot(object):
         short_name: str,
         topic_slug: str,
     ) -> Topic:
-    """
-    Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
-    """
+        """
+        Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
+        """
         pass
     # end def forum_topic
 
@@ -319,9 +319,9 @@ class SyncBot(object):
         topic_slug: str,
         page: int,
     ) -> Post:
-    """
-    Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
-    """
+        """
+        Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
+        """
         pass
     # end def forum_posts
 
@@ -335,8 +335,8 @@ class SyncBot(object):
         topic_slug: str,
         post_id: int,
     ) -> Post:
-    """
-    Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
-    """
+        """
+        Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
+        """
         pass
     # end def forum_post
