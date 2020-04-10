@@ -8,7 +8,7 @@ logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-with open('./output/api.html', 'w') as f:
+with open('./output/api.html', 'r') as f:
     html = f.read()
 # end with
 
