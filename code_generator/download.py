@@ -179,6 +179,7 @@ rows = table.find_all('tr')[1:]  # skip the <thead>'s <tr> (containing only <td>
 for row in rows:
     columns = row.find_all('td')
     path = columns[1].code.text
+    name = route_names[path]
     path_python = re.sub(RE_URL_PRAMS, RE_URL_PRAMS_REPLACEMENT, path)
     path_params = []
     matches = re.finditer(RE_URL_PRAMS, path)
@@ -274,7 +275,7 @@ for row in rows:
 
     # now apply it all
     r = Route(
-        name=route_names[path],
+        name=name,
         method=columns[0].code.text,
         path=p,
         allowed_query_parameters=[query_parameters[param.strip()] for param in columns[2].text.split(',') if param],
