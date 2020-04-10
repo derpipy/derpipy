@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from typing import Union, List
+
 from luckydonaldUtils.logger import logging
 
 __author__ = 'luckydonald'

@@ -272,12 +272,12 @@ with open('./output/api.py', 'w') as f:
     f.write('\n')
     f.write('routes = [\n')
     for route in routes:
-        f.write('\t' + repr(route) + '\n')
+        f.write('\t' + repr(route) + ',\n')
     # end for
     f.write(']\n')
     f.write('classes = [\n')
     for clazz in classes:
-        f.write('\t' + repr(clazz) + '\n')
+        f.write('\t' + repr(clazz) + ',\n')
     # end for
     f.write(']\n')
 # end for
