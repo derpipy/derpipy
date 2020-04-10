@@ -93,7 +93,9 @@ class {{ class.name }}(DerpiModel):
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
         {% endfor %}
         """
-        pass
+        {%- for param in class.params %}
+        self.{{ param.name }} = {{ param.name }}
+        {%- endfor %}
     # end def __init__
 
     @classmethod

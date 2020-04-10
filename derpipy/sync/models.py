@@ -87,7 +87,10 @@ class Intensities(DerpiModel):
         :type  sw: float
         
         """
-        pass
+        self.ne = ne
+        self.nw = nw
+        self.se = se
+        self.sw = sw
     # end def __init__
 
     @classmethod
@@ -215,7 +218,14 @@ class Representations(DerpiModel):
         :type  thumb_tiny: str
         
         """
-        pass
+        self.full = full
+        self.large = large
+        self.medium = medium
+        self.small = small
+        self.tall = tall
+        self.thumb = thumb
+        self.thumb_small = thumb_small
+        self.thumb_tiny = thumb_tiny
     # end def __init__
 
     @classmethod
@@ -603,7 +613,40 @@ class Image(DerpiModel):
         :type  wilson_score: float
         
         """
-        pass
+        self.aspect_ratio = aspect_ratio
+        self.comment_count = comment_count
+        self.created_at = created_at
+        self.deletion_reason = deletion_reason
+        self.description = description
+        self.downvotes = downvotes
+        self.duplicate_of = duplicate_of
+        self.faves = faves
+        self.first_seen_at = first_seen_at
+        self.format = format
+        self.height = height
+        self.hidden_from_users = hidden_from_users
+        self.id = id
+        self.intensities = intensities
+        self.mime_type = mime_type
+        self.name = name
+        self.orig_sha512_hash = orig_sha512_hash
+        self.processed = processed
+        self.representations = representations
+        self.score = score
+        self.sha512_hash = sha512_hash
+        self.source_url = source_url
+        self.spoilered = spoilered
+        self.tag_count = tag_count
+        self.tag_ids = tag_ids
+        self.tags = tags
+        self.thumbnails_generated = thumbnails_generated
+        self.updated_at = updated_at
+        self.uploader = uploader
+        self.uploader_id = uploader_id
+        self.upvotes = upvotes
+        self.view_url = view_url
+        self.width = width
+        self.wilson_score = wilson_score
     # end def __init__
 
     @classmethod
@@ -701,7 +744,11 @@ class Comment(DerpiModel):
         :type  user_id: int
         
         """
-        pass
+        self.author = author
+        self.body = body
+        self.id = id
+        self.image_id = image_id
+        self.user_id = user_id
     # end def __init__
 
     @classmethod
@@ -799,7 +846,11 @@ class Forum(DerpiModel):
         :type  post_count: int
         
         """
-        pass
+        self.name = name
+        self.short_name = short_name
+        self.description = description
+        self.topic_count = topic_count
+        self.post_count = post_count
     # end def __init__
 
     @classmethod
@@ -937,7 +988,15 @@ class Topic(DerpiModel):
         :type  author: str
         
         """
-        pass
+        self.slug = slug
+        self.title = title
+        self.post_count = post_count
+        self.view_count = view_count
+        self.sticky = sticky
+        self.last_replied_to_at = last_replied_to_at
+        self.locked = locked
+        self.user_id = user_id
+        self.author = author
     # end def __init__
 
     @classmethod
@@ -1025,7 +1084,10 @@ class Post(DerpiModel):
         :type  user_id: int
         
         """
-        pass
+        self.author = author
+        self.body = body
+        self.id = id
+        self.user_id = user_id
     # end def __init__
 
     @classmethod
@@ -1223,7 +1285,21 @@ class Tag(DerpiModel):
         :type  spoiler_image: str
         
         """
-        pass
+        self.aliased_tag = aliased_tag
+        self.aliases = aliases
+        self.category = category
+        self.description = description
+        self.dnp_entries = dnp_entries
+        self.id = id
+        self.images = images
+        self.implied_by_tags = implied_by_tags
+        self.implied_tags = implied_tags
+        self.name = name
+        self.name_in_namespace = name_in_namespace
+        self.namespace = namespace
+        self.short_description = short_description
+        self.slug = slug
+        self.spoiler_image = spoiler_image
     # end def __init__
 
     @classmethod
@@ -1401,7 +1477,19 @@ class User(DerpiModel):
         :type  awards: Awards
         
         """
-        pass
+        self.id = id
+        self.name = name
+        self.slug = slug
+        self.role = role
+        self.description = description
+        self.avatar_url = avatar_url
+        self.created_at = created_at
+        self.comments_count = comments_count
+        self.uploads_count = uploads_count
+        self.posts_count = posts_count
+        self.topics_count = topics_count
+        self.links = links
+        self.awards = awards
     # end def __init__
 
     @classmethod
@@ -1559,7 +1647,17 @@ class Filter(DerpiModel):
         :type  hidden_complex: str
         
         """
-        pass
+        self.id = id
+        self.name = name
+        self.description = description
+        self.user_id = user_id
+        self.user_count = user_count
+        self.system = system
+        self.public = public
+        self.spoilered_tag_ids = spoilered_tag_ids
+        self.spoilered_complex = spoilered_complex
+        self.hidden_tag_ids = hidden_tag_ids
+        self.hidden_complex = hidden_complex
     # end def __init__
 
     @classmethod
@@ -1647,7 +1745,10 @@ class Links(DerpiModel):
         :type  tag_id: int
         
         """
-        pass
+        self.user_id = user_id
+        self.created_at = created_at
+        self.state = state
+        self.tag_id = tag_id
     # end def __init__
 
     @classmethod
@@ -1745,7 +1846,11 @@ class Awards(DerpiModel):
         :type  awarded_on: datetime
         
         """
-        pass
+        self.image_url = image_url
+        self.title = title
+        self.id = id
+        self.label = label
+        self.awarded_on = awarded_on
     # end def __init__
 
     @classmethod
@@ -1863,7 +1968,13 @@ class Gallery(DerpiModel):
         :type  user_id: int
         
         """
-        pass
+        self.description = description
+        self.id = id
+        self.spoiler_warning = spoiler_warning
+        self.thumbnail_id = thumbnail_id
+        self.title = title
+        self.user = user
+        self.user_id = user_id
     # end def __init__
 
     @classmethod
@@ -2031,7 +2142,18 @@ class Oembed(DerpiModel):
         :type  version: str
         
         """
-        pass
+        self.author_name = author_name
+        self.author_url = author_url
+        self.cache_age = cache_age
+        self.derpibooru_comments = derpibooru_comments
+        self.derpibooru_id = derpibooru_id
+        self.derpibooru_score = derpibooru_score
+        self.derpibooru_tags = derpibooru_tags
+        self.provider_name = provider_name
+        self.provider_url = provider_url
+        self.title = title
+        self.type = type
+        self.version = version
     # end def __init__
 
     @classmethod
