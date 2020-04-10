@@ -44,17 +44,17 @@ init_template = get_template("init.template")
 classes_template = get_template("classes.template")
 functions_template = get_template("functions.template")
 
-mkdir_p('../derpipy/sync/')
+mkdir_p('../derpi/sync/')
 
-with open('../derpipy/sync/__init__.py', 'w') as f:
+with open('../derpi/sync/__init__.py', 'w') as f:
     f.write(init_template.render(is_asyncio=False))
 # end with
 
-with open('../derpipy/sync/client.py', 'w') as f:
+with open('../derpi/sync/client.py', 'w') as f:
     f.write(functions_template.render(routes=routes, is_asyncio=False))
 # end with
 
-with open('../derpipy/sync/models.py', 'w') as f:
+with open('../derpi/sync/models.py', 'w') as f:
     f.write(classes_template.render(classes=classes, is_asyncio=False))
 # end with
 

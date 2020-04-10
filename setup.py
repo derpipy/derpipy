@@ -9,14 +9,14 @@ long_description = """Python API wrapper for the new API of derpibooru.org"""
 here = path.abspath(path.dirname(__file__))
 
 setup(
-    name='derpipy', version="0.0.1",
+    name='derpi', version="0.0.1",
     description=long_description,
     long_description=long_description,
     # The project's main homepage.
     url='https://github.com/derpipy/derpipy',
     # Author details
     author=__author__,
-    author_email='derpipy+code@luckydonald.de, pingmader@gmail.com',
+    author_email='derpi.github+code@luckydonald.de, pingmader@gmail.com',
     # Choose your license
     license='MIT',
     platforms = ["any"],
