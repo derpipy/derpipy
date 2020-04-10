@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from datetime import datetime
+from typing import Union, List, Dict, Type
+
+from luckydonaldUtils.logger import logging
+from luckydonaldUtils.typing import JSONType
+
 __author__ = 'luckydonald'
 __all__ = ['DerpiModel', {% for class in classes %}{{ class.name.__repr__() }}{% if not loop.last %}, {% endif -%}{% endfor %}]
 
-from luckydonaldUtils.logger import logging
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
-
-from datetime import datetime
-from typing import Union, List
 
 
 {# #{% set class = Class(

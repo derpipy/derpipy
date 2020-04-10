@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from datetime import datetime
+from typing import Union, List, Dict, Type
+
+from luckydonaldUtils.logger import logging
+from luckydonaldUtils.typing import JSONType
+
 __author__ = 'luckydonald'
 __all__ = ['DerpiModel', 'Intensities', 'Representations', 'Image', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
 
@@ -10,9 +16,6 @@ logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
-
-from datetime import datetime
-from typing import Union, List
 
 
 
