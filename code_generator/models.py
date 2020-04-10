@@ -25,7 +25,7 @@ class Route(object):
     # end if
 
     def __str__(self):
-        return f"{self.__class__.__name__}(method={self.method!r}, path={self.path!r}, allowed_query_parameters={self.allowed_query_parameters!r}, description={self.description!r}, response_format={self.response_format!r})"
+        return f"{self.__class__.__name__}(method={self.method!r}, path={self.path!r}, allowed_query_parameters={self.allowed_query_parameters!r}, description={self.description!r}, response_format={self.response_format!r}, example_url={self.example_url!r})"
     # end def
 
     __repr__ = __str__
