@@ -3,7 +3,7 @@
 
 __author__ = 'luckydonald'
 
-from .client import SyncBot as Derpi
+from .client import DerpiClient as Derpi
 from .models import *
 from .models import __all__ as models_all
 

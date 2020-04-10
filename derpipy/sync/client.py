@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
 
 
-class SyncBot(object):
+class DerpiClient(object):
     """
     Synchronous client for Derpibooru.org
     """

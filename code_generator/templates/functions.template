@@ -53,7 +53,7 @@ route = \
     )
 #}
 
-class SyncBot(object):
+class DerpiClient(object):
     """
     Synchronous client for Derpibooru.org
     """
