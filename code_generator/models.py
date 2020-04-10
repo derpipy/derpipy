@@ -88,10 +88,12 @@ class ResponseType(object):
     # end def
 
     def __str__(self):
-        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r}, python_typing_representation={self.python_typing_representation})"
+        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r}, python_typing_representation={self.python_typing_representation!r})"
     # end def
 
-    __repr__ = __str__
+    def __repr__(self):  # without the property
+        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r})"
+    # end def
 
     @property
     def python_typing_representation(self, wrap_if_key=True):
