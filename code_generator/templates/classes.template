@@ -132,7 +132,7 @@ class {{ class.name }}(DerpiModel):
         """
         Implements `repr({{ class.name|lower }}_instance)`
         """
-        if self._raw:
+        if hasattr(self, '_raw') and self._raw:
             return "{{ '{' }}s.__class__.__name__{{ '}' }}.from_dict({s._raw})".format(s=self)
         # end if
         return "{{ '{' }}s.__class__.__name__{{ '}' }}({% for param in class.params %}{{ param.name }}={{ '{' }}s.{{ param.name }}!r{{ '}' }}{% if not loop.last %}, {% endif %}{% endfor %})".format(s=self)
