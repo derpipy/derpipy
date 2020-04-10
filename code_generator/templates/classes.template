@@ -137,6 +137,13 @@ class {{ class.name }}(DerpiModel):
         # end if
         return "{{ '{' }}s.__class__.__name__{{ '}' }}({% for param in class.params %}{{ param.name }}={{ '{' }}s.{{ param.name }}!r{{ '}' }}{% if not loop.last %}, {% endif %}{% endfor %})".format(s=self)
     # end def __repr__
+
+    def __eq__(self, other):
+        """
+        Implements equality check, i.e. `{{ class.name|lower }}_instance_a == {{ class.name|lower }}_instance_b`
+        """
+        return {% for param in class.params %}self.{{ param.name }} == other.{{ param.name }}{% if not loop.last %} and {% endif %}{% endfor %}
+    # end __eq__
 # end class
 
 {% endfor %}
