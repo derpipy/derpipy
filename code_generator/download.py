@@ -123,7 +123,8 @@ for row in rows:
         for tag in columns[1].contents
     ]).replace('<br>','\n').replace('<br />', '\n').replace('<br/>', '\n')
     logger.debug(f'{param}: {columns[1].text!r}')
-    query_parameters[param] = Parameter(param, None, description)
+    optional = 'optional' in description.lower()
+    query_parameters[param] = Parameter(param, None, description, optional=optional)
 # end for
 
 query_parameters['filter_id'].type = 'Integer'

@@ -15,7 +15,7 @@ __all__ = ['Route', 'Class', 'Parameter', 'ResponseType', 'UrlPath']
 
 
 class Route(object):
-    def __init__(self, name: str, method: str, path: 'UrlPath', allowed_query_parameters: List[str], description: str, response_format: 'ResponseType', example_url: str):
+    def __init__(self, name: str, method: str, path: 'UrlPath', allowed_query_parameters: List['Parameter'], description: str, response_format: 'ResponseType', example_url: str):
         self.name = name
         self.method = method
         self.path = path
@@ -48,10 +48,11 @@ class Class(object):
 
 
 class Parameter(object):
-    def __init__(self, name, type, description):
+    def __init__(self, name: str, type: str, description: str, optional: bool = False):
         self.name = name
         self.type = type
         self.description = description
+        self.optional = optional
     # end def
 
     def get_type(self):
@@ -62,11 +63,11 @@ class Parameter(object):
             'Float': 'float',
             'Array': 'list',
             'Object': 'dict',
-        }
+        }[self.type]
     # end def
 
     def __str__(self):
-        return f"{self.__class__.__name__}(name={self.name!r}, type={self.type!r}, description={self.description!r})"
+        return f"{self.__class__.__name__}(name={self.name!r}, type={self.type!r}, description={self.description!r}, optional={self.optional!r})"
     # end def
 
     __repr__ = __str__
