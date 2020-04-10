@@ -12,9 +12,9 @@ if __name__ == '__main__':
 from typing import Union, List
 from .models import *
 
-class SyncBot(object):
-{% for route in routes %}
-    {##{% set _route=Route(
+{#
+route = \
+    Route(
         method='GET',
         path=UrlPath(
             original='/api/v1/json/comments/:comment_id',
@@ -37,10 +37,10 @@ class SyncBot(object):
         ),
         example_url='/api/v1/json/comments/1000'
     )
-    %}{##}
+#}
 
-    # {{ route }}
-
+class SyncBot(object):
+{% for route in routes %}
     def {{ route.name }}(
         self, {#
         #}{% for param in route.path.params %}
