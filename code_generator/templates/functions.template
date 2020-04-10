@@ -3,6 +3,7 @@
 
 __author__ = 'luckydonald'
 
+from luckydonaldUtils.logger import logging
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
