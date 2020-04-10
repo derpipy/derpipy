@@ -178,6 +178,26 @@ assert column_headers == ['Method', 'Path', 'Allowed Query Parameters', 'Descrip
 rows = table.find_all('tr')[1:]  # skip the <thead>'s <tr> (containing only <td>s anyway)
 for row in rows:
     columns = row.find_all('td')
+    path = columns[1].code.text
+    path_python = re.sub(RE_URL_PRAMS, RE_URL_PRAMS_REPLACEMENT, path)
+    path_params = []
+    matches = re.finditer(RE_URL_PRAMS, path)
+    for match in matches:
+        param = match.groupdict()['param']
+        url_p = Parameter(
+            name=param,
+            type="Integer" if param.endswith('_id') else "String",
+            description=f'the variable {param} part of the url.'
+        )
+        path_params.append(url_p)
+    # end for
+
+    p = UrlPath(
+        original=path,
+        template=path_python,
+        params=path_params,
+    )
+    logger.debug(p)
 
     # Using the Response Format (columns[4].code.contents) we'll get:
     #
@@ -251,27 +271,6 @@ for row in rows:
         key=key,
         class_name=class_name,
     )
-
-    path = columns[1].code.text
-    path_py = re.sub(RE_URL_PRAMS, RE_URL_PRAMS_REPLACEMENT, path)
-    path_params = []
-    matches = re.finditer(RE_URL_PRAMS, path)
-    for match in matches:
-        param = match.groupdict()['param']
-        url_p = Parameter(
-            name=param,
-            type="Integer" if param.endswith('_id') else "String",
-            description=f'the variable {param} part of the url.'
-        )
-        path_params.append(url_p)
-    # end for
-
-    p = UrlPath(
-        original=path,
-        template=path_py,
-        params=path_params,
-    )
-    logger.debug(p)
 
     # now apply it all
     r = Route(
