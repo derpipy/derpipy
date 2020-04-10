@@ -111,7 +111,7 @@ class SyncBot(object):
 
     def oembed(
         self, 
-        version: str,
+        url: str,
     ) -> Oembed:
         """
         Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -180,8 +180,8 @@ class SyncBot(object):
 
     def search_reverse(
         self, 
-        version: str,
-        version: float,
+        url: str,
+        distance: float,
         key: Union[str, None] = None,
     ) -> List[Image]:
         """
