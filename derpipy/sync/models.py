@@ -115,6 +115,23 @@ class Intensities(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(intensities_instance)`
+        """
+        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(intensities_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -250,6 +267,23 @@ class Representations(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(representations_instance)`
+        """
+        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(representations_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -671,6 +705,23 @@ class Image(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(image_instance)`
+        """
+        return "{s.__class__.__name__}(aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(image_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -773,6 +824,23 @@ class Comment(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(comment_instance)`
+        """
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, image_id={s.image_id!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(comment_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, image_id={s.image_id!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -875,6 +943,23 @@ class Forum(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(forum_instance)`
+        """
+        return "{s.__class__.__name__}(name={s.name!r}, short_name={s.short_name!r}, description={s.description!r}, topic_count={s.topic_count!r}, post_count={s.post_count!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(forum_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(name={s.name!r}, short_name={s.short_name!r}, description={s.description!r}, topic_count={s.topic_count!r}, post_count={s.post_count!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1021,6 +1106,23 @@ class Topic(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(topic_instance)`
+        """
+        return "{s.__class__.__name__}(slug={s.slug!r}, title={s.title!r}, post_count={s.post_count!r}, view_count={s.view_count!r}, sticky={s.sticky!r}, last_replied_to_at={s.last_replied_to_at!r}, locked={s.locked!r}, user_id={s.user_id!r}, author={s.author!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(topic_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(slug={s.slug!r}, title={s.title!r}, post_count={s.post_count!r}, view_count={s.view_count!r}, sticky={s.sticky!r}, last_replied_to_at={s.last_replied_to_at!r}, locked={s.locked!r}, user_id={s.user_id!r}, author={s.author!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1112,6 +1214,23 @@ class Post(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(post_instance)`
+        """
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(post_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1324,6 +1443,23 @@ class Tag(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(tag_instance)`
+        """
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(tag_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1514,6 +1650,23 @@ class User(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(user_instance)`
+        """
+        return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, slug={s.slug!r}, role={s.role!r}, description={s.description!r}, avatar_url={s.avatar_url!r}, created_at={s.created_at!r}, comments_count={s.comments_count!r}, uploads_count={s.uploads_count!r}, posts_count={s.posts_count!r}, topics_count={s.topics_count!r}, links={s.links!r}, awards={s.awards!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(user_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, slug={s.slug!r}, role={s.role!r}, description={s.description!r}, avatar_url={s.avatar_url!r}, created_at={s.created_at!r}, comments_count={s.comments_count!r}, uploads_count={s.uploads_count!r}, posts_count={s.posts_count!r}, topics_count={s.topics_count!r}, links={s.links!r}, awards={s.awards!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1682,6 +1835,23 @@ class Filter(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(filter_instance)`
+        """
+        return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, description={s.description!r}, user_id={s.user_id!r}, user_count={s.user_count!r}, system={s.system!r}, public={s.public!r}, spoilered_tag_ids={s.spoilered_tag_ids!r}, spoilered_complex={s.spoilered_complex!r}, hidden_tag_ids={s.hidden_tag_ids!r}, hidden_complex={s.hidden_complex!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(filter_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, description={s.description!r}, user_id={s.user_id!r}, user_count={s.user_count!r}, system={s.system!r}, public={s.public!r}, spoilered_tag_ids={s.spoilered_tag_ids!r}, spoilered_complex={s.spoilered_complex!r}, hidden_tag_ids={s.hidden_tag_ids!r}, hidden_complex={s.hidden_complex!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1773,6 +1943,23 @@ class Links(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(links_instance)`
+        """
+        return "{s.__class__.__name__}(user_id={s.user_id!r}, created_at={s.created_at!r}, state={s.state!r}, tag_id={s.tag_id!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(links_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(user_id={s.user_id!r}, created_at={s.created_at!r}, state={s.state!r}, tag_id={s.tag_id!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1875,6 +2062,23 @@ class Awards(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(awards_instance)`
+        """
+        return "{s.__class__.__name__}(image_url={s.image_url!r}, title={s.title!r}, id={s.id!r}, label={s.label!r}, awarded_on={s.awarded_on!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(awards_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(image_url={s.image_url!r}, title={s.title!r}, id={s.id!r}, label={s.label!r}, awarded_on={s.awarded_on!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -1999,6 +2203,23 @@ class Gallery(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(gallery_instance)`
+        """
+        return "{s.__class__.__name__}(description={s.description!r}, id={s.id!r}, spoiler_warning={s.spoiler_warning!r}, thumbnail_id={s.thumbnail_id!r}, title={s.title!r}, user={s.user!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(gallery_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(description={s.description!r}, id={s.id!r}, spoiler_warning={s.spoiler_warning!r}, thumbnail_id={s.thumbnail_id!r}, title={s.title!r}, user={s.user!r}, user_id={s.user_id!r})".format(s=self)
+    # end def __repr__
 # end class
 
 
@@ -2178,5 +2399,22 @@ class Oembed(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(oembed_instance)`
+        """
+        return "{s.__class__.__name__}(author_name={s.author_name!r}, author_url={s.author_url!r}, cache_age={s.cache_age!r}, derpibooru_comments={s.derpibooru_comments!r}, derpibooru_id={s.derpibooru_id!r}, derpibooru_score={s.derpibooru_score!r}, derpibooru_tags={s.derpibooru_tags!r}, provider_name={s.provider_name!r}, provider_url={s.provider_url!r}, title={s.title!r}, type={s.type!r}, version={s.version!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(oembed_instance)`
+        """
+        if self._raw:
+            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{s.__class__.__name__}(author_name={s.author_name!r}, author_url={s.author_url!r}, cache_age={s.cache_age!r}, derpibooru_comments={s.derpibooru_comments!r}, derpibooru_id={s.derpibooru_id!r}, derpibooru_score={s.derpibooru_score!r}, derpibooru_tags={s.derpibooru_tags!r}, provider_name={s.provider_name!r}, provider_url={s.provider_url!r}, title={s.title!r}, type={s.type!r}, version={s.version!r})".format(s=self)
+    # end def __repr__
 # end class
 

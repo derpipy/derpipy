@@ -120,6 +120,23 @@ class {{ class.name }}(DerpiModel):
         instance._raw = data
         return instance
     # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str({{ class.name|lower }}_instance)`
+        """
+        return "{{ '{' }}s.__class__.__name__{{ '}' }}({% for param in class.params %}{{ param.name }}={{ '{' }}s.{{ param.name }}!r{{ '}' }}{% if not loop.last %}, {% endif %}{% endfor %})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr({{ class.name|lower }}_instance)`
+        """
+        if self._raw:
+            return "{{ '{' }}s.__class__.__name__{{ '}' }}.from_dict({s._raw})".format(s=self)
+        # end if
+        return "{{ '{' }}s.__class__.__name__{{ '}' }}({% for param in class.params %}{{ param.name }}={{ '{' }}s.{{ param.name }}!r{{ '}' }}{% if not loop.last %}, {% endif %}{% endfor %})".format(s=self)
+    # end def __repr__
 # end class
 
 {% endfor %}
