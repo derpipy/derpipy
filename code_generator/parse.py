@@ -1,6 +1,3 @@
-from typing import List, Union
-
-import requests
 import json
 import bs4
 import re
@@ -10,12 +7,12 @@ from models import *
 logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-page = requests.get('https://derpibooru.org/pages/api')
+
 with open('./output/api.html', 'w') as f:
-    f.write(page.text)
+    html = f.read()
 # end with
 
-parsed = bs4.BeautifulSoup(page.text)
+parsed = bs4.BeautifulSoup(html)
 main = parsed.select_one('.walloftext')
 
 
