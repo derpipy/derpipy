@@ -40,17 +40,14 @@ def get_template(file_name):
 
 from output.api import routes, classes
 
+init_template = get_template("init.template")
 classes_template = get_template("classes.template")
 functions_template = get_template("functions.template")
 
 mkdir_p('../derpipy/sync/')
 
 with open('../derpipy/sync/__init__.py', 'w') as f:
-    f.write('#!/usr/bin/env python3\n')
-    f.write('# -*- coding: utf-8 -*-\n')
-    f.write('\n')
-    f.write('__author__ = \'luckydonald\'\n')
-    f.write('\n')
+    f.write(init_template.render(is_asyncio=False))
 # end with
 
 with open('../derpipy/sync/client.py', 'w') as f:
