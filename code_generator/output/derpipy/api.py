@@ -31,6 +31,19 @@ class SyncBot(object):
     """
     _base_url = 'https://derpibooru.org'
 
+    @staticmethod
+    def _check_response(response: internet.Response) -> None:
+        """
+        Makes sure a server response looks valid,
+        or raise the appropriate errors if not.
+
+        :param response: A requests/httpx response.
+        :type  response: requests.Response|httpx.Response
+        """
+        assert response.status_code == 200  # TODO
+        assert response.headers['content-type'] == 'application/json; charset=utf-8'
+    # end def
+
     
     def comment(
         self, 
@@ -412,3 +425,5 @@ class SyncBot(object):
         """
         pass
     # end def forum_post
+    
+# end class
