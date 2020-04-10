@@ -65,10 +65,24 @@ class SyncBot(object):
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
         {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
-    {%- endfor %}
+        {%- endfor %}
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
         """
         {{ route.description }}
+
+        {% for param in route.path.params %}
+        :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+        :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+
+        {%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+        :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+        :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+
+        {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+        :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+        :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+
+        {%- endfor %}
         """
         pass
     # end def {{ route.name }}
