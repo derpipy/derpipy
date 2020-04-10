@@ -145,7 +145,7 @@ assert all([p.type is not None for p in query_parameters.values()])
 route_names = {}
 route_names['/api/v1/json/comments/:comment_id'] = 'comment'
 route_names['/api/v1/json/images/:image_id'] = 'image'
-route_names['/api/v1/json/images/featured'] = 'featured_images'
+route_names['/api/v1/json/images/featured'] = 'featured_image'
 route_names['/api/v1/json/tags/:tag_id'] = 'tag'
 route_names['/api/v1/json/posts/:post_id'] = 'post'
 route_names['/api/v1/json/profiles/:user_id'] = 'user'
