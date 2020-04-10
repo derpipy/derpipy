@@ -26,7 +26,7 @@ if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
 
-{#
+{#-
 route = \
     Route(
         method='GET',
@@ -52,12 +52,78 @@ route = \
         example_url='/api/v1/json/comments/1000'
     )
 #}
+{% for route in routes %}
+
+def {{ route.name }}( {#-
+    #}{% for param in route.path.params %}
+    {{ param.name }}: {{ param.python_typing_representation() }},
+    {%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+    {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
+    {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+    {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
+    {%- endfor %}
+) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
+    """
+    {{ route.description }}
+
+    A request will be sent to the following endpoint: `{{ route.path.original }}`
+    It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+    which would for example look like this: https://derpibooru.org{{ route.example_url }}
+
+    The API should return json looking like `{{ route.response_format.schema }}` which will then be parsed to the python result `{{ route.response_format.python_typing_representation(json_mode=False) }}`.{#
+    #}
+    {% for param in route.path.params %}
+    :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+    :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+    {% endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+    :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+    :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+    {% endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+    :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
+    :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
+    {% endfor %}
+    :return: The parsed result from the API.
+    :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
+    """
+    url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
+    resp: internet.Response = internet.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+         #}{% for param in route.allowed_query_parameters if not param.optional %}
+        {{ param.name.__repr__() }}: {{ param.name }},
+        {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+        {{ param.name.__repr__() }}: {{ param.name }},
+        {%- endfor %}
+    {{ '}' }}{% endif %})
+    DerpiClient._check_response(resp)
+    result: {{ route.response_format.python_typing_representation(json_mode=True) }} = resp.json() {#-
+    #}{% if route.response_format.key %}
+    result: {{ route.response_format.python_typing_representation(json_mode=True, include_dict=False) }} = result[{{ route.response_format.key.__repr__() }}] {#-
+    #}{% endif %}{% if route.response_format.is_list %}
+    assert_type_or_raise(result, list, parameter_name='result')
+    result: {{ route.response_format.python_typing_representation(json_mode=False) }} = [
+        {{ route.response_format.class_name }}.from_dict(item)
+        for item in result
+    ] {#-
+    #}{% else %}
+    assert_type_or_raise(result, dict, parameter_name='result')
+    result: {{ route.response_format.python_typing_representation(json_mode=False) }} = {{ route.response_format.class_name }}.from_dict(result) {#-
+    #}{% endif %}
+    return result
+# end def {{ route.name }}
+{% endfor %}
+
 
 class DerpiClient(object):
     """
     Synchronous client for Derpibooru.org
     """
     _base_url = 'https://derpibooru.org'
+
+    def __init__(self, key):
+        """
+        :param key: API key
+        """
+        self.__key = key
+    # end def
 
     @staticmethod
     def _check_response(response: internet.Response) -> None:
@@ -73,13 +139,14 @@ class DerpiClient(object):
     # end def
 
     {% for route in routes %}
+    # noinspection PyMethodMayBeStatic
     def {{ route.name }}(
         self, {#
-        #}{% for param in route.path.params %}
+        #}{% for param in route.path.params if param.name != 'key' %}
         {{ param.name }}: {{ param.python_typing_representation() }},
-        {%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+        {%- endfor %}{% for param in route.allowed_query_parameters if param.name != 'key' and not param.optional %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
-        {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+        {%- endfor %}{% for param in route.allowed_query_parameters if param.name != 'key' and param.optional %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
         {%- endfor %}
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
@@ -92,42 +159,34 @@ class DerpiClient(object):
 
         The API should return json looking like `{{ route.response_format.schema }}` which will then be parsed to the python result `{{ route.response_format.python_typing_representation(json_mode=False) }}`.{#
         #}
-        {% for param in route.path.params %}
+        {% for param in route.path.params if param.name != 'key' %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-        {% endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+        {% endfor %}{% for param in route.allowed_query_parameters if param.name != 'key' and not param.optional %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-        {% endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+        {% endfor %}{% for param in route.allowed_query_parameters if param.name != 'key' and param.optional %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
         {% endfor %}
         :return: The parsed result from the API.
         :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
         """
-        url: str = self._base_url + f{{ route.path.template.__repr__() }}
-        resp: internet.Response = internet.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
-             #}{% for param in route.allowed_query_parameters if not param.optional %}
-            {{ param.name.__repr__() }}: {{ param.name }},
-            {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
-            {{ param.name.__repr__() }}: {{ param.name }},
-            {%- endfor %}
-        {{ '}' }}{% endif %})
-        self._check_response(resp)
-        result: {{ route.response_format.python_typing_representation(json_mode=True) }} = resp.json() {#-
-        #}{% if route.response_format.key %}
-        result: {{ route.response_format.python_typing_representation(json_mode=True, include_dict=False) }} = result[{{ route.response_format.key.__repr__() }}] {#-
-        #}{% endif %}{% if route.response_format.is_list %}
-        assert_type_or_raise(result, list, parameter_name='result')
-        result: {{ route.response_format.python_typing_representation(json_mode=False) }} = [
-            {{ route.response_format.class_name }}.from_dict(item)
-            for item in result
-        ] {#-
-        #}{% else %}
-        assert_type_or_raise(result, dict, parameter_name='result')
-        result: {{ route.response_format.python_typing_representation(json_mode=False) }} = {{ route.response_format.class_name }}.from_dict(result) {#-
-        #}{% endif %}
-        return result
+        return {{ route.name }}( {#-
+            #}{% for param in route.path.params %}{% if param.name != 'key' %}
+            {{ param.name }}={{ param.name }},
+            {%- else %}
+            {{ param.name }}=self.__key,
+            {%- endif %}{%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}{% if param.name != 'key' %}
+            {{ param.name }}={{ param.name }},
+            {%- else %}
+            {{ param.name }}=self.__key,
+            {%- endif %}{%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}{% if param.name != 'key' %}
+            {{ param.name }}={{ param.name }},
+            {%- else %}
+            {{ param.name }}=self.__key,
+            {%- endif %}{%- endfor %}
+        )
     # end def {{ route.name }}
     {% endfor %}
 # end class
