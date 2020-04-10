@@ -12,10 +12,26 @@ if __name__ == '__main__':
 from typing import Union, List
 from .models import *
 
+# import either requests or httpx
+# as internet
+try:
+    import requests as internet
+except ImportError:
+    try:
+        import httpx as internet
+    except ImportError:
+        raise ImportError('Neither "requests" nor "httpx" could be found. Make sure either of them is installed.')
+    # end try
+# end try
 
 
 class SyncBot(object):
+    """
+    Synchronous client for Derpibooru.org
+    """
+    _base_url = 'https://derpibooru.org'
 
+    
     def comment(
         self, 
         comment_id: int,
