@@ -139,6 +139,29 @@ assert all([p.type is not None for p in query_parameters.values()])
 
 
 
+route_names = {}
+route_names['/api/v1/json/comments/:comment_id'] = 'comment'
+route_names['/api/v1/json/images/:image_id'] = 'image'
+route_names['/api/v1/json/images/featured'] = 'featured_images'
+route_names['/api/v1/json/tags/:tag_id'] = 'tag'
+route_names['/api/v1/json/posts/:post_id'] = 'post'
+route_names['/api/v1/json/profiles/:user_id'] = 'user'
+route_names['/api/v1/json/filters/:filter_id'] = 'filter'
+route_names['/api/v1/json/filters/system'] = 'system_filters'
+route_names['/api/v1/json/filters/user'] = 'user_filters'
+route_names['/api/v1/json/oembed'] = 'oembed'
+route_names['/api/v1/json/search/comments'] = 'search_comments'
+route_names['/api/v1/json/search/galleries'] = 'search_galleries'
+route_names['/api/v1/json/search/posts'] = 'search_posts'
+route_names['/api/v1/json/search/images'] = 'search_images'
+route_names['/api/v1/json/search/tags'] = 'search_tags'
+route_names['/api/v1/json/search/reverse'] = 'search_reverse'
+route_names['/api/v1/json/forums'] = 'forums'
+route_names['/api/v1/json/forums/:short_name'] = 'forum'
+route_names['/api/v1/json/forums/:short_name/topics'] = 'forum_topics'
+route_names['/api/v1/json/forums/:short_name/topics/:topic_slug'] = 'forum_topic'
+route_names['/api/v1/json/forums/:short_name/topics/:topic_slug/posts'] = 'forum_posts'
+route_names['/api/v1/json/forums/:short_name/topics/:topic_slug/posts/:post_id'] = 'forum_post'
 
 
 routes = []
@@ -251,6 +274,7 @@ for row in rows:
 
     # now apply it all
     r = Route(
+        name=route_names[path],
         method=columns[0].code.text,
         path=p,
         allowed_query_parameters=[query_parameters[param.strip()] for param in columns[2].text.split(',') if param],
