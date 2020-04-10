@@ -55,15 +55,29 @@ class Parameter(object):
         self.optional = optional
     # end def
 
-    def get_type(self):
-        return {
-            'Integer': 'int',
-            'String': 'str',
-            'RFC3339 datetime': 'datetime',
-            'Float': 'float',
-            'Array': 'list',
-            'Object': 'dict',
-        }[self.type]
+    TYPE_MAP = {
+        'Integer': 'int',
+        'String': 'str',
+        'RFC3339 datetime': 'datetime',
+        'Float': 'float',
+        'Array': 'list',
+        'Boolean': 'bool',
+        # 'Object': 'dict',
+    }
+
+    def python_typing_representation(self, classes: Union[None, List[Class]] = None):
+        if not classes:
+            classes = []
+        # end if
+        for clazz in classes:
+            if clazz.name == self.type:
+                # is a valid class
+                return clazz.name
+            # end if
+        # end def
+        # -> we didn't find a class named like that
+        # -> try the basic python types
+        return self.TYPE_MAP[self.type]  # last and without if so it throws errors.
     # end def
 
     def __str__(self):
@@ -97,13 +111,12 @@ class ResponseType(object):
         return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r})"
     # end def
 
-    @property
-    def python_typing_representation(self, wrap_if_key=True):
-        string = self.class_name
+    def python_typing_representation(self, json_mode: bool):
+        string = 'Dict' if json_mode else self.class_name
         if self.is_list:
             string = f'List[{string}]'
         # end if
-        if wrap_if_key and self.key:
+        if json_mode and self.key:
             string = f'Dict[str, {string}]'
         # end if
         return string
