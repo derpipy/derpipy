@@ -6,7 +6,7 @@ __author__ = 'luckydonald'
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.exceptions import assert_type_or_raise
 
-from typing import Union, List, Dict
+from typing import Union, List, Dict, Type
 from .models import *
 
 # import either requests or httpx
@@ -86,15 +86,14 @@ def {{ route.name }}( {#-
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
     """
     url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
-    resp: internet.Response = internet.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+    response: internet.Response = DerpiClient.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
          #}{% for param in route.allowed_query_parameters if not param.optional %}
         {{ param.name.__repr__() }}: {{ param.name }},
         {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
         {{ param.name.__repr__() }}: {{ param.name }},
         {%- endfor %}
     {{ '}' }}{% endif %})
-    DerpiClient._check_response(resp)
-    result: {{ route.response_format.python_typing_representation(json_mode=True) }} = resp.json() {#-
+    result: {{ route.response_format.python_typing_representation(json_mode=True) }} = response.json() {#-
     #}{% if route.response_format.key %}
     result: {{ route.response_format.python_typing_representation(json_mode=True, include_dict=False) }} = result[{{ route.response_format.key.__repr__() }}] {#-
     #}{% endif %}{% if route.response_format.is_list %}
@@ -111,7 +110,6 @@ def {{ route.name }}( {#-
 # end def {{ route.name }}
 {% endfor %}
 
-
 class DerpiClient(object):
     """
     Synchronous client for Derpibooru.org
@@ -123,6 +121,13 @@ class DerpiClient(object):
         :param key: API key
         """
         self.__key = key
+    # end def
+
+    @classmethod
+    def request(cls: Type['DerpiClient'], method, url, params=None) -> internet.Response:
+        response: internet.Response = internet.request(method=method, url=url, params=params)
+        cls._check_response(response)
+        return response
     # end def
 
     @staticmethod

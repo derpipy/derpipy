@@ -6,7 +6,7 @@ __author__ = 'luckydonald'
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.exceptions import assert_type_or_raise
 
-from typing import Union, List, Dict
+from typing import Union, List, Dict, Type
 from .models import *
 
 # import either requests or httpx
@@ -46,9 +46,8 @@ def comment(
     :rtype:  Comment
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/comments/{comment_id}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['comment']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Comment = Comment.from_dict(result)
@@ -85,12 +84,11 @@ def image(
     :rtype:  Image
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/images/{image_id}'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'key': key,
         'filter_id': filter_id,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['image']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Image = Image.from_dict(result)
@@ -113,9 +111,8 @@ def featured_images(
     :rtype:  Image
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/images/featured'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['image']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Image = Image.from_dict(result)
@@ -142,9 +139,8 @@ def tag(
     :rtype:  Tag
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/tags/{tag_id}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['tag']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Tag = Tag.from_dict(result)
@@ -171,9 +167,8 @@ def post(
     :rtype:  Post
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/posts/{post_id}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['post']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Post = Post.from_dict(result)
@@ -200,9 +195,8 @@ def user(
     :rtype:  User
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/profiles/{user_id}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['user']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: User = User.from_dict(result)
@@ -235,11 +229,10 @@ def filter(
     :rtype:  Filter
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/filters/{filter_id}'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['filter']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Filter = Filter.from_dict(result)
@@ -266,11 +259,10 @@ def system_filters(
     :rtype:  List[Filter]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/filters/system'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['filters']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Filter] = [
@@ -306,12 +298,11 @@ def user_filters(
     :rtype:  List[Filter]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/filters/user'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['filters']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Filter] = [
@@ -341,11 +332,10 @@ def oembed(
     :rtype:  Oembed
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/oembed'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'url': url,
     })
-    DerpiClient._check_response(resp)
-    result: Dict = resp.json()
+    result: Dict = response.json()
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Oembed = Oembed.from_dict(result)
     return result
@@ -377,12 +367,11 @@ def search_comments(
     :rtype:  List[Comment]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/comments'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['comments']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Comment] = [
@@ -418,12 +407,11 @@ def search_galleries(
     :rtype:  List[Gallery]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/galleries'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['galleries']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Gallery] = [
@@ -459,12 +447,11 @@ def search_posts(
     :rtype:  List[Post]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/posts'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['posts']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Post] = [
@@ -520,7 +507,7 @@ def search_images(
     :rtype:  List[Image]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/images'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
         'per_page': per_page,
         'q': q,
@@ -529,8 +516,7 @@ def search_images(
         'key': key,
         'filter_id': filter_id,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Image] = [
@@ -560,11 +546,10 @@ def search_tags(
     :rtype:  List[Tag]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/tags'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['tags']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Tag] = [
@@ -604,13 +589,12 @@ def search_reverse(
     :rtype:  List[Image]
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/search/reverse'
-    resp: internet.Response = internet.request('POST', url, params={
+    response: internet.Response = DerpiClient.request('POST', url, params={
         'url': url,
         'distance': distance,
         'key': key,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, List[Dict]] = resp.json()
+    result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
     assert_type_or_raise(result, list, parameter_name='result')
     result: List[Image] = [
@@ -636,9 +620,8 @@ def forums(
     :rtype:  Forum
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['forums']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Forum = Forum.from_dict(result)
@@ -665,9 +648,8 @@ def forum(
     :rtype:  Forum
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['forum']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Forum = Forum.from_dict(result)
@@ -698,11 +680,10 @@ def forum_topics(
     :rtype:  Topic
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}/topics'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['topics']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Topic = Topic.from_dict(result)
@@ -733,9 +714,8 @@ def forum_topic(
     :rtype:  Topic
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['topic']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Topic = Topic.from_dict(result)
@@ -770,11 +750,10 @@ def forum_posts(
     :rtype:  Post
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts'
-    resp: internet.Response = internet.request('GET', url, params={
+    response: internet.Response = DerpiClient.request('GET', url, params={
         'page': page,
     })
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['posts']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Post = Post.from_dict(result)
@@ -809,15 +788,13 @@ def forum_post(
     :rtype:  Post
     """
     url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts/{post_id}'
-    resp: internet.Response = internet.request('GET', url)
-    DerpiClient._check_response(resp)
-    result: Dict[str, Dict] = resp.json()
+    response: internet.Response = DerpiClient.request('GET', url)
+    result: Dict[str, Dict] = response.json()
     result: Dict = result['post']
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Post = Post.from_dict(result)
     return result
 # end def forum_post
-
 
 
 class DerpiClient(object):
@@ -831,6 +808,13 @@ class DerpiClient(object):
         :param key: API key
         """
         self.__key = key
+    # end def
+
+    @classmethod
+    def request(cls: Type['DerpiClient'], method, url, params=None) -> internet.Response:
+        response: internet.Response = internet.request(method=method, url=url, params=params)
+        cls._check_response(response)
+        return response
     # end def
 
     @staticmethod
