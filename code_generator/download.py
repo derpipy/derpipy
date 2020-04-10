@@ -67,13 +67,13 @@ for element in main.find_all('h2'):
             param = columns[0].code.text
             logger.debug(f'{name}.{param}: {columns[1].text!r}, {columns[2].text!r}')
 
-            if name == 'Image' and param == 'representations':
+            if name == 'Image' and param == 'representations':  # because there is no real link to a object.
                 type = 'Representations'
             else:
                 type = (
                     (
                         [
-                            ('`' + class_names[t.attrs["href"]] + '`')
+                            (class_names[t.attrs["href"]])
                             for t in columns[2].contents if not isinstance(t, NavigableString) and t.name == 'a' and t.attrs.get('href', '')
                         ][0]
                     ) if columns[1].text == 'Object' else (
