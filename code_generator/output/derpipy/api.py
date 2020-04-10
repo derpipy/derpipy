@@ -52,9 +52,17 @@ class SyncBot(object):
         """
         Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/comments/:comment_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/comments/1000
+
+        The API should return json looking like `{"comment":Comment}` which will then be parsed to the python result `Comment`.
         
         :param comment_id: the variable comment_id part of the url.
         :type  comment_id: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Comment
         """
         pass
     # end def comment
@@ -68,15 +76,25 @@ class SyncBot(object):
         """
         Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/images/:image_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/images/1
+
+        The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
         
         :param image_id: the variable image_id part of the url.
         :type  image_id: int
+        
         :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
         :type  filter_id: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  Image
         """
         pass
     # end def image
@@ -87,7 +105,14 @@ class SyncBot(object):
         """
         Fetches an **image response** for the for the current featured image.
 
+        A request will be sent to the following endpoint: `/api/v1/json/images/featured`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/images/featured
+
+        The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
         
+        :return: The parsed result from the API.
+        :rtype:  Image
         """
         pass
     # end def featured_images
@@ -99,9 +124,17 @@ class SyncBot(object):
         """
         Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
 
+        A request will be sent to the following endpoint: `/api/v1/json/tags/:tag_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/tags/artist-colon-atryl
+
+        The API should return json looking like `{"tag":Tag}` which will then be parsed to the python result `Tag`.
         
         :param tag_id: the variable tag_id part of the url.
         :type  tag_id: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Tag
         """
         pass
     # end def tag
@@ -113,9 +146,17 @@ class SyncBot(object):
         """
         Fetches a **post response** for the post ID given by the `post_id` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/posts/:post_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/posts/2730144
+
+        The API should return json looking like `{"post":Post}` which will then be parsed to the python result `Post`.
         
         :param post_id: the variable post_id part of the url.
         :type  post_id: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Post
         """
         pass
     # end def post
@@ -127,9 +168,17 @@ class SyncBot(object):
         """
         Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/profiles/:user_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/profiles/216494
+
+        The API should return json looking like `{"user":User}` which will then be parsed to the python result `User`.
         
         :param user_id: the variable user_id part of the url.
         :type  user_id: int
+        
+        :return: The parsed result from the API.
+        :rtype:  User
         """
         pass
     # end def user
@@ -142,13 +191,22 @@ class SyncBot(object):
         """
         Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/filters/:filter_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/filters/56027
+
+        The API should return json looking like `{"filter":Filter}` which will then be parsed to the python result `Filter`.
         
         :param filter_id: the variable filter_id part of the url.
         :type  filter_id: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  Filter
         """
         pass
     # end def filter
@@ -160,9 +218,17 @@ class SyncBot(object):
         """
         Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
 
+        A request will be sent to the following endpoint: `/api/v1/json/filters/system`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/filters/system
+
+        The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Filter]
         """
         pass
     # end def system_filters
@@ -175,13 +241,22 @@ class SyncBot(object):
         """
         Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
 
+        A request will be sent to the following endpoint: `/api/v1/json/filters/user`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/filters/user
+
+        The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Filter]
         """
         pass
     # end def user_filters
@@ -193,9 +268,17 @@ class SyncBot(object):
         """
         Fetches an **oEmbed response** for the given app link or CDN URL.
 
+        A request will be sent to the following endpoint: `/api/v1/json/oembed`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/oembed?url=https://derpicdn.net/img/2012/1/2/3/full.png
+
+        The API should return json looking like `Oembed` which will then be parsed to the python result `Oembed`.
         
         :param url: Link a deviantART page, a Tumblr post, or the image directly.
         :type  url: str
+        
+        :return: The parsed result from the API.
+        :rtype:  Oembed
         """
         pass
     # end def oembed
@@ -208,13 +291,22 @@ class SyncBot(object):
         """
         Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/comments`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/comments?q=image_id:1000000
+
+        The API should return json looking like `{"comments":[Comment]}` which will then be parsed to the python result `List[Comment]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Comment]
         """
         pass
     # end def search_comments
@@ -227,13 +319,22 @@ class SyncBot(object):
         """
         Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/galleries`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/galleries?q=title:mean*
+
+        The API should return json looking like `{"galleries":[Gallery]}` which will then be parsed to the python result `List[Gallery]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Gallery]
         """
         pass
     # end def search_galleries
@@ -246,13 +347,22 @@ class SyncBot(object):
         """
         Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/posts`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/posts?q=subject:time wasting thread
+
+        The API should return json looking like `{"posts":[Post]}` which will then be parsed to the python result `List[Post]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Post]
         """
         pass
     # end def search_posts
@@ -270,23 +380,37 @@ class SyncBot(object):
         """
         Executes the search given by the `q` query parameter, and returns **image responses**.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/images`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/images?q=safe
+
+        The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
         
         :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
         :type  filter_id: int
+        
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
         :param per_page: Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
         :type  per_page: int
+        
         :param q: The current search query, if the request is a search request.
         :type  q: str
+        
         :param sd: The current sort direction, if the request is a search request.
         :type  sd: str
+        
         :param sf: The current sort field, if the request is a search request.
         :type  sf: str
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Image]
         """
         pass
     # end def search_images
@@ -298,9 +422,17 @@ class SyncBot(object):
         """
         Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/tags`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/tags?q=analyzed_name:wing
+
+        The API should return json looking like `{"tags":[Tag]}` which will then be parsed to the python result `List[Tag]`.
         
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Tag]
         """
         pass
     # end def search_tags
@@ -314,15 +446,25 @@ class SyncBot(object):
         """
         Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/search/reverse`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/search/reverse?url=https://derpicdn.net/img/2019/12/24/2228439/full.jpg
+
+        The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
         
         :param url: Link a deviantART page, a Tumblr post, or the image directly.
         :type  url: str
+        
         :param distance: Match distance (suggested values: between 0.2 and 0.5).
         :type  distance: float
+        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  List[Image]
         """
         pass
     # end def search_reverse
@@ -333,7 +475,14 @@ class SyncBot(object):
         """
         Fetches a list of **forum responses**.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums
+
+        The API should return json looking like `{"forums":Forum}` which will then be parsed to the python result `Forum`.
         
+        :return: The parsed result from the API.
+        :rtype:  Forum
         """
         pass
     # end def forums
@@ -345,9 +494,17 @@ class SyncBot(object):
         """
         Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums/:short_name`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis
+
+        The API should return json looking like `{"forum":Forum}` which will then be parsed to the python result `Forum`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
+        
+        :return: The parsed result from the API.
+        :rtype:  Forum
         """
         pass
     # end def forum
@@ -360,11 +517,20 @@ class SyncBot(object):
         """
         Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums/:short_name/topics`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics
+
+        The API should return json looking like `{"topics":Topic}` which will then be parsed to the python result `Topic`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
+        
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Topic
         """
         pass
     # end def forum_topics
@@ -377,11 +543,20 @@ class SyncBot(object):
         """
         Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums/:short_name/topics/:topic_slug`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics/ask-the-mods-anything
+
+        The API should return json looking like `{"topic":Topic}` which will then be parsed to the python result `Topic`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
+        
         :param topic_slug: the variable topic_slug part of the url.
         :type  topic_slug: str
+        
+        :return: The parsed result from the API.
+        :rtype:  Topic
         """
         pass
     # end def forum_topic
@@ -395,13 +570,23 @@ class SyncBot(object):
         """
         Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums/:short_name/topics/:topic_slug/posts`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics/ask-the-mods-anything/posts
+
+        The API should return json looking like `{"posts":Post}` which will then be parsed to the python result `Post`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
+        
         :param topic_slug: the variable topic_slug part of the url.
         :type  topic_slug: str
+        
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
         :type  page: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Post
         """
         pass
     # end def forum_posts
@@ -415,13 +600,23 @@ class SyncBot(object):
         """
         Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
 
+        A request will be sent to the following endpoint: `/api/v1/json/forums/:short_name/topics/:topic_slug/posts/:post_id`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics/ask-the-mods-anything/posts/2761095
+
+        The API should return json looking like `{"post":Post}` which will then be parsed to the python result `Post`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
+        
         :param topic_slug: the variable topic_slug part of the url.
         :type  topic_slug: str
+        
         :param post_id: the variable post_id part of the url.
         :type  post_id: int
+        
+        :return: The parsed result from the API.
+        :rtype:  Post
         """
         pass
     # end def forum_post

@@ -83,19 +83,24 @@ class SyncBot(object):
         """
         {{ route.description }}
 
+        A request will be sent to the following endpoint: `{{ route.path.original }}`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org{{ route.example_url }}
+
+        The API should return json looking like `{{ route.response_format.schema }}` which will then be parsed to the python result `{{ route.response_format.python_typing_representation(json_mode=False) }}`.{#
+        #}
         {% for param in route.path.params %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-
-        {%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+        {% endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-
-        {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
+        {% endfor %}{% for param in route.allowed_query_parameters if param.optional %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-
-        {%- endfor %}
+        {% endfor %}
+        :return: The parsed result from the API.
+        :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
         """
         pass
     # end def {{ route.name }}
