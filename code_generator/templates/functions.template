@@ -9,7 +9,7 @@ if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
 
-from typing import Union, List
+from typing import Union, List, Dict
 from .models import *
 
 # import either requests or httpx
