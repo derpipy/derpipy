@@ -111,12 +111,12 @@ class ResponseType(object):
         return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r})"
     # end def
 
-    def python_typing_representation(self, json_mode: bool):
+    def python_typing_representation(self, json_mode: bool, include_dict=True):
         string = 'Dict' if json_mode else self.class_name
         if self.is_list:
             string = f'List[{string}]'
         # end if
-        if json_mode and self.key:
+        if json_mode and include_dict and self.key:
             string = f'Dict[str, {string}]'
         # end if
         return string
