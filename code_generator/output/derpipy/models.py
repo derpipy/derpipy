@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 __author__ = 'luckydonald'
-__all__ = ['DerpiModel', 'Intensities','Representations','Image','Comment','Forum','Topic','Post','Tag','User','Filter','Links','Awards','Gallery','Oembed'
+__all__ = ['DerpiModel', 'Intensities','Representations','Image','Comment','Forum','Topic','Post','Tag','User','Filter','Links','Awards','Gallery','Oembed']
 
 from luckydonaldUtils.logger import logging
 logger = logging.getLogger(__name__)
