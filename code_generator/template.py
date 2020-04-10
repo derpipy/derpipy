@@ -43,9 +43,9 @@ from output.api import routes, classes
 classes_template = get_template("classes.template")
 functions_template = get_template("functions.template")
 
-mkdir_p('output/derpipy')
+mkdir_p('../derpipy/sync/')
 
-with open('output/derpipy/__init__.py', 'w') as f:
+with open('../derpipy/sync/__init__.py', 'w') as f:
     f.write('#!/usr/bin/env python3\n')
     f.write('# -*- coding: utf-8 -*-\n')
     f.write('\n')
@@ -53,11 +53,11 @@ with open('output/derpipy/__init__.py', 'w') as f:
     f.write('\n')
 # end with
 
-with open('output/derpipy/api.py', 'w') as f:
+with open('../derpipy/sync/client.py', 'w') as f:
     f.write(functions_template.render(routes=routes, is_asyncio=False))
 # end with
 
-with open('output/derpipy/models.py', 'w') as f:
+with open('../derpipy/sync/models.py', 'w') as f:
     f.write(classes_template.render(classes=classes, is_asyncio=False))
 # end with
 
