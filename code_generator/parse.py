@@ -78,16 +78,19 @@ for element in main.find_all('h2'):
                     )
                 )
             # end if
+            description = "".join([
+                str(t)
+                if isinstance(t, NavigableString) else
+                ('`' + class_names[t.attrs["href"]] + '`') if t.name == 'a' and t.attrs.get('href', '').startswith('#') else t.text
+                for t in columns[2].contents
+            ])
+            optional =  'optional' in description.lower()
 
             p = Parameter(
                 name=param,
                 type=type,
-                description="".join([
-                    str(t)
-                    if isinstance(t, NavigableString) else
-                    ('`' + class_names[t.attrs["href"]] + '`') if t.name == 'a' and t.attrs.get('href', '').startswith('#') else t.text
-                    for t in columns[2].contents
-                ]),
+                description=description,
+                optional=optional,
             )
             c.params.append(p)
         # end for
