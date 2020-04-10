@@ -44,7 +44,9 @@ class SyncBot(object):
         self, {#
         #}{% for param in route.path.params %}
         {{ param.name }}: {{ param.python_typing_representation() }},
-        {% endfor %}{% for param in route.allowed_query_parameters %}
+        {%- endfor %}{% for param in route.allowed_query_parameters if not param.optional %}
+        {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
+        {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
     {%- endfor %}
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:

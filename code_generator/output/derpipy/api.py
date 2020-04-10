@@ -20,7 +20,6 @@ class SyncBot(object):
     def comment(
         self, 
         comment_id: int,
-        
     ) -> Comment:
     """
     Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -35,9 +34,8 @@ class SyncBot(object):
     def image(
         self, 
         image_id: int,
-        
-        key: Union[str, None] = None,
         filter_id: int,
+        key: Union[str, None] = None,
     ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -65,7 +63,6 @@ class SyncBot(object):
     def tag(
         self, 
         tag_id: int,
-        
     ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
@@ -80,7 +77,6 @@ class SyncBot(object):
     def post(
         self, 
         post_id: int,
-        
     ) -> Post:
     """
     Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -95,7 +91,6 @@ class SyncBot(object):
     def user(
         self, 
         user_id: int,
-        
     ) -> User:
     """
     Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -110,7 +105,6 @@ class SyncBot(object):
     def filter(
         self, 
         filter_id: int,
-        
         key: Union[str, None] = None,
     ) -> Filter:
     """
@@ -139,8 +133,8 @@ class SyncBot(object):
 
     def user_filters(
         self, 
-        key: Union[str, None] = None,
         page: int,
+        key: Union[str, None] = None,
     ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -168,8 +162,8 @@ class SyncBot(object):
 
     def search_comments(
         self, 
-        key: Union[str, None] = None,
         page: int,
+        key: Union[str, None] = None,
     ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
@@ -183,8 +177,8 @@ class SyncBot(object):
 
     def search_galleries(
         self, 
-        key: Union[str, None] = None,
         page: int,
+        key: Union[str, None] = None,
     ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -198,8 +192,8 @@ class SyncBot(object):
 
     def search_posts(
         self, 
-        key: Union[str, None] = None,
         page: int,
+        key: Union[str, None] = None,
     ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -213,13 +207,13 @@ class SyncBot(object):
 
     def search_images(
         self, 
-        key: Union[str, None] = None,
         filter_id: int,
         page: int,
         per_page: int,
         q: str,
         sd: str,
         sf: str,
+        key: Union[str, None] = None,
     ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -247,9 +241,9 @@ class SyncBot(object):
 
     def search_reverse(
         self, 
-        key: Union[str, None] = None,
         version: str,
         version: float,
+        key: Union[str, None] = None,
     ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -277,7 +271,6 @@ class SyncBot(object):
     def forum(
         self, 
         short_name: str,
-        
     ) -> Forum:
     """
     Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -292,7 +285,6 @@ class SyncBot(object):
     def forum_topics(
         self, 
         short_name: str,
-        
         page: int,
     ) -> Topic:
     """
@@ -308,9 +300,7 @@ class SyncBot(object):
     def forum_topic(
         self, 
         short_name: str,
-        
         topic_slug: str,
-        
     ) -> Topic:
     """
     Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -325,9 +315,7 @@ class SyncBot(object):
     def forum_posts(
         self, 
         short_name: str,
-        
         topic_slug: str,
-        
         page: int,
     ) -> Post:
     """
@@ -343,11 +331,8 @@ class SyncBot(object):
     def forum_post(
         self, 
         short_name: str,
-        
         topic_slug: str,
-        
         post_id: int,
-        
     ) -> Post:
     """
     Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
