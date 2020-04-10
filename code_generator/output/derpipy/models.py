@@ -11,7 +11,6 @@ from luckydonaldUtils.typing import JSONType
 __author__ = 'luckydonald'
 __all__ = ['DerpiModel', 'Intensities', 'Representations', 'Image', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
 
-from luckydonaldUtils.logger import logging
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
@@ -90,6 +89,29 @@ class Intensities(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Intensities], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Intensities], data: Union[Dict, None]) -> Union[Intensities, None]:
+        """
+        Deserialize a new Intensities from a given dictionary.
+
+        :return: new Intensities instance.
+        :rtype: Intensities|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Intensities = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -195,6 +217,29 @@ class Representations(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Representations], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Representations], data: Union[Dict, None]) -> Union[Representations, None]:
+        """
+        Deserialize a new Representations from a given dictionary.
+
+        :return: new Representations instance.
+        :rtype: Representations|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Representations = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -560,6 +605,29 @@ class Image(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Image], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Image], data: Union[Dict, None]) -> Union[Image, None]:
+        """
+        Deserialize a new Image from a given dictionary.
+
+        :return: new Image instance.
+        :rtype: Image|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Image = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -635,6 +703,29 @@ class Comment(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Comment], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Comment], data: Union[Dict, None]) -> Union[Comment, None]:
+        """
+        Deserialize a new Comment from a given dictionary.
+
+        :return: new Comment instance.
+        :rtype: Comment|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Comment = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -710,6 +801,29 @@ class Forum(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Forum], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Forum], data: Union[Dict, None]) -> Union[Forum, None]:
+        """
+        Deserialize a new Forum from a given dictionary.
+
+        :return: new Forum instance.
+        :rtype: Forum|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Forum = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -825,6 +939,29 @@ class Topic(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Topic], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Topic], data: Union[Dict, None]) -> Union[Topic, None]:
+        """
+        Deserialize a new Topic from a given dictionary.
+
+        :return: new Topic instance.
+        :rtype: Topic|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Topic = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -890,6 +1027,29 @@ class Post(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Post], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Post], data: Union[Dict, None]) -> Union[Post, None]:
+        """
+        Deserialize a new Post from a given dictionary.
+
+        :return: new Post instance.
+        :rtype: Post|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Post = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1065,6 +1225,29 @@ class Tag(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Tag], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Tag], data: Union[Dict, None]) -> Union[Tag, None]:
+        """
+        Deserialize a new Tag from a given dictionary.
+
+        :return: new Tag instance.
+        :rtype: Tag|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Tag = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1220,6 +1403,29 @@ class User(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[User], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[User], data: Union[Dict, None]) -> Union[User, None]:
+        """
+        Deserialize a new User from a given dictionary.
+
+        :return: new User instance.
+        :rtype: User|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: User = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1355,6 +1561,29 @@ class Filter(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Filter], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Filter], data: Union[Dict, None]) -> Union[Filter, None]:
+        """
+        Deserialize a new Filter from a given dictionary.
+
+        :return: new Filter instance.
+        :rtype: Filter|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Filter = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1420,6 +1649,29 @@ class Links(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Links], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Links], data: Union[Dict, None]) -> Union[Links, None]:
+        """
+        Deserialize a new Links from a given dictionary.
+
+        :return: new Links instance.
+        :rtype: Links|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Links = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1495,6 +1747,29 @@ class Awards(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Awards], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Awards], data: Union[Dict, None]) -> Union[Awards, None]:
+        """
+        Deserialize a new Awards from a given dictionary.
+
+        :return: new Awards instance.
+        :rtype: Awards|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Awards = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1590,6 +1865,29 @@ class Gallery(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Gallery], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Gallery], data: Union[Dict, None]) -> Union[Gallery, None]:
+        """
+        Deserialize a new Gallery from a given dictionary.
+
+        :return: new Gallery instance.
+        :rtype: Gallery|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Gallery = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 
@@ -1735,5 +2033,28 @@ class Oembed(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[Oembed], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[Oembed], data: Union[Dict, None]) -> Union[Oembed, None]:
+        """
+        Deserialize a new Oembed from a given dictionary.
+
+        :return: new Oembed instance.
+        :rtype: Oembed|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: Oembed = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 

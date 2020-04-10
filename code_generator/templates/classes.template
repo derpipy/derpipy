@@ -95,6 +95,29 @@ class {{ class.name }}(DerpiModel):
         """
         pass
     # end def __init__
+
+    @classmethod
+    def validate_dict(cls: Type[{{ class.name }}], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        return data
+    # end def validate_dict
+
+    @classmethod
+    def from_dict(cls: Type[{{ class.name }}], data: Union[Dict, None]) -> Union[{{ class.name }}, None]:
+        """
+        Deserialize a new {{ class.name }} from a given dictionary.
+
+        :return: new {{ class.name }} instance.
+        :rtype: {{ class.name }}|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+
+        data: Dict = cls.validate_dict(data)
+        instance: {{ class.name }} = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
 # end class
 
 {% endfor %}
