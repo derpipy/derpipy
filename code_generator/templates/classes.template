@@ -51,7 +51,7 @@ if __name__ == '__main__':
             optional=False
         )
     ]
-) %}{# #}
+) %}{# -#}
 
 
 class DerpiModel(object):
@@ -59,9 +59,7 @@ class DerpiModel(object):
     pass
 # end class DerpiModel
 
-
 {% for class in classes %}
-
 class {{ class.name }}(DerpiModel):
     """
     A parsed {{ class.name }} response of the Derpibooru API.
@@ -77,7 +75,6 @@ class {{ class.name }}(DerpiModel):
     """ {{ param.description }} """
     {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation(classes) }}{% if param.optional %}, None]{% endif %}
     {% endfor %}
-
     def __init__(
         self, {#
         #}{% for param in class.params %}

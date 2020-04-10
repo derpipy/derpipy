@@ -17,15 +17,10 @@ if __name__ == '__main__':
 # end if
 
 
-
-
-
 class DerpiModel(object):
     """ Base class for all models """
     pass
 # end class DerpiModel
-
-
 
 
 class Intensities(DerpiModel):
@@ -61,7 +56,6 @@ class Intensities(DerpiModel):
     """ Southwest intensity. Whatever that means… """
     sw: float
     
-
     def __init__(
         self, 
         ne: float,
@@ -142,7 +136,6 @@ class Intensities(DerpiModel):
 # end class
 
 
-
 class Representations(DerpiModel):
     """
     A parsed Representations response of the Derpibooru API.
@@ -200,7 +193,6 @@ class Representations(DerpiModel):
     """ A mapping of the 'thumb_tiny' representation names to their respective URLs. """
     thumb_tiny: str
     
-
     def __init__(
         self, 
         full: str,
@@ -299,7 +291,6 @@ class Representations(DerpiModel):
         return self.full == other.full and self.large == other.large and self.medium == other.medium and self.small == other.small and self.tall == other.tall and self.thumb == other.thumb and self.thumb_small == other.thumb_small and self.thumb_tiny == other.thumb_tiny
     # end __eq__
 # end class
-
 
 
 class Image(DerpiModel):
@@ -515,7 +506,6 @@ class Image(DerpiModel):
     """ The lower bound of the Wilson score interval for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%. """
     wilson_score: float
     
-
     def __init__(
         self, 
         aspect_ratio: float,
@@ -746,7 +736,6 @@ class Image(DerpiModel):
 # end class
 
 
-
 class Comment(DerpiModel):
     """
     A parsed Comment response of the Derpibooru API.
@@ -786,7 +775,6 @@ class Comment(DerpiModel):
     """ The ID of the user the comment belongs to, if any. """
     user_id: int
     
-
     def __init__(
         self, 
         author: str,
@@ -872,7 +860,6 @@ class Comment(DerpiModel):
 # end class
 
 
-
 class Forum(DerpiModel):
     """
     A parsed Forum response of the Derpibooru API.
@@ -912,7 +899,6 @@ class Forum(DerpiModel):
     """ The amount of posts in the forum. """
     post_count: int
     
-
     def __init__(
         self, 
         name: str,
@@ -998,7 +984,6 @@ class Forum(DerpiModel):
 # end class
 
 
-
 class Topic(DerpiModel):
     """
     A parsed Topic response of the Derpibooru API.
@@ -1062,7 +1047,6 @@ class Topic(DerpiModel):
     """ The name of the user who made the topic. """
     author: str
     
-
     def __init__(
         self, 
         slug: str,
@@ -1168,7 +1152,6 @@ class Topic(DerpiModel):
 # end class
 
 
-
 class Post(DerpiModel):
     """
     A parsed Post response of the Derpibooru API.
@@ -1202,7 +1185,6 @@ class Post(DerpiModel):
     """ The ID of the user the comment belongs to, if any. """
     user_id: int
     
-
     def __init__(
         self, 
         author: str,
@@ -1281,7 +1263,6 @@ class Post(DerpiModel):
         return self.author == other.author and self.body == other.body and self.id == other.id and self.user_id == other.user_id
     # end __eq__
 # end class
-
 
 
 class Tag(DerpiModel):
@@ -1383,7 +1364,6 @@ class Tag(DerpiModel):
     """ The spoiler image URL for the tag. """
     spoiler_image: str
     
-
     def __init__(
         self, 
         aliased_tag: str,
@@ -1519,7 +1499,6 @@ class Tag(DerpiModel):
 # end class
 
 
-
 class User(DerpiModel):
     """
     A parsed User response of the Derpibooru API.
@@ -1607,7 +1586,6 @@ class User(DerpiModel):
     """ The awards/badges of the user. See `Awards`. """
     awards: Awards
     
-
     def __init__(
         self, 
         id: int,
@@ -1733,7 +1711,6 @@ class User(DerpiModel):
 # end class
 
 
-
 class Filter(DerpiModel):
     """
     A parsed Filter response of the Derpibooru API.
@@ -1809,7 +1786,6 @@ class Filter(DerpiModel):
     """ The complex hidden filter. """
     hidden_complex: str
     
-
     def __init__(
         self, 
         id: int,
@@ -1925,7 +1901,6 @@ class Filter(DerpiModel):
 # end class
 
 
-
 class Links(DerpiModel):
     """
     A parsed Links response of the Derpibooru API.
@@ -1959,7 +1934,6 @@ class Links(DerpiModel):
     """ The ID of an associated tag for this link. Null if no tag linked. """
     tag_id: int
     
-
     def __init__(
         self, 
         user_id: int,
@@ -2040,7 +2014,6 @@ class Links(DerpiModel):
 # end class
 
 
-
 class Awards(DerpiModel):
     """
     A parsed Awards response of the Derpibooru API.
@@ -2080,7 +2053,6 @@ class Awards(DerpiModel):
     """ The time, in UTC, when this award was given. """
     awarded_on: datetime
     
-
     def __init__(
         self, 
         image_url: str,
@@ -2166,7 +2138,6 @@ class Awards(DerpiModel):
 # end class
 
 
-
 class Gallery(DerpiModel):
     """
     A parsed Gallery response of the Derpibooru API.
@@ -2218,7 +2189,6 @@ class Gallery(DerpiModel):
     """ The ID of the gallery's creator. """
     user_id: int
     
-
     def __init__(
         self, 
         description: str,
@@ -2314,7 +2284,6 @@ class Gallery(DerpiModel):
 # end class
 
 
-
 class Oembed(DerpiModel):
     """
     A parsed Oembed response of the Derpibooru API.
@@ -2396,7 +2365,6 @@ class Oembed(DerpiModel):
     """ Always "1.0". """
     version: str
     
-
     def __init__(
         self, 
         author_name: str,
