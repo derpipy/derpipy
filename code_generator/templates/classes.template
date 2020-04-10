@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 __author__ = 'luckydonald'
-__all__ = ['DerpiModel', {% for class in classes %}{{ class.name.__repr__() }}{% if not loop.last %},{% endif -%}{% endfor %}]
+__all__ = ['DerpiModel', {% for class in classes %}{{ class.name.__repr__() }}{% if not loop.last %}, {% endif -%}{% endfor %}]
 
 from luckydonaldUtils.logger import logging
 logger = logging.getLogger(__name__)
