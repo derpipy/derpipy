@@ -115,8 +115,20 @@ class Intensities(DerpiModel):
         arguments['nw'] = data['nw']
         arguments['se'] = data['se']
         arguments['sw'] = data['sw']
+        
+        del data['ne']
+        del data['nw']
+        del data['se']
+        del data['sw']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Intensities], data: Union[Dict, None]) -> Union[Intensities, None]:
@@ -289,8 +301,24 @@ class Representations(DerpiModel):
         arguments['thumb'] = data['thumb']
         arguments['thumb_small'] = data['thumb_small']
         arguments['thumb_tiny'] = data['thumb_tiny']
+        
+        del data['full']
+        del data['large']
+        del data['medium']
+        del data['small']
+        del data['tall']
+        del data['thumb']
+        del data['thumb_small']
+        del data['thumb_tiny']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Representations], data: Union[Dict, None]) -> Union[Representations, None]:
@@ -754,12 +782,12 @@ class Image(DerpiModel):
         arguments['height'] = data['height']
         arguments['hidden_from_users'] = data['hidden_from_users']
         arguments['id'] = data['id']
-        arguments['intensities'] = data['intensities']
+        arguments['intensities'] = Intensities.from_dict(data['intensities']) if 'intensities' in arguments else None
         arguments['mime_type'] = data['mime_type']
         arguments['name'] = data['name']
         arguments['orig_sha512_hash'] = data['orig_sha512_hash']
         arguments['processed'] = data['processed']
-        arguments['representations'] = data['representations']
+        arguments['representations'] = Representations.from_dict(data['representations'])
         arguments['score'] = data['score']
         arguments['sha512_hash'] = data['sha512_hash']
         arguments['source_url'] = data['source_url']
@@ -775,8 +803,50 @@ class Image(DerpiModel):
         arguments['view_url'] = data['view_url']
         arguments['width'] = data['width']
         arguments['wilson_score'] = data['wilson_score']
+        
+        del data['aspect_ratio']
+        del data['comment_count']
+        del data['created_at']
+        del data['deletion_reason']
+        del data['description']
+        del data['downvotes']
+        del data['duplicate_of']
+        del data['faves']
+        del data['first_seen_at']
+        del data['format']
+        del data['height']
+        del data['hidden_from_users']
+        del data['id']
+        del data['intensities']
+        del data['mime_type']
+        del data['name']
+        del data['orig_sha512_hash']
+        del data['processed']
+        del data['representations']
+        del data['score']
+        del data['sha512_hash']
+        del data['source_url']
+        del data['spoilered']
+        del data['tag_count']
+        del data['tag_ids']
+        del data['tags']
+        del data['thumbnails_generated']
+        del data['updated_at']
+        del data['uploader']
+        del data['uploader_id']
+        del data['upvotes']
+        del data['view_url']
+        del data['width']
+        del data['wilson_score']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Image], data: Union[Dict, None]) -> Union[Image, None]:
@@ -913,8 +983,21 @@ class Comment(DerpiModel):
         arguments['id'] = data['id']
         arguments['image_id'] = data['image_id']
         arguments['user_id'] = data['user_id']
+        
+        del data['author']
+        del data['body']
+        del data['id']
+        del data['image_id']
+        del data['user_id']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Comment], data: Union[Dict, None]) -> Union[Comment, None]:
@@ -1051,8 +1134,21 @@ class Forum(DerpiModel):
         arguments['description'] = data['description']
         arguments['topic_count'] = data['topic_count']
         arguments['post_count'] = data['post_count']
+        
+        del data['name']
+        del data['short_name']
+        del data['description']
+        del data['topic_count']
+        del data['post_count']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Forum], data: Union[Dict, None]) -> Union[Forum, None]:
@@ -1237,8 +1333,25 @@ class Topic(DerpiModel):
         arguments['locked'] = data['locked']
         arguments['user_id'] = data['user_id']
         arguments['author'] = data['author']
+        
+        del data['slug']
+        del data['title']
+        del data['post_count']
+        del data['view_count']
+        del data['sticky']
+        del data['last_replied_to_at']
+        del data['locked']
+        del data['user_id']
+        del data['author']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Topic], data: Union[Dict, None]) -> Union[Topic, None]:
@@ -1363,8 +1476,20 @@ class Post(DerpiModel):
         arguments['body'] = data['body']
         arguments['id'] = data['id']
         arguments['user_id'] = data['user_id']
+        
+        del data['author']
+        del data['body']
+        del data['id']
+        del data['user_id']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Post], data: Union[Dict, None]) -> Union[Post, None]:
@@ -1621,8 +1746,31 @@ class Tag(DerpiModel):
         arguments['short_description'] = data['short_description']
         arguments['slug'] = data['slug']
         arguments['spoiler_image'] = data['spoiler_image']
+        
+        del data['aliased_tag']
+        del data['aliases']
+        del data['category']
+        del data['description']
+        del data['dnp_entries']
+        del data['id']
+        del data['images']
+        del data['implied_by_tags']
+        del data['implied_tags']
+        del data['name']
+        del data['name_in_namespace']
+        del data['namespace']
+        del data['short_description']
+        del data['slug']
+        del data['spoiler_image']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Tag], data: Union[Dict, None]) -> Union[Tag, None]:
@@ -1855,8 +2003,29 @@ class User(DerpiModel):
         arguments['topics_count'] = data['topics_count']
         arguments['links'] = data['links']
         arguments['awards'] = data['awards']
+        
+        del data['id']
+        del data['name']
+        del data['slug']
+        del data['role']
+        del data['description']
+        del data['avatar_url']
+        del data['created_at']
+        del data['comments_count']
+        del data['uploads_count']
+        del data['posts_count']
+        del data['topics_count']
+        del data['links']
+        del data['awards']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[User], data: Union[Dict, None]) -> Union[User, None]:
@@ -2065,8 +2234,27 @@ class Filter(DerpiModel):
         arguments['spoilered_complex'] = data['spoilered_complex']
         arguments['hidden_tag_ids'] = data['hidden_tag_ids']
         arguments['hidden_complex'] = data['hidden_complex']
+        
+        del data['id']
+        del data['name']
+        del data['description']
+        del data['user_id']
+        del data['user_count']
+        del data['system']
+        del data['public']
+        del data['spoilered_tag_ids']
+        del data['spoilered_complex']
+        del data['hidden_tag_ids']
+        del data['hidden_complex']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Filter], data: Union[Dict, None]) -> Union[Filter, None]:
@@ -2191,8 +2379,20 @@ class Links(DerpiModel):
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
         arguments['state'] = data['state']
         arguments['tag_id'] = data['tag_id']
+        
+        del data['user_id']
+        del data['created_at']
+        del data['state']
+        del data['tag_id']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Links], data: Union[Dict, None]) -> Union[Links, None]:
@@ -2329,8 +2529,21 @@ class Awards(DerpiModel):
         arguments['id'] = data['id']
         arguments['label'] = data['label']
         arguments['awarded_on'] = iso8601.parse_date(data['awarded_on'])
+        
+        del data['image_url']
+        del data['title']
+        del data['id']
+        del data['label']
+        del data['awarded_on']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Awards], data: Union[Dict, None]) -> Union[Awards, None]:
@@ -2491,8 +2704,23 @@ class Gallery(DerpiModel):
         arguments['title'] = data['title']
         arguments['user'] = data['user']
         arguments['user_id'] = data['user_id']
+        
+        del data['description']
+        del data['id']
+        del data['spoiler_warning']
+        del data['thumbnail_id']
+        del data['title']
+        del data['user']
+        del data['user_id']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Gallery], data: Union[Dict, None]) -> Union[Gallery, None]:
@@ -2713,8 +2941,28 @@ class Oembed(DerpiModel):
         arguments['title'] = data['title']
         arguments['type'] = data['type']
         arguments['version'] = data['version']
+        
+        del data['author_name']
+        del data['author_url']
+        del data['cache_age']
+        del data['derpibooru_comments']
+        del data['derpibooru_id']
+        del data['derpibooru_score']
+        del data['derpibooru_tags']
+        del data['provider_name']
+        del data['provider_url']
+        del data['title']
+        del data['type']
+        del data['version']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[Oembed], data: Union[Dict, None]) -> Union[Oembed, None]:

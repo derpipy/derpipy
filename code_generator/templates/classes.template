@@ -121,12 +121,25 @@ class {{ class.name }}(DerpiModel):
         arguments = super().prepare_dict(data) {# -
         #}{% for param in class.params %}{% if param.type == 'RFC3339 datetime' %}
         arguments[{{ param.name.__repr__() }}] = iso8601.parse_date(data[{{ param.name.__repr__() }}]) {#-
+        #}{% elif param.type == 'Intensities' %}
+        arguments[{{ param.name.__repr__() }}] = Intensities.from_dict(data[{{ param.name.__repr__() }}]) {#-
+        #}{% elif param.type == 'Representations' %}
+        arguments[{{ param.name.__repr__() }}] = Representations.from_dict(data[{{ param.name.__repr__() }}]) {#-
         #}{% else %}
         arguments[{{ param.name.__repr__() }}] = data[{{ param.name.__repr__() }}] {#-
-        #}{% endif %}{% endfor %}{#
-        #}
+        #}{% endif %}{% if param.optional %} if {{ param.name.__repr__() }} in arguments else None{% endif %}{% endfor -%}{#  #}
+        {% for param in class.params %}
+        del data[{{ param.name.__repr__() }}] {#-
+        #}{% endfor %}
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            raise ValueError(
+                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+            )
+        # end if
         return arguments
-    # end def validate_dict
+    # end def prepare_dict
 
     @classmethod
     def from_dict(cls: Type[{{ class.name }}], data: Union[Dict, None]) -> Union[{{ class.name }}, None]:
