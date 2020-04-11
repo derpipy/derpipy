@@ -2,7 +2,7 @@ import json
 import bs4
 import re
 from luckydonaldUtils.logger import logging
-from typing import List
+from typing import List, Dict
 from bs4 import NavigableString
 from models import *
 logging.add_colored_handler(level=logging.DEBUG)
@@ -123,7 +123,7 @@ for element in main.find_all('h2'):
 # end def
 
 
-query_parameters = {}
+query_parameters: Dict[str, Parameter] = {}
 
 element = main.select_one('h2#parameters')
 table = element.find_next('table')
@@ -147,11 +147,23 @@ for row in rows:
 query_parameters['filter_id'].type = 'Integer'
 query_parameters['filter_id'].optional = True
 query_parameters['key'].type = 'String'
+query_parameters['key'].optional = True
 query_parameters['page'].type = 'Integer'
+query_parameters['page'].optional = True
 query_parameters['per_page'].type = 'Integer'
+query_parameters['per_page'].optional = True
 query_parameters['q'].type = 'String'
+query_parameters['q'].optional = False
+query_parameters['q'].api_name = 'q'
+query_parameters['q'].name = 'query'
 query_parameters['sd'].type = 'String'
+query_parameters['sd'].optional = True
+query_parameters['sd'].api_name = 'sd'
+query_parameters['sd'].name = 'sort_direction'
 query_parameters['sf'].type = 'String'
+query_parameters['sf'].optional = True
+query_parameters['sf'].api_name = 'sf'
+query_parameters['sf'].name = 'sort_field'
 query_parameters['url'] = Parameter('url', 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
 query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
 

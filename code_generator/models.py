@@ -48,11 +48,12 @@ class Class(object):
 
 
 class Parameter(object):
-    def __init__(self, name: str, type: str, description: str, optional: bool = False):
+    def __init__(self, name: str, type: str, description: str, optional: bool = False, api_name: Union[str, None] = None):
         self.name = name
         self.type = type
         self.description = description
         self.optional = optional
+        self.api_name = name if not api_name else api_name
     # end def
 
     TYPE_MAP = {
