@@ -263,7 +263,7 @@ for row in rows:
     logger.debug(f'type_mock: {type_mock!r}')
     if type_mock != {}:  # e.g. only the Oembed
         assert isinstance(type_mock, dict)
-        keys = type_mock.keys()
+        keys = list(type_mock.keys())
         logger.debug(f'type_mock keys: {keys!r}')
         has_total = False
         if "total" in keys:
