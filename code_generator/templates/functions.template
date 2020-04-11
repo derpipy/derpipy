@@ -85,8 +85,8 @@ def {{ route.name }}( {#-
     :return: The parsed result from the API.
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
     """
-    url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
-    response: internet.Response = DerpiClient.request({{route.method.__repr__()}}, url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+    _url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
+    response: internet.Response = DerpiClient.request({{route.method.__repr__()}}, _url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
          #}{% for param in route.allowed_query_parameters if not param.optional %}
         {{ param.name.__repr__() }}: {{ param.name }},
         {%- endfor %}{% for param in route.allowed_query_parameters if param.optional %}
