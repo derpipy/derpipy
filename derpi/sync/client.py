@@ -357,6 +357,7 @@ def search_comments(
     The API should return json looking like `{"comments":[Comment]}` which will then be parsed to the python result `List[Comment]`.
     
     :param query: The current search query, if the request is a search request.
+                  Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
@@ -372,7 +373,7 @@ def search_comments(
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/comments'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'query': query,
+        'q': query,
         'key': key,
         'page': page,
     })
@@ -402,6 +403,7 @@ def search_galleries(
     The API should return json looking like `{"galleries":[Gallery]}` which will then be parsed to the python result `List[Gallery]`.
     
     :param query: The current search query, if the request is a search request.
+                  Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
@@ -417,7 +419,7 @@ def search_galleries(
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/galleries'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'query': query,
+        'q': query,
         'key': key,
         'page': page,
     })
@@ -447,6 +449,7 @@ def search_posts(
     The API should return json looking like `{"posts":[Post]}` which will then be parsed to the python result `List[Post]`.
     
     :param query: The current search query, if the request is a search request.
+                  Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
@@ -462,7 +465,7 @@ def search_posts(
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/posts'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'query': query,
+        'q': query,
         'key': key,
         'page': page,
     })
@@ -496,6 +499,7 @@ def search_images(
     The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
     
     :param query: The current search query, if the request is a search request.
+                  Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
@@ -513,9 +517,11 @@ def search_images(
     :type  per_page: int|None
     
     :param sort_direction: The current sort direction, if the request is a search request.
+                           Note, on derpibooru's side this parameter is called `sd`.
     :type  sort_direction: str|None
     
     :param sort_field: The current sort field, if the request is a search request.
+                       Note, on derpibooru's side this parameter is called `sf`.
     :type  sort_field: str|None
     
     :return: The parsed result from the API.
@@ -523,13 +529,13 @@ def search_images(
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/images'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'query': query,
+        'q': query,
         'key': key,
         'filter_id': filter_id,
         'page': page,
         'per_page': per_page,
-        'sort_direction': sort_direction,
-        'sort_field': sort_field,
+        'sd': sort_direction,
+        'sf': sort_field,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
@@ -556,6 +562,7 @@ def search_tags(
     The API should return json looking like `{"tags":[Tag]}` which will then be parsed to the python result `List[Tag]`.
     
     :param query: The current search query, if the request is a search request.
+                  Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
@@ -566,7 +573,7 @@ def search_tags(
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/tags'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'query': query,
+        'q': query,
         'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
