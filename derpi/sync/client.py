@@ -633,7 +633,7 @@ def search_reverse(
 
 
 def forums(
-) -> Forum:
+) -> List[Forum]:
     """
     Fetches a list of **forum responses**.
 
@@ -641,17 +641,20 @@ def forums(
     It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
     which would for example look like this: https://derpibooru.org/api/v1/json/forums
 
-    The API should return json looking like `{"forums":Forum}` which will then be parsed to the python result `Forum`.
+    The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
     
     :return: The parsed result from the API.
-    :rtype:  Forum
+    :rtype:  List[Forum]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/forums'
     response: internet.Response = DerpiClient.request('GET', _url)
-    result: Dict[str, Dict] = response.json()
-    result: Dict = result['forums']
-    assert_type_or_raise(result, dict, parameter_name='result')
-    result: Forum = Forum.from_dict(result)
+    result: Dict[str, List[Dict]] = response.json()
+    result: List[Dict] = result['forums']
+    assert_type_or_raise(result, list, parameter_name='result')
+    result: List[Forum] = [
+        Forum.from_dict(item)
+        for item in result
+    ]
     return result
 # end def forums
 
@@ -1367,7 +1370,7 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def forums(
         self, 
-    ) -> Forum:
+    ) -> List[Forum]:
         """
         Fetches a list of **forum responses**.
 
@@ -1375,10 +1378,10 @@ class DerpiClient(object):
         It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
         which would for example look like this: https://derpibooru.org/api/v1/json/forums
 
-        The API should return json looking like `{"forums":Forum}` which will then be parsed to the python result `Forum`.
+        The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
         
         :return: The parsed result from the API.
-        :rtype:  Forum
+        :rtype:  List[Forum]
         """
         return forums(
         )
