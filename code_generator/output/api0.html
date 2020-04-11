@@ -141,15 +141,15 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/comments</code></td>
-        <td><code>key, page</code></td>
-        <td>Executes the search given by the <code>q</code> query parameter, and returns <em>comment responses</em> sorted by descending creation time.</td>
+        <td><code>key, page, q</code></td>
+        <td>Executes the search given by the <code>q</code> query parameter (case insensitive and stemming is applied. If you search for <em>best pony</em> results like <em>Best Ponies</em> are also be returned), and returns <em>comment responses</em> sorted by descending creation time.</td>
         <td><code>{"comments":[<a href="#comment-response">comment-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/comments?q=image_id:1000000"><code>/api/v1/json/search/comments?q=image_id:1000000</code></a></td>
       </tr>
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/galleries</code></td>
-        <td><code>key, page</code></td>
+        <td><code>key, page, q</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>gallery responses</em> sorted by descending creation time.</td>
         <td><code>{"galleries":[<a href="#gallery-response">gallery-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/galleries?q=title:mean*"><code>/api/v1/json/search/galleries?q=title:mean*</code></a></td>
@@ -157,7 +157,7 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/posts</code></td>
-        <td><code>key, page</code></td>
+        <td><code>key, page, q</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>post responses</em> sorted by descending creation time.</td>
         <td><code>{"posts":[<a href="#post-response">post-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/posts?q=subject:time wasting thread"><code>/api/v1/json/search/posts?q=subject:time wasting thread</code></a></td>
@@ -173,7 +173,7 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/tags</code></td>
-        <td><code>page</code></td>
+        <td><code>page, q</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>tag responses</em> sorted by descending image count.</td>
         <td><code>{"tags":[<a href="#tag-response">tag-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/tags?q=analyzed_name:wing"><code>/api/v1/json/search/tags?q=analyzed_name:wing</code></a></td>
