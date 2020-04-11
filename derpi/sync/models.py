@@ -827,7 +827,7 @@ class Image(DerpiModel):
         del data['height']
         del data['hidden_from_users']
         del data['id']
-        if data.get('intensities', None) is not None:
+        if 'intensities' in data:
             del data['intensities']
         # end if
         del data['mime_type']
