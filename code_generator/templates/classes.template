@@ -133,10 +133,11 @@ class {{ class.name }}(DerpiModel):
         arguments[{{ param.name.__repr__() }}] = Representations.from_dict(data[{{ param.name.__repr__() }}]) {#-
         #}{% else %}
         arguments[{{ param.name.__repr__() }}] = data[{{ param.name.__repr__() }}] {#-
-        #}{% endif %}{% if param.optional %} if {{ param.name.__repr__() }} in arguments else None{% endif %}{% endfor -%}{#  #}
+        #}{% endif %}{% if param.optional %} if {{ param.name.__repr__() }} in data else None{% endif %}{% endfor -%}{#  #}
         {% for param in class.params %}
-        del data[{{ param.name.__repr__() }}] {#-
-        #}{% endfor %}
+        {% if param.optional %}if {{ param.name.__repr__() }} in data:
+            {% endif %}del data[{{ param.name.__repr__() }}]{% if param.optional %}
+        # end if{% endif %}{% endfor %}
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')

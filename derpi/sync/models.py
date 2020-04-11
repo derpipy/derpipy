@@ -786,7 +786,7 @@ class Image(DerpiModel):
         arguments['height'] = data['height']
         arguments['hidden_from_users'] = data['hidden_from_users']
         arguments['id'] = data['id']
-        arguments['intensities'] = Intensities.from_dict(data['intensities']) if 'intensities' in arguments else None
+        arguments['intensities'] = Intensities.from_dict(data['intensities']) if 'intensities' in data else None
         arguments['mime_type'] = data['mime_type']
         arguments['name'] = data['name']
         arguments['orig_sha512_hash'] = data['orig_sha512_hash']
@@ -821,7 +821,9 @@ class Image(DerpiModel):
         del data['height']
         del data['hidden_from_users']
         del data['id']
-        del data['intensities']
+        if 'intensities' in data:
+            del data['intensities']
+        # end if
         del data['mime_type']
         del data['name']
         del data['orig_sha512_hash']
