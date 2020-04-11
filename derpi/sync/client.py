@@ -124,7 +124,7 @@ def tag(
     tag_id: str,
 ) -> Tag:
     """
-    Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
+    Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
 
     A request will be sent to the following endpoint: `/api/v1/json/tags/:tag_id`
     It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
@@ -940,7 +940,7 @@ class DerpiClient(object):
         tag_id: str,
     ) -> Tag:
         """
-        Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
+        Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
 
         A request will be sent to the following endpoint: `/api/v1/json/tags/:tag_id`
         It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
