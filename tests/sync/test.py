@@ -8,7 +8,7 @@ null = None    # jSoN
 false = False  # JsOn
 true = True    # JsoN
 
-DerpiModel._assert_consuming_all_params = False
+DerpiModel._assert_consuming_all_params = True
 
 
 def cloudflare_blocked_request(
