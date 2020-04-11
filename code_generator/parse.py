@@ -8,7 +8,7 @@ from models import *
 logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-FILE = 'api'
+FILE = 'api0'
 with open(f'./output/{FILE}.html', 'r') as f:
     html = f.read()
 # end with
