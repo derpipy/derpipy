@@ -241,7 +241,7 @@ def filter(
 
 
 def system_filters(
-    page: int,
+    page: Union[int, None] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -252,8 +252,8 @@ def system_filters(
 
     The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
@@ -274,8 +274,8 @@ def system_filters(
 
 
 def user_filters(
-    page: int,
     key: Union[str, None] = None,
+    page: Union[int, None] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -286,21 +286,21 @@ def user_filters(
 
     The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
-    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/filters/user'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
         'key': key,
+        'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['filters']
@@ -343,11 +343,12 @@ def oembed(
 
 
 def search_comments(
-    page: int,
+    q: str,
     key: Union[str, None] = None,
+    page: Union[int, None] = None,
 ) -> List[Comment]:
     """
-    Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
+    Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
 
     A request will be sent to the following endpoint: `/api/v1/json/search/comments`
     It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
@@ -355,21 +356,25 @@ def search_comments(
 
     The API should return json looking like `{"comments":[Comment]}` which will then be parsed to the python result `List[Comment]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param q: The current search query, if the request is a search request.
+    :type  q: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Comment]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/comments'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
+        'q': q,
         'key': key,
+        'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['comments']
@@ -383,8 +388,9 @@ def search_comments(
 
 
 def search_galleries(
-    page: int,
+    q: str,
     key: Union[str, None] = None,
+    page: Union[int, None] = None,
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -395,21 +401,25 @@ def search_galleries(
 
     The API should return json looking like `{"galleries":[Gallery]}` which will then be parsed to the python result `List[Gallery]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param q: The current search query, if the request is a search request.
+    :type  q: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Gallery]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/galleries'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
+        'q': q,
         'key': key,
+        'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['galleries']
@@ -423,8 +433,9 @@ def search_galleries(
 
 
 def search_posts(
-    page: int,
+    q: str,
     key: Union[str, None] = None,
+    page: Union[int, None] = None,
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -435,21 +446,25 @@ def search_posts(
 
     The API should return json looking like `{"posts":[Post]}` which will then be parsed to the python result `List[Post]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param q: The current search query, if the request is a search request.
+    :type  q: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Post]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/posts'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
+        'q': q,
         'key': key,
+        'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['posts']
@@ -463,13 +478,13 @@ def search_posts(
 
 
 def search_images(
-    page: int,
-    per_page: int,
     q: str,
-    sd: str,
-    sf: str,
     key: Union[str, None] = None,
     filter_id: Union[int, None] = None,
+    page: Union[int, None] = None,
+    per_page: Union[int, None] = None,
+    sd: Union[str, None] = None,
+    sf: Union[str, None] = None,
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -480,20 +495,8 @@ def search_images(
 
     The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
-    
-    :param per_page: Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
-    :type  per_page: int
-    
     :param q: The current search query, if the request is a search request.
     :type  q: str
-    
-    :param sd: The current sort direction, if the request is a search request.
-    :type  sd: str
-    
-    :param sf: The current sort field, if the request is a search request.
-    :type  sf: str
     
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
@@ -503,18 +506,30 @@ def search_images(
     :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
     :type  filter_id: int|None
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
+    :param per_page: Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
+    :type  per_page: int|None
+    
+    :param sd: The current sort direction, if the request is a search request.
+    :type  sd: str|None
+    
+    :param sf: The current sort field, if the request is a search request.
+    :type  sf: str|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Image]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/images'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
-        'per_page': per_page,
         'q': q,
-        'sd': sd,
-        'sf': sf,
         'key': key,
         'filter_id': filter_id,
+        'page': page,
+        'per_page': per_page,
+        'sd': sd,
+        'sf': sf,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
@@ -528,7 +543,8 @@ def search_images(
 
 
 def search_tags(
-    page: int,
+    q: str,
+    page: Union[int, None] = None,
 ) -> List[Tag]:
     """
     Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -539,14 +555,18 @@ def search_tags(
 
     The API should return json looking like `{"tags":[Tag]}` which will then be parsed to the python result `List[Tag]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param q: The current search query, if the request is a search request.
+    :type  q: str
+    
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Tag]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/tags'
     response: internet.Response = DerpiClient.request('GET', _url, params={
+        'q': q,
         'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
@@ -659,7 +679,7 @@ def forum(
 
 def forum_topics(
     short_name: str,
-    page: int,
+    page: Union[int, None] = None,
 ) -> Topic:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -673,8 +693,8 @@ def forum_topics(
     :param short_name: the variable short_name part of the url.
     :type  short_name: str
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  Topic
@@ -726,7 +746,7 @@ def forum_topic(
 def forum_posts(
     short_name: str,
     topic_slug: str,
-    page: int,
+    page: Union[int, None] = None,
 ) -> Post:
     """
     Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -743,8 +763,8 @@ def forum_posts(
     :param topic_slug: the variable topic_slug part of the url.
     :type  topic_slug: str
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-    :type  page: int
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  Post
@@ -1011,7 +1031,7 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def system_filters(
         self, 
-        page: int,
+        page: Union[int, None] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -1022,8 +1042,8 @@ class DerpiClient(object):
 
         The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Filter]
@@ -1036,7 +1056,7 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def user_filters(
         self, 
-        page: int,
+        page: Union[int, None] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -1047,15 +1067,15 @@ class DerpiClient(object):
 
         The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
         return user_filters(
-            page=page,
             key=self.__key,
+            page=page,
         )
     # end def user_filters
     
@@ -1087,10 +1107,11 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def search_comments(
         self, 
-        page: int,
+        q: str,
+        page: Union[int, None] = None,
     ) -> List[Comment]:
         """
-        Executes the search given by the `q` query parameter, and returns **comment responses** sorted by descending creation time.
+        Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
 
         A request will be sent to the following endpoint: `/api/v1/json/search/comments`
         It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
@@ -1098,22 +1119,27 @@ class DerpiClient(object):
 
         The API should return json looking like `{"comments":[Comment]}` which will then be parsed to the python result `List[Comment]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param q: The current search query, if the request is a search request.
+        :type  q: str
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Comment]
         """
         return search_comments(
-            page=page,
+            q=q,
             key=self.__key,
+            page=page,
         )
     # end def search_comments
     
     # noinspection PyMethodMayBeStatic
     def search_galleries(
         self, 
-        page: int,
+        q: str,
+        page: Union[int, None] = None,
     ) -> List[Gallery]:
         """
         Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -1124,22 +1150,27 @@ class DerpiClient(object):
 
         The API should return json looking like `{"galleries":[Gallery]}` which will then be parsed to the python result `List[Gallery]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param q: The current search query, if the request is a search request.
+        :type  q: str
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Gallery]
         """
         return search_galleries(
-            page=page,
+            q=q,
             key=self.__key,
+            page=page,
         )
     # end def search_galleries
     
     # noinspection PyMethodMayBeStatic
     def search_posts(
         self, 
-        page: int,
+        q: str,
+        page: Union[int, None] = None,
     ) -> List[Post]:
         """
         Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -1150,27 +1181,31 @@ class DerpiClient(object):
 
         The API should return json looking like `{"posts":[Post]}` which will then be parsed to the python result `List[Post]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param q: The current search query, if the request is a search request.
+        :type  q: str
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Post]
         """
         return search_posts(
-            page=page,
+            q=q,
             key=self.__key,
+            page=page,
         )
     # end def search_posts
     
     # noinspection PyMethodMayBeStatic
     def search_images(
         self, 
-        page: int,
-        per_page: int,
         q: str,
-        sd: str,
-        sf: str,
         filter_id: Union[int, None] = None,
+        page: Union[int, None] = None,
+        per_page: Union[int, None] = None,
+        sd: Union[str, None] = None,
+        sf: Union[str, None] = None,
     ) -> List[Image]:
         """
         Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -1181,42 +1216,43 @@ class DerpiClient(object):
 
         The API should return json looking like `{"images":[Image]}` which will then be parsed to the python result `List[Image]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
-        
-        :param per_page: Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
-        :type  per_page: int
-        
         :param q: The current search query, if the request is a search request.
         :type  q: str
         
-        :param sd: The current sort direction, if the request is a search request.
-        :type  sd: str
-        
-        :param sf: The current sort field, if the request is a search request.
-        :type  sf: str
-        
         :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
         :type  filter_id: int|None
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
+        
+        :param per_page: Controls the number of results per page, up to a limit of 50, if the response is paginated. The default is 25.
+        :type  per_page: int|None
+        
+        :param sd: The current sort direction, if the request is a search request.
+        :type  sd: str|None
+        
+        :param sf: The current sort field, if the request is a search request.
+        :type  sf: str|None
         
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
         return search_images(
-            page=page,
-            per_page=per_page,
             q=q,
-            sd=sd,
-            sf=sf,
             key=self.__key,
             filter_id=filter_id,
+            page=page,
+            per_page=per_page,
+            sd=sd,
+            sf=sf,
         )
     # end def search_images
     
     # noinspection PyMethodMayBeStatic
     def search_tags(
         self, 
-        page: int,
+        q: str,
+        page: Union[int, None] = None,
     ) -> List[Tag]:
         """
         Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -1227,13 +1263,17 @@ class DerpiClient(object):
 
         The API should return json looking like `{"tags":[Tag]}` which will then be parsed to the python result `List[Tag]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param q: The current search query, if the request is a search request.
+        :type  q: str
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Tag]
         """
         return search_tags(
+            q=q,
             page=page,
         )
     # end def search_tags
@@ -1318,7 +1358,7 @@ class DerpiClient(object):
     def forum_topics(
         self, 
         short_name: str,
-        page: int,
+        page: Union[int, None] = None,
     ) -> Topic:
         """
         Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -1332,8 +1372,8 @@ class DerpiClient(object):
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  Topic
@@ -1379,7 +1419,7 @@ class DerpiClient(object):
         self, 
         short_name: str,
         topic_slug: str,
-        page: int,
+        page: Union[int, None] = None,
     ) -> Post:
         """
         Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1396,8 +1436,8 @@ class DerpiClient(object):
         :param topic_slug: the variable topic_slug part of the url.
         :type  topic_slug: str
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page.
-        :type  page: int
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  Post
