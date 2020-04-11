@@ -83,7 +83,7 @@ class Parameter(object):
     # end def
 
     def __str__(self):
-        return f"{self.__class__.__name__}(name={self.name!r}, type={self.type!r}, description={self.description!r}, optional={self.optional!r})"
+        return f"{self.__class__.__name__}(name={self.name!r}, type={self.type!r}, description={self.description!r}, optional={self.optional!r}, api_name={self.api_name!r})"
     # end def
 
     __repr__ = __str__
