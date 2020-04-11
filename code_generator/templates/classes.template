@@ -133,9 +133,9 @@ class {{ class.name }}(DerpiModel):
         arguments[{{ param.name.__repr__() }}] = Representations.from_dict(data[{{ param.name.__repr__() }}]) {#-
         #}{% else %}
         arguments[{{ param.name.__repr__() }}] = data[{{ param.name.__repr__() }}] {#-
-        #}{% endif %}{% if param.optional %} if {{ param.name.__repr__() }} in data else None{% endif %}{% endfor -%}{#  #}
+        #}{% endif %}{% if param.optional %} if data.get({{ param.name.__repr__() }}, None) is not None else None{% endif %}{% endfor -%}{#  #}
         {% for param in class.params %}
-        {% if param.optional %}if {{ param.name.__repr__() }} in data:
+        {% if param.optional %}if data.get({{ param.name.__repr__() }}, None) is not None:
             {% endif %}del data[{{ param.name.__repr__() }}]{% if param.optional %}
         # end if{% endif %}{% endfor %}
 
