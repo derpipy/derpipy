@@ -108,6 +108,36 @@ class OnlineTest(unittest.TestCase):
             self.assertTrue(self._contains_best_pony(gallery.title) or self._contains_best_pony(gallery.description), f'should contain "best pony" or similar in gallery title or description: {gallery.title!r} and {gallery.description}')
         # end for
     # end def
+
+    def test_search_posts(self):
+        search_posts = client.search_posts(page=1, q='best pony')
+        self.assertIsInstance(search_posts, list)
+        for post in search_posts:
+            self.assertIsInstance(post, Post)
+            self.assertTrue(self._contains_best_pony(post.body), f'should contain "best pony" or similar in post body: {post.body!r}')
+        # end for
+    # end def
+
+    def test_search_images(self):
+        items = 2
+        search_images = client.search_images(page=1, q='littlepip', per_page=items)
+        self.assertIsInstance(search_images, list)
+        self.assertEquals(len(search_images), items)
+        for image in search_images:
+            self.assertIsInstance(image, Image)
+            self.assertIn('oc:littlepip', image.tags)
+        # end for
+    # end def
+
+    def test_search_tags(self):
+        search_tags = client.search_tags(page=1, q='littlepip')
+        self.assertIsInstance(search_tags, list)
+        self.assertTrue(search_tags)
+        for tag in search_tags:
+            self.assertIsInstance(tag, Tag)
+            self.assertIn('littlepip', tag.name)
+        # end for
+    # end def
 # end class
 
 
