@@ -589,8 +589,8 @@ def search_tags(
 
 def search_reverse(
     url: str,
-    distance: float,
     key: Union[str, None] = None,
+    distance: Union[float, None] = None,
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -604,13 +604,13 @@ def search_reverse(
     :param url: Link a deviantART page, a Tumblr post, or the image directly.
     :type  url: str
     
-    :param distance: Match distance (suggested values: between 0.2 and 0.5).
-    :type  distance: float
-    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param distance: Match distance (suggested values: between 0.2 and 0.5).
+    :type  distance: float|None
     
     :return: The parsed result from the API.
     :rtype:  List[Image]
@@ -618,8 +618,8 @@ def search_reverse(
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/reverse'
     response: internet.Response = DerpiClient.request('POST', _url, params={
         'url': url,
-        'distance': distance,
         'key': key,
+        'distance': distance,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
@@ -1289,7 +1289,7 @@ class DerpiClient(object):
     def search_reverse(
         self, 
         url: str,
-        distance: float,
+        distance: Union[float, None] = None,
     ) -> List[Image]:
         """
         Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -1304,15 +1304,15 @@ class DerpiClient(object):
         :type  url: str
         
         :param distance: Match distance (suggested values: between 0.2 and 0.5).
-        :type  distance: float
+        :type  distance: float|None
         
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
         return search_reverse(
             url=url,
-            distance=distance,
             key=self.__key,
+            distance=distance,
         )
     # end def search_reverse
     

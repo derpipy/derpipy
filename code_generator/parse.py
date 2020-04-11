@@ -165,7 +165,7 @@ query_parameters['sf'].optional = True
 query_parameters['sf'].api_name = 'sf'
 query_parameters['sf'].name = 'sort_field'
 query_parameters['url'] = Parameter('url', 'String', 'Link a deviantART page, a Tumblr post, or the image directly.')
-query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).')
+query_parameters['distance'] = Parameter('distance', 'Float', 'Match distance (suggested values: between 0.2 and 0.5).', optional=True)
 
 logger.debug(f'query_parameters: {query_parameters!r}')
 
