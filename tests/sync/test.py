@@ -160,6 +160,15 @@ class OnlineTest(unittest.TestCase):
             self.assertIn('littlepip', tag.name)
         # end for
     # end def
+
+    def test_search_reverse(self):
+        search_reverse = client.search_reverse(url='https://derpicdn.net/img/view/2016/2/3/1079240.png')
+        self.assertIsInstance(search_reverse, list)
+        self.assertTrue(search_reverse)
+        self.assertEqual(len(search_reverse), 1, 'should have exactly 1 result')
+        self.assertIsInstance(search_reverse[0], Image)
+        self.assertEqual(search_reverse[0].id, 1079240)
+    # end def
 # end class
 
 
