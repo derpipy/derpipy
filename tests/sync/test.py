@@ -2,7 +2,7 @@ import unittest
 import iso8601
 import datetime
 from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter, \
-    Oembed, Links, Awards, Gallery, Forum
+    Oembed, Links, Awards, Gallery, Forum, Topic
 
 null = None    # jSoN
 false = False  # JsOn
@@ -177,6 +177,45 @@ class OnlineTest(unittest.TestCase):
         for forum in forums:
             self.assertIsInstance(forum, Forum)
         # end for
+    # end def
+
+    def test_forum(self):
+        forum = client.forum('rp')
+        self.assertIsInstance(forum, Forum)
+        self.assertEqual(forum.short_name, 'rp')
+        self.assertTrue(forum)
+    # end def
+
+    def test_forum_topics(self):
+        forum_topics = client.forum_topics('art')
+        self.assertIsInstance(forum_topics, list)
+        self.assertTrue(forum_topics)
+        for forum_topic in forum_topics:
+            self.assertIsInstance(forum_topic, Topic)
+        # end for
+    # end def
+
+    def test_forum_topic(self):
+        forum_topic = client.forum_topic('art', 'featured-image')
+        self.assertIsInstance(forum_topic, Topic)
+        self.assertEqual(forum_topic.slug, 'featured-image')
+        self.assertTrue(forum_topic)
+    # end def
+
+    def test_forum_posts(self):
+        forum_posts = client.forum_posts('generals', 'time-wasting-thread-30-sfw-no-explicitgrimdark', page=4458)
+        self.assertIsInstance(forum_posts, list)
+        self.assertTrue(forum_posts)
+        for forum_post in forum_posts:
+            self.assertIsInstance(forum_post, Post)
+        # end for
+    # end def
+
+    def test_forum_post(self):
+        forum_post = client.forum_post('art', 'featured-image', 4758123)
+        self.assertIsInstance(forum_post, Post)
+        self.assertEqual(forum_post.id, 4758123)
+        self.assertTrue(forum_post)
     # end def
 # end class
 
@@ -416,6 +455,12 @@ class OfflineTest(unittest.TestCase):
         forum = Forum.from_dict({"description":"Discuss art of any form, and share techniques and tips","name":"Art Chat","post_count":55603,"short_name":"art","topic_count":1737})
         expected = Forum(name='Art Chat', short_name='art', description='Discuss art of any form, and share techniques and tips', topic_count=1737, post_count=55603)
         self.assertEqual(forum, expected)
+    # end def
+
+    def test_topic(self):
+        cls = Topic.from_dict({'topic': {'author': 'dracone', 'last_replied_to_at': '2020-03-22T20:20:02Z', 'locked': False, 'post_count': 3, 'slug': 'a-lack-of-images', 'sticky': False, 'title': 'A lack of images', 'user_id': 363222, 'view_count': 0}}['topic'])
+        expected =  Topic(slug='a-lack-of-images', title='A lack of images', post_count=3, view_count=0, sticky=False, last_replied_to_at=datetime.datetime(2020, 3, 22, 20, 20, 2, tzinfo=datetime.timezone.utc), locked=False, user_id=363222, author='dracone')
+        self.assertEqual(cls, expected)
     # end def
 
     def est_cls(self):
