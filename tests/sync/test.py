@@ -11,6 +11,28 @@ true = True    # JsoN
 DerpiModel._assert_consuming_all_params = False
 
 
+def cloudflare_blocked_request(
+    cls, method, url, params=None
+):
+    from derpi.sync.client import internet
+    response: internet.Response = internet.request(
+        method=method, url=url, params=params,
+        cookies={
+            "_philomena_key": "…",
+            "__cfduid": "…",
+            "cf_clearance": "…",
+            "_ses": "…",
+        }, headers={
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
+        }
+    )
+    cls._check_response(response)
+    return response
+# end def
+
+# end def
+client.DerpiClient.request = classmethod(cloudflare_blocked_request)
+
 class OnlineTest(unittest.TestCase):
     def test_comment(self):
         comment = client.comment(8927783)
