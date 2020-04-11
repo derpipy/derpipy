@@ -1,7 +1,7 @@
 import unittest
 import iso8601
 import datetime
-from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User
+from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter
 
 null = None    # jSoN
 false = False  # JsOn
@@ -44,6 +44,11 @@ class OnlineTest(unittest.TestCase):
     def test_user(self):
         user = client.user(264159)
         self.assertIsInstance(user, User)
+    # end def
+
+    def test_filter(self):
+        filter = client.filter(179331)
+        self.assertIsInstance(filter, Filter)
     # end def
 # end class
 
@@ -223,6 +228,26 @@ class OfflineTest(unittest.TestCase):
         }['user'])
         expected = User(id=264159, name='luckydonald', slug='luckydonald', role='user', description=None, avatar_url='https://derpicdn.net/avatars/2013/5/2/6960000e0c80e94df370222.png', created_at=datetime.datetime(2013, 5, 2, 16, 7, 3, tzinfo=datetime.timezone.utc), comments_count=10, uploads_count=12, posts_count=3, topics_count=0, links=[{'created_at': '2018-05-02T20:42:44', 'state': 'verified', 'tag_id': 53157, 'user_id': 264159}, {'created_at': '2018-05-02T20:33:00', 'state': 'verified', 'tag_id': 53157, 'user_id': 264159}], awards=[{'awarded_on': '2018-05-02T20:35:09Z', 'id': 27, 'image_url': 'https://derpicdn.net/media/2016/8/23/540676fb2fd6546ee45a1c1.svg', 'label': None, 'title': 'Artist'}])
         self.assertEqual(user, expected)
+    # emd def
+
+    def test_filter(self):
+        filter = Filter.from_dict({
+          "filter": {
+            "description": "Displays only images of Waifu horse.\r\n\r\nID: 179331",
+            "hidden_complex": "score.lte:100\r\n-littlepip",
+            "hidden_tag_ids": [115234, 26911],
+            "id": 179331,
+            "name": "Best Pony",
+            "public": true,
+            "spoilered_complex": null,
+            "spoilered_tag_ids": [26707],
+            "system": false,
+            "user_count": 0,
+            "user_id": 264159
+          }
+        }['filter'])
+        expected = Filter(id=179331, name='Best Pony', description='Displays only images of Waifu horse.\r\n\r\nID: 179331', user_id=264159, user_count=0, system=False, public=True, spoilered_tag_ids=[26707], spoilered_complex=None, hidden_tag_ids=[115234, 26911], hidden_complex='score.lte:100\r\n-littlepip')
+        self.assertEqual(filter, expected)
     # emd def
 
     def est_cls(self):
