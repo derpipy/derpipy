@@ -1,7 +1,7 @@
 import unittest
 import iso8601
 import datetime
-from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post
+from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User
 
 null = None    # jSoN
 false = False  # JsOn
@@ -39,6 +39,11 @@ class OnlineTest(unittest.TestCase):
     def test_post(self):
         post = client.post(4704912)
         self.assertIsInstance(post, Post)
+    # end def
+
+    def test_user(self):
+        user = client.user(264159)
+        self.assertIsInstance(user, User)
     # end def
 # end class
 
@@ -177,8 +182,51 @@ class OfflineTest(unittest.TestCase):
         self.assertEqual(post, expected)
     # end def
 
-    def tst(self):
-        cls = Cls.from_dict({})
+    def test_user(self):
+        user = User.from_dict({
+          "user": {
+            "avatar_url": "https://derpicdn.net/avatars/2013/5/2/6960000e0c80e94df370222.png",
+            "awards": [
+              {
+                "awarded_on": "2018-05-02T20:35:09Z",
+                "id": 27,
+                "image_url": "https://derpicdn.net/media/2016/8/23/540676fb2fd6546ee45a1c1.svg",
+                "label": null,
+                "title": "Artist"
+              }
+            ],
+            "comments_count": 10,
+            "created_at": "2013-05-02T16:07:03",
+            "description": null,
+            "id": 264159,
+            "links": [
+              {
+                "created_at": "2018-05-02T20:42:44",
+                "state": "verified",
+                "tag_id": 53157,
+                "user_id": 264159
+              },
+              {
+                "created_at": "2018-05-02T20:33:00",
+                "state": "verified",
+                "tag_id": 53157,
+                "user_id": 264159
+              }
+            ],
+            "name": "luckydonald",
+            "posts_count": 3,
+            "role": "user",
+            "slug": "luckydonald",
+            "topics_count": 0,
+            "uploads_count": 12
+          }
+        }['user'])
+        expected = User(id=264159, name='luckydonald', slug='luckydonald', role='user', description=None, avatar_url='https://derpicdn.net/avatars/2013/5/2/6960000e0c80e94df370222.png', created_at=datetime.datetime(2013, 5, 2, 16, 7, 3, tzinfo=datetime.timezone.utc), comments_count=10, uploads_count=12, posts_count=3, topics_count=0, links=[{'created_at': '2018-05-02T20:42:44', 'state': 'verified', 'tag_id': 53157, 'user_id': 264159}, {'created_at': '2018-05-02T20:33:00', 'state': 'verified', 'tag_id': 53157, 'user_id': 264159}], awards=[{'awarded_on': '2018-05-02T20:35:09Z', 'id': 27, 'image_url': 'https://derpicdn.net/media/2016/8/23/540676fb2fd6546ee45a1c1.svg', 'label': None, 'title': 'Artist'}])
+        self.assertEqual(user, expected)
+    # emd def
+
+    def est_cls(self):
+        cls = Cls.from_dict({}['cls'])
         expected = Cls()
         self.assertEqual(cls, expected)
     # emd def
