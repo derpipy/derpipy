@@ -4,7 +4,7 @@ from __future__ import annotations
 import iso8601
 
 from datetime import datetime
-from typing import Union, List, Dict, Type
+from typing import Union, List, Dict, Type, TypeVar, Generic
 
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.typing import JSONType
@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
+
+T = TypeVar('T')
 
 
 class DerpiModel(object):
