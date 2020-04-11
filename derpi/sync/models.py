@@ -12,7 +12,7 @@ from luckydonaldUtils.exceptions import assert_type_or_raise
 
 
 __author__ = 'luckydonald'
-__all__ = ['DerpiModel', 'SearchResult', 'Image', 'Representations', 'Intensities', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
+__all__ = ['DerpiModel', 'Intensities', 'Representations', 'Image', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -42,52 +42,74 @@ class DerpiModel(object):
 # end class DerpiModel
 
 
-class SearchResult(DerpiModel, Generic[T]):
+class Intensities(DerpiModel):
     """
-    A parsed SearchResult response of the Derpibooru API.
+    A parsed Intensities response of the Derpibooru API.
     Yes, a better description should be here.
 
     
-    :param hits: List of results
-    :type  hits: List[T]
+    :param ne: Northeast intensity. Whatever that means…
+    :type  ne: float
     
-    :param total: Total amount of results, e.g. for pagination.
-    :type  total: int
+    :param nw: Northwest intensity. Whatever that means…
+    :type  nw: float
+    
+    :param se: Southeast intensity. Whatever that means…
+    :type  se: float
+    
+    :param sw: Southwest intensity. Whatever that means…
+    :type  sw: float
     
     """
 
     
-    """ List of results """
-    hits: List[T]
+    """ Northeast intensity. Whatever that means… """
+    ne: float
     
-    """ Total amount of results, e.g. for pagination. """
-    total: int
+    """ Northwest intensity. Whatever that means… """
+    nw: float
+    
+    """ Southeast intensity. Whatever that means… """
+    se: float
+    
+    """ Southwest intensity. Whatever that means… """
+    sw: float
     
     def __init__(
         self, 
-        hits: List[T],
-        total: int,
+        ne: float,
+        nw: float,
+        se: float,
+        sw: float,
     ):
         """
-        A parsed SearchResult response of the Derpibooru API.
+        A parsed Intensities response of the Derpibooru API.
         Yes, a better description should be here.
 
         
-        :param hits: List of results
-        :type  hits: List[T]
+        :param ne: Northeast intensity. Whatever that means…
+        :type  ne: float
         
-        :param total: Total amount of results, e.g. for pagination.
-        :type  total: int
+        :param nw: Northwest intensity. Whatever that means…
+        :type  nw: float
+        
+        :param se: Southeast intensity. Whatever that means…
+        :type  se: float
+        
+        :param sw: Southwest intensity. Whatever that means…
+        :type  sw: float
         
         """
-        self.hits = hits
-        self.total = total
+        self.ne = ne
+        self.nw = nw
+        self.se = se
+        self.sw = sw
     # end def __init__
 
     @classmethod
-    def prepare_dict(cls: Type[SearchResult], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+    def prepare_dict(cls: Type[Intensities], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
         """
-        Builds a new dict with valid values for the SearchResult constructor.
+        Builds a new dict with valid values for the Intensities constructor.
 
         :return: new dict with valid values
         :rtype: dict
@@ -95,11 +117,15 @@ class SearchResult(DerpiModel, Generic[T]):
         assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
-        arguments['hits'] = List[T].from_dict(data['hits'])
-        arguments['total'] = data['total']
+        arguments['ne'] = data['ne']
+        arguments['nw'] = data['nw']
+        arguments['se'] = data['se']
+        arguments['sw'] = data['sw']
         
-        del data['hits']
-        del data['total']
+        del data['ne']
+        del data['nw']
+        del data['se']
+        del data['sw']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -113,12 +139,12 @@ class SearchResult(DerpiModel, Generic[T]):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[SearchResult], data: Union[Dict, None, List[Dict]]) -> Union[SearchResult, None]:
+    def from_dict(cls: Type[Intensities], data: Union[Dict, None, List[Dict]]) -> Union[Intensities, None]:
         """
-        Deserialize a new SearchResult from a given dictionary.
+        Deserialize a new Intensities from a given dictionary.
 
-        :return: new SearchResult instance.
-        :rtype: SearchResult|None
+        :return: new Intensities instance.
+        :rtype: Intensities|None
         """
         if not data:  # None or {}
             return None
@@ -128,34 +154,230 @@ class SearchResult(DerpiModel, Generic[T]):
         # end if
 
         data: Dict = cls.prepare_dict(data)
-        instance: SearchResult = cls(**data)
+        instance: Intensities = cls(**data)
         instance._raw = data
         return instance
     # end def from_dict
 
     def __str__(self):
         """
-        Implements `str(searchresult_instance)`
+        Implements `str(intensities_instance)`
         """
-        return "{s.__class__.__name__}(hits={s.hits!r}, total={s.total!r})".format(s=self)
+        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
         """
-        Implements `repr(searchresult_instance)`
+        Implements `repr(intensities_instance)`
         """
         
-        return "{s.__class__.__name__}(hits={s.hits!r}, total={s.total!r})".format(s=self)
+        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
-        Implements equality check, i.e. `searchresult_instance_a == searchresult_instance_b`
+        Implements equality check, i.e. `intensities_instance_a == intensities_instance_b`
         """
-        if not (hasattr(other, 'hits') and hasattr(other, 'total')):
+        if not (hasattr(other, 'ne') and hasattr(other, 'nw') and hasattr(other, 'se') and hasattr(other, 'sw')):
             return False
         # end if
-        return self.hits == other.hits and self.total == other.total
+        return self.ne == other.ne and self.nw == other.nw and self.se == other.se and self.sw == other.sw
+    # end __eq__
+# end class
+
+
+class Representations(DerpiModel):
+    """
+    A parsed Representations response of the Derpibooru API.
+    Yes, a better description should be here.
+
+    
+    :param full: A mapping of the 'full' representation names to their respective URLs.
+    :type  full: str
+    
+    :param large: A mapping of the 'large' representation names to their respective URLs.
+    :type  large: str
+    
+    :param medium: A mapping of the 'medium' representation names to their respective URLs.
+    :type  medium: str
+    
+    :param small: A mapping of the 'small' representation names to their respective URLs.
+    :type  small: str
+    
+    :param tall: A mapping of the 'tall' representation names to their respective URLs.
+    :type  tall: str
+    
+    :param thumb: A mapping of the 'thumb' representation names to their respective URLs.
+    :type  thumb: str
+    
+    :param thumb_small: A mapping of the 'thumb_small' representation names to their respective URLs.
+    :type  thumb_small: str
+    
+    :param thumb_tiny: A mapping of the 'thumb_tiny' representation names to their respective URLs.
+    :type  thumb_tiny: str
+    
+    """
+
+    
+    """ A mapping of the 'full' representation names to their respective URLs. """
+    full: str
+    
+    """ A mapping of the 'large' representation names to their respective URLs. """
+    large: str
+    
+    """ A mapping of the 'medium' representation names to their respective URLs. """
+    medium: str
+    
+    """ A mapping of the 'small' representation names to their respective URLs. """
+    small: str
+    
+    """ A mapping of the 'tall' representation names to their respective URLs. """
+    tall: str
+    
+    """ A mapping of the 'thumb' representation names to their respective URLs. """
+    thumb: str
+    
+    """ A mapping of the 'thumb_small' representation names to their respective URLs. """
+    thumb_small: str
+    
+    """ A mapping of the 'thumb_tiny' representation names to their respective URLs. """
+    thumb_tiny: str
+    
+    def __init__(
+        self, 
+        full: str,
+        large: str,
+        medium: str,
+        small: str,
+        tall: str,
+        thumb: str,
+        thumb_small: str,
+        thumb_tiny: str,
+    ):
+        """
+        A parsed Representations response of the Derpibooru API.
+        Yes, a better description should be here.
+
+        
+        :param full: A mapping of the 'full' representation names to their respective URLs.
+        :type  full: str
+        
+        :param large: A mapping of the 'large' representation names to their respective URLs.
+        :type  large: str
+        
+        :param medium: A mapping of the 'medium' representation names to their respective URLs.
+        :type  medium: str
+        
+        :param small: A mapping of the 'small' representation names to their respective URLs.
+        :type  small: str
+        
+        :param tall: A mapping of the 'tall' representation names to their respective URLs.
+        :type  tall: str
+        
+        :param thumb: A mapping of the 'thumb' representation names to their respective URLs.
+        :type  thumb: str
+        
+        :param thumb_small: A mapping of the 'thumb_small' representation names to their respective URLs.
+        :type  thumb_small: str
+        
+        :param thumb_tiny: A mapping of the 'thumb_tiny' representation names to their respective URLs.
+        :type  thumb_tiny: str
+        
+        """
+        self.full = full
+        self.large = large
+        self.medium = medium
+        self.small = small
+        self.tall = tall
+        self.thumb = thumb
+        self.thumb_small = thumb_small
+        self.thumb_tiny = thumb_tiny
+    # end def __init__
+
+    @classmethod
+    def prepare_dict(cls: Type[Representations], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Representations constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="data")
+
+        arguments = super().prepare_dict(data) 
+        arguments['full'] = data['full']
+        arguments['large'] = data['large']
+        arguments['medium'] = data['medium']
+        arguments['small'] = data['small']
+        arguments['tall'] = data['tall']
+        arguments['thumb'] = data['thumb']
+        arguments['thumb_small'] = data['thumb_small']
+        arguments['thumb_tiny'] = data['thumb_tiny']
+        
+        del data['full']
+        del data['large']
+        del data['medium']
+        del data['small']
+        del data['tall']
+        del data['thumb']
+        del data['thumb_small']
+        del data['thumb_tiny']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
+        # end if
+        return arguments
+    # end def prepare_dict
+
+    @classmethod
+    def from_dict(cls: Type[Representations], data: Union[Dict, None, List[Dict]]) -> Union[Representations, None]:
+        """
+        Deserialize a new Representations from a given dictionary.
+
+        :return: new Representations instance.
+        :rtype: Representations|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
+        # end if
+
+        data: Dict = cls.prepare_dict(data)
+        instance: Representations = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(representations_instance)`
+        """
+        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(representations_instance)`
+        """
+        
+        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r})".format(s=self)
+    # end def __repr__
+
+    def __eq__(self, other):
+        """
+        Implements equality check, i.e. `representations_instance_a == representations_instance_b`
+        """
+        if not (hasattr(other, 'full') and hasattr(other, 'large') and hasattr(other, 'medium') and hasattr(other, 'small') and hasattr(other, 'tall') and hasattr(other, 'thumb') and hasattr(other, 'thumb_small') and hasattr(other, 'thumb_tiny')):
+            return False
+        # end if
+        return self.full == other.full and self.large == other.large and self.medium == other.medium and self.small == other.small and self.tall == other.tall and self.thumb == other.thumb and self.thumb_small == other.thumb_small and self.thumb_tiny == other.thumb_tiny
     # end __eq__
 # end class
 
@@ -696,376 +918,6 @@ class Image(DerpiModel):
 # end class
 
 
-class Representations(DerpiModel):
-    """
-    A parsed Representations response of the Derpibooru API.
-    Yes, a better description should be here.
-
-    
-    :param full: The url to the image in original resolution.
-    :type  full: str
-    
-    :param large: The url to the image in large resolution.
-    :type  large: str
-    
-    :param medium: The url to the image in medium resolution.
-    :type  medium: str
-    
-    :param small: The url to the image in small resolution.
-    :type  small: str
-    
-    :param tall: The url to the image in tall resolution.
-    :type  tall: str
-    
-    :param thumb: The url to the image thumbnail in normal resolution.
-    :type  thumb: str
-    
-    :param thumb_small: The url to the image thumbnail in small resolution.
-    :type  thumb_small: str
-    
-    :param thumb_tiny: The url to the image thumbnail in tiny resolution.
-    :type  thumb_tiny: str
-    
-    :param mp4: Optional. The url to the animated image as mp4 format.
-    :type  mp4: str|None
-    
-    :param webm: Optional. The url to the animated image as webm format.
-    :type  webm: str|None
-    
-    """
-
-    
-    """ The url to the image in original resolution. """
-    full: str
-    
-    """ The url to the image in large resolution. """
-    large: str
-    
-    """ The url to the image in medium resolution. """
-    medium: str
-    
-    """ The url to the image in small resolution. """
-    small: str
-    
-    """ The url to the image in tall resolution. """
-    tall: str
-    
-    """ The url to the image thumbnail in normal resolution. """
-    thumb: str
-    
-    """ The url to the image thumbnail in small resolution. """
-    thumb_small: str
-    
-    """ The url to the image thumbnail in tiny resolution. """
-    thumb_tiny: str
-    
-    """ Optional. The url to the animated image as mp4 format. """
-    mp4: Union[str, None]
-    
-    """ Optional. The url to the animated image as webm format. """
-    webm: Union[str, None]
-    
-    def __init__(
-        self, 
-        full: str,
-        large: str,
-        medium: str,
-        small: str,
-        tall: str,
-        thumb: str,
-        thumb_small: str,
-        thumb_tiny: str,
-        mp4: Union[str, None] = None,
-        webm: Union[str, None] = None,
-    ):
-        """
-        A parsed Representations response of the Derpibooru API.
-        Yes, a better description should be here.
-
-        
-        :param full: The url to the image in original resolution.
-        :type  full: str
-        
-        :param large: The url to the image in large resolution.
-        :type  large: str
-        
-        :param medium: The url to the image in medium resolution.
-        :type  medium: str
-        
-        :param small: The url to the image in small resolution.
-        :type  small: str
-        
-        :param tall: The url to the image in tall resolution.
-        :type  tall: str
-        
-        :param thumb: The url to the image thumbnail in normal resolution.
-        :type  thumb: str
-        
-        :param thumb_small: The url to the image thumbnail in small resolution.
-        :type  thumb_small: str
-        
-        :param thumb_tiny: The url to the image thumbnail in tiny resolution.
-        :type  thumb_tiny: str
-        
-        :param mp4: Optional. The url to the animated image as mp4 format.
-        :type  mp4: str|None
-        
-        :param webm: Optional. The url to the animated image as webm format.
-        :type  webm: str|None
-        
-        """
-        self.full = full
-        self.large = large
-        self.medium = medium
-        self.small = small
-        self.tall = tall
-        self.thumb = thumb
-        self.thumb_small = thumb_small
-        self.thumb_tiny = thumb_tiny
-        self.mp4 = mp4
-        self.webm = webm
-    # end def __init__
-
-    @classmethod
-    def prepare_dict(cls: Type[Representations], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        """
-        Builds a new dict with valid values for the Representations constructor.
-
-        :return: new dict with valid values
-        :rtype: dict
-        """
-        assert_type_or_raise(data, dict, parameter_name="data")
-
-        arguments = super().prepare_dict(data) 
-        arguments['full'] = data['full']
-        arguments['large'] = data['large']
-        arguments['medium'] = data['medium']
-        arguments['small'] = data['small']
-        arguments['tall'] = data['tall']
-        arguments['thumb'] = data['thumb']
-        arguments['thumb_small'] = data['thumb_small']
-        arguments['thumb_tiny'] = data['thumb_tiny']
-        arguments['mp4'] = data['mp4'] if data.get('mp4', None) is not None else None
-        arguments['webm'] = data['webm'] if data.get('webm', None) is not None else None
-        
-        del data['full']
-        del data['large']
-        del data['medium']
-        del data['small']
-        del data['tall']
-        del data['thumb']
-        del data['thumb_small']
-        del data['thumb_tiny']
-        if 'mp4' in data:
-            del data['mp4']
-        # end if
-        if 'webm' in data:
-            del data['webm']
-        # end if
-
-        if data:
-            logger.warning(f'still got leftover data: {data!r}')
-            if cls._assert_consuming_all_params:
-                raise ValueError(
-                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-                )
-            # end if
-        # end if
-        return arguments
-    # end def prepare_dict
-
-    @classmethod
-    def from_dict(cls: Type[Representations], data: Union[Dict, None, List[Dict]]) -> Union[Representations, None]:
-        """
-        Deserialize a new Representations from a given dictionary.
-
-        :return: new Representations instance.
-        :rtype: Representations|None
-        """
-        if not data:  # None or {}
-            return None
-        # end if
-        if isinstance(data, list):
-            return [cls.from_dict(item) for item in data]
-        # end if
-
-        data: Dict = cls.prepare_dict(data)
-        instance: Representations = cls(**data)
-        instance._raw = data
-        return instance
-    # end def from_dict
-
-    def __str__(self):
-        """
-        Implements `str(representations_instance)`
-        """
-        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r}, mp4={s.mp4!r}, webm={s.webm!r})".format(s=self)
-    # end def __str__
-
-    def __repr__(self):
-        """
-        Implements `repr(representations_instance)`
-        """
-        
-        return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r}, mp4={s.mp4!r}, webm={s.webm!r})".format(s=self)
-    # end def __repr__
-
-    def __eq__(self, other):
-        """
-        Implements equality check, i.e. `representations_instance_a == representations_instance_b`
-        """
-        if not (hasattr(other, 'full') and hasattr(other, 'large') and hasattr(other, 'medium') and hasattr(other, 'small') and hasattr(other, 'tall') and hasattr(other, 'thumb') and hasattr(other, 'thumb_small') and hasattr(other, 'thumb_tiny') and hasattr(other, 'mp4') and hasattr(other, 'webm')):
-            return False
-        # end if
-        return self.full == other.full and self.large == other.large and self.medium == other.medium and self.small == other.small and self.tall == other.tall and self.thumb == other.thumb and self.thumb_small == other.thumb_small and self.thumb_tiny == other.thumb_tiny and self.mp4 == other.mp4 and self.webm == other.webm
-    # end __eq__
-# end class
-
-
-class Intensities(DerpiModel):
-    """
-    A parsed Intensities response of the Derpibooru API.
-    Yes, a better description should be here.
-
-    
-    :param ne: Northeast intensity. Whatever that means…
-    :type  ne: float
-    
-    :param nw: Northwest intensity. Whatever that means…
-    :type  nw: float
-    
-    :param se: Southeast intensity. Whatever that means…
-    :type  se: float
-    
-    :param sw: Southwest intensity. Whatever that means…
-    :type  sw: float
-    
-    """
-
-    
-    """ Northeast intensity. Whatever that means… """
-    ne: float
-    
-    """ Northwest intensity. Whatever that means… """
-    nw: float
-    
-    """ Southeast intensity. Whatever that means… """
-    se: float
-    
-    """ Southwest intensity. Whatever that means… """
-    sw: float
-    
-    def __init__(
-        self, 
-        ne: float,
-        nw: float,
-        se: float,
-        sw: float,
-    ):
-        """
-        A parsed Intensities response of the Derpibooru API.
-        Yes, a better description should be here.
-
-        
-        :param ne: Northeast intensity. Whatever that means…
-        :type  ne: float
-        
-        :param nw: Northwest intensity. Whatever that means…
-        :type  nw: float
-        
-        :param se: Southeast intensity. Whatever that means…
-        :type  se: float
-        
-        :param sw: Southwest intensity. Whatever that means…
-        :type  sw: float
-        
-        """
-        self.ne = ne
-        self.nw = nw
-        self.se = se
-        self.sw = sw
-    # end def __init__
-
-    @classmethod
-    def prepare_dict(cls: Type[Intensities], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
-        """
-        Builds a new dict with valid values for the Intensities constructor.
-
-        :return: new dict with valid values
-        :rtype: dict
-        """
-        assert_type_or_raise(data, dict, parameter_name="data")
-
-        arguments = super().prepare_dict(data) 
-        arguments['ne'] = data['ne']
-        arguments['nw'] = data['nw']
-        arguments['se'] = data['se']
-        arguments['sw'] = data['sw']
-        
-        del data['ne']
-        del data['nw']
-        del data['se']
-        del data['sw']
-
-        if data:
-            logger.warning(f'still got leftover data: {data!r}')
-            if cls._assert_consuming_all_params:
-                raise ValueError(
-                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-                )
-            # end if
-        # end if
-        return arguments
-    # end def prepare_dict
-
-    @classmethod
-    def from_dict(cls: Type[Intensities], data: Union[Dict, None, List[Dict]]) -> Union[Intensities, None]:
-        """
-        Deserialize a new Intensities from a given dictionary.
-
-        :return: new Intensities instance.
-        :rtype: Intensities|None
-        """
-        if not data:  # None or {}
-            return None
-        # end if
-        if isinstance(data, list):
-            return [cls.from_dict(item) for item in data]
-        # end if
-
-        data: Dict = cls.prepare_dict(data)
-        instance: Intensities = cls(**data)
-        instance._raw = data
-        return instance
-    # end def from_dict
-
-    def __str__(self):
-        """
-        Implements `str(intensities_instance)`
-        """
-        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
-    # end def __str__
-
-    def __repr__(self):
-        """
-        Implements `repr(intensities_instance)`
-        """
-        
-        return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
-    # end def __repr__
-
-    def __eq__(self, other):
-        """
-        Implements equality check, i.e. `intensities_instance_a == intensities_instance_b`
-        """
-        if not (hasattr(other, 'ne') and hasattr(other, 'nw') and hasattr(other, 'se') and hasattr(other, 'sw')):
-            return False
-        # end if
-        return self.ne == other.ne and self.nw == other.nw and self.se == other.se and self.sw == other.sw
-    # end __eq__
-# end class
-
-
 class Comment(DerpiModel):
     """
     A parsed Comment response of the Derpibooru API.
@@ -1075,29 +927,14 @@ class Comment(DerpiModel):
     :param author: The comment's author.
     :type  author: str
     
-    :param avatar: The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-    :type  avatar: str
-    
     :param body: The comment text.
     :type  body: str
     
     :param id: The comment's ID.
     :type  id: int
     
-    :param created_at: The creation time, in UTC, of this comment.
-    :type  created_at: datetime
-    
     :param image_id: The ID of the image the comment belongs to.
     :type  image_id: int
-    
-    :param edit_reason: Optional. The user provided reason for an edit, if any.
-    :type  edit_reason: str|None
-    
-    :param edited_at: Optional. The edit time, in UTC, of this comment.
-    :type  edited_at: datetime|None
-    
-    :param updated_at: The time, in UTC, the comment was last updated.
-    :type  updated_at: datetime
     
     :param user_id: The ID of the user the comment belongs to, if any.
     :type  user_id: int
@@ -1108,29 +945,14 @@ class Comment(DerpiModel):
     """ The comment's author. """
     author: str
     
-    """ The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`. """
-    avatar: str
-    
     """ The comment text. """
     body: str
     
     """ The comment's ID. """
     id: int
     
-    """ The creation time, in UTC, of this comment. """
-    created_at: datetime
-    
     """ The ID of the image the comment belongs to. """
     image_id: int
-    
-    """ Optional. The user provided reason for an edit, if any. """
-    edit_reason: Union[str, None]
-    
-    """ Optional. The edit time, in UTC, of this comment. """
-    edited_at: Union[datetime, None]
-    
-    """ The time, in UTC, the comment was last updated. """
-    updated_at: datetime
     
     """ The ID of the user the comment belongs to, if any. """
     user_id: int
@@ -1138,15 +960,10 @@ class Comment(DerpiModel):
     def __init__(
         self, 
         author: str,
-        avatar: str,
         body: str,
         id: int,
-        created_at: datetime,
         image_id: int,
-        updated_at: datetime,
         user_id: int,
-        edit_reason: Union[str, None] = None,
-        edited_at: Union[datetime, None] = None,
     ):
         """
         A parsed Comment response of the Derpibooru API.
@@ -1156,43 +973,23 @@ class Comment(DerpiModel):
         :param author: The comment's author.
         :type  author: str
         
-        :param avatar: The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-        :type  avatar: str
-        
         :param body: The comment text.
         :type  body: str
         
         :param id: The comment's ID.
         :type  id: int
         
-        :param created_at: The creation time, in UTC, of this comment.
-        :type  created_at: datetime
-        
         :param image_id: The ID of the image the comment belongs to.
         :type  image_id: int
-        
-        :param edit_reason: Optional. The user provided reason for an edit, if any.
-        :type  edit_reason: str|None
-        
-        :param edited_at: Optional. The edit time, in UTC, of this comment.
-        :type  edited_at: datetime|None
-        
-        :param updated_at: The time, in UTC, the comment was last updated.
-        :type  updated_at: datetime
         
         :param user_id: The ID of the user the comment belongs to, if any.
         :type  user_id: int
         
         """
         self.author = author
-        self.avatar = avatar
         self.body = body
         self.id = id
-        self.created_at = created_at
         self.image_id = image_id
-        self.edit_reason = edit_reason
-        self.edited_at = edited_at
-        self.updated_at = updated_at
         self.user_id = user_id
     # end def __init__
 
@@ -1208,29 +1005,15 @@ class Comment(DerpiModel):
 
         arguments = super().prepare_dict(data) 
         arguments['author'] = data['author']
-        arguments['avatar'] = data['avatar']
         arguments['body'] = data['body']
         arguments['id'] = data['id']
-        arguments['created_at'] = iso8601.parse_date(data['created_at'])
         arguments['image_id'] = data['image_id']
-        arguments['edit_reason'] = data['edit_reason'] if data.get('edit_reason', None) is not None else None
-        arguments['edited_at'] = iso8601.parse_date(data['edited_at']) if data.get('edited_at', None) is not None else None
-        arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
         arguments['user_id'] = data['user_id']
         
         del data['author']
-        del data['avatar']
         del data['body']
         del data['id']
-        del data['created_at']
         del data['image_id']
-        if 'edit_reason' in data:
-            del data['edit_reason']
-        # end if
-        if 'edited_at' in data:
-            del data['edited_at']
-        # end if
-        del data['updated_at']
         del data['user_id']
 
         if data:
@@ -1269,7 +1052,7 @@ class Comment(DerpiModel):
         """
         Implements `str(comment_instance)`
         """
-        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, id={s.id!r}, created_at={s.created_at!r}, image_id={s.image_id!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, image_id={s.image_id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -1277,17 +1060,17 @@ class Comment(DerpiModel):
         Implements `repr(comment_instance)`
         """
         
-        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, id={s.id!r}, created_at={s.created_at!r}, image_id={s.image_id!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, image_id={s.image_id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `comment_instance_a == comment_instance_b`
         """
-        if not (hasattr(other, 'author') and hasattr(other, 'avatar') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'created_at') and hasattr(other, 'image_id') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'updated_at') and hasattr(other, 'user_id')):
+        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'image_id') and hasattr(other, 'user_id')):
             return False
         # end if
-        return self.author == other.author and self.avatar == other.avatar and self.body == other.body and self.id == other.id and self.created_at == other.created_at and self.image_id == other.image_id and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.updated_at == other.updated_at and self.user_id == other.user_id
+        return self.author == other.author and self.body == other.body and self.id == other.id and self.image_id == other.image_id and self.user_id == other.user_id
     # end __eq__
 # end class
 
@@ -1676,21 +1459,6 @@ class Post(DerpiModel):
     :param user_id: The ID of the user the comment belongs to, if any.
     :type  user_id: int
     
-    :param avatar: The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-    :type  avatar: str
-    
-    :param created_at: The creation time, in UTC, of this post.
-    :type  created_at: datetime
-    
-    :param edit_reason: Optional. The user provided reason for an edit, if given.
-    :type  edit_reason: str|None
-    
-    :param edited_at: Optional. The edit time, in UTC, of this post. If it got edited.
-    :type  edited_at: datetime|None
-    
-    :param updated_at: The time, in UTC, the post was last updated.
-    :type  updated_at: datetime
-    
     """
 
     
@@ -1706,32 +1474,12 @@ class Post(DerpiModel):
     """ The ID of the user the comment belongs to, if any. """
     user_id: int
     
-    """ The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`. """
-    avatar: str
-    
-    """ The creation time, in UTC, of this post. """
-    created_at: datetime
-    
-    """ Optional. The user provided reason for an edit, if given. """
-    edit_reason: Union[str, None]
-    
-    """ Optional. The edit time, in UTC, of this post. If it got edited. """
-    edited_at: Union[datetime, None]
-    
-    """ The time, in UTC, the post was last updated. """
-    updated_at: datetime
-    
     def __init__(
         self, 
         author: str,
         body: str,
         id: int,
         user_id: int,
-        avatar: str,
-        created_at: datetime,
-        updated_at: datetime,
-        edit_reason: Union[str, None] = None,
-        edited_at: Union[datetime, None] = None,
     ):
         """
         A parsed Post response of the Derpibooru API.
@@ -1750,31 +1498,11 @@ class Post(DerpiModel):
         :param user_id: The ID of the user the comment belongs to, if any.
         :type  user_id: int
         
-        :param avatar: The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-        :type  avatar: str
-        
-        :param created_at: The creation time, in UTC, of this post.
-        :type  created_at: datetime
-        
-        :param edit_reason: Optional. The user provided reason for an edit, if given.
-        :type  edit_reason: str|None
-        
-        :param edited_at: Optional. The edit time, in UTC, of this post. If it got edited.
-        :type  edited_at: datetime|None
-        
-        :param updated_at: The time, in UTC, the post was last updated.
-        :type  updated_at: datetime
-        
         """
         self.author = author
         self.body = body
         self.id = id
         self.user_id = user_id
-        self.avatar = avatar
-        self.created_at = created_at
-        self.edit_reason = edit_reason
-        self.edited_at = edited_at
-        self.updated_at = updated_at
     # end def __init__
 
     @classmethod
@@ -1792,25 +1520,11 @@ class Post(DerpiModel):
         arguments['body'] = data['body']
         arguments['id'] = data['id']
         arguments['user_id'] = data['user_id']
-        arguments['avatar'] = data['avatar']
-        arguments['created_at'] = iso8601.parse_date(data['created_at'])
-        arguments['edit_reason'] = data['edit_reason'] if data.get('edit_reason', None) is not None else None
-        arguments['edited_at'] = iso8601.parse_date(data['edited_at']) if data.get('edited_at', None) is not None else None
-        arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
         
         del data['author']
         del data['body']
         del data['id']
         del data['user_id']
-        del data['avatar']
-        del data['created_at']
-        if 'edit_reason' in data:
-            del data['edit_reason']
-        # end if
-        if 'edited_at' in data:
-            del data['edited_at']
-        # end if
-        del data['updated_at']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -1848,7 +1562,7 @@ class Post(DerpiModel):
         """
         Implements `str(post_instance)`
         """
-        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r}, avatar={s.avatar!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -1856,17 +1570,17 @@ class Post(DerpiModel):
         Implements `repr(post_instance)`
         """
         
-        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r}, avatar={s.avatar!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `post_instance_a == post_instance_b`
         """
-        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'user_id') and hasattr(other, 'avatar') and hasattr(other, 'created_at') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'updated_at')):
+        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'user_id')):
             return False
         # end if
-        return self.author == other.author and self.body == other.body and self.id == other.id and self.user_id == other.user_id and self.avatar == other.avatar and self.created_at == other.created_at and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.updated_at == other.updated_at
+        return self.author == other.author and self.body == other.body and self.id == other.id and self.user_id == other.user_id
     # end __eq__
 # end class
 
@@ -1919,11 +1633,8 @@ class Tag(DerpiModel):
     :param slug: The slug for the tag.
     :type  slug: str
     
-    :param spoiler_image: Optional. The spoiler image URL for the tag.
-    :type  spoiler_image: str|None
-    
-    :param spoiler_image_uri: Optional. The spoiler image URL for the tag.
-    :type  spoiler_image_uri: str|None
+    :param spoiler_image: The spoiler image URL for the tag.
+    :type  spoiler_image: str
     
     """
 
@@ -1970,11 +1681,8 @@ class Tag(DerpiModel):
     """ The slug for the tag. """
     slug: str
     
-    """ Optional. The spoiler image URL for the tag. """
-    spoiler_image: Union[str, None]
-    
-    """ Optional. The spoiler image URL for the tag. """
-    spoiler_image_uri: Union[str, None]
+    """ The spoiler image URL for the tag. """
+    spoiler_image: str
     
     def __init__(
         self, 
@@ -1992,8 +1700,7 @@ class Tag(DerpiModel):
         namespace: str,
         short_description: str,
         slug: str,
-        spoiler_image: Union[str, None] = None,
-        spoiler_image_uri: Union[str, None] = None,
+        spoiler_image: str,
     ):
         """
         A parsed Tag response of the Derpibooru API.
@@ -2042,11 +1749,8 @@ class Tag(DerpiModel):
         :param slug: The slug for the tag.
         :type  slug: str
         
-        :param spoiler_image: Optional. The spoiler image URL for the tag.
-        :type  spoiler_image: str|None
-        
-        :param spoiler_image_uri: Optional. The spoiler image URL for the tag.
-        :type  spoiler_image_uri: str|None
+        :param spoiler_image: The spoiler image URL for the tag.
+        :type  spoiler_image: str
         
         """
         self.aliased_tag = aliased_tag
@@ -2064,7 +1768,6 @@ class Tag(DerpiModel):
         self.short_description = short_description
         self.slug = slug
         self.spoiler_image = spoiler_image
-        self.spoiler_image_uri = spoiler_image_uri
     # end def __init__
 
     @classmethod
@@ -2092,8 +1795,7 @@ class Tag(DerpiModel):
         arguments['namespace'] = data['namespace']
         arguments['short_description'] = data['short_description']
         arguments['slug'] = data['slug']
-        arguments['spoiler_image'] = data['spoiler_image'] if data.get('spoiler_image', None) is not None else None
-        arguments['spoiler_image_uri'] = data['spoiler_image_uri'] if data.get('spoiler_image_uri', None) is not None else None
+        arguments['spoiler_image'] = data['spoiler_image']
         
         del data['aliased_tag']
         del data['aliases']
@@ -2109,12 +1811,7 @@ class Tag(DerpiModel):
         del data['namespace']
         del data['short_description']
         del data['slug']
-        if 'spoiler_image' in data:
-            del data['spoiler_image']
-        # end if
-        if 'spoiler_image_uri' in data:
-            del data['spoiler_image_uri']
-        # end if
+        del data['spoiler_image']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -2152,7 +1849,7 @@ class Tag(DerpiModel):
         """
         Implements `str(tag_instance)`
         """
-        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -2160,17 +1857,17 @@ class Tag(DerpiModel):
         Implements `repr(tag_instance)`
         """
         
-        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `tag_instance_a == tag_instance_b`
         """
-        if not (hasattr(other, 'aliased_tag') and hasattr(other, 'aliases') and hasattr(other, 'category') and hasattr(other, 'description') and hasattr(other, 'dnp_entries') and hasattr(other, 'id') and hasattr(other, 'images') and hasattr(other, 'implied_by_tags') and hasattr(other, 'implied_tags') and hasattr(other, 'name') and hasattr(other, 'name_in_namespace') and hasattr(other, 'namespace') and hasattr(other, 'short_description') and hasattr(other, 'slug') and hasattr(other, 'spoiler_image') and hasattr(other, 'spoiler_image_uri')):
+        if not (hasattr(other, 'aliased_tag') and hasattr(other, 'aliases') and hasattr(other, 'category') and hasattr(other, 'description') and hasattr(other, 'dnp_entries') and hasattr(other, 'id') and hasattr(other, 'images') and hasattr(other, 'implied_by_tags') and hasattr(other, 'implied_tags') and hasattr(other, 'name') and hasattr(other, 'name_in_namespace') and hasattr(other, 'namespace') and hasattr(other, 'short_description') and hasattr(other, 'slug') and hasattr(other, 'spoiler_image')):
             return False
         # end if
-        return self.aliased_tag == other.aliased_tag and self.aliases == other.aliases and self.category == other.category and self.description == other.description and self.dnp_entries == other.dnp_entries and self.id == other.id and self.images == other.images and self.implied_by_tags == other.implied_by_tags and self.implied_tags == other.implied_tags and self.name == other.name and self.name_in_namespace == other.name_in_namespace and self.namespace == other.namespace and self.short_description == other.short_description and self.slug == other.slug and self.spoiler_image == other.spoiler_image and self.spoiler_image_uri == other.spoiler_image_uri
+        return self.aliased_tag == other.aliased_tag and self.aliases == other.aliases and self.category == other.category and self.description == other.description and self.dnp_entries == other.dnp_entries and self.id == other.id and self.images == other.images and self.implied_by_tags == other.implied_by_tags and self.implied_tags == other.implied_tags and self.name == other.name and self.name_in_namespace == other.name_in_namespace and self.namespace == other.namespace and self.short_description == other.short_description and self.slug == other.slug and self.spoiler_image == other.spoiler_image
     # end __eq__
 # end class
 
