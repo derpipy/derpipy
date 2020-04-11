@@ -8,6 +8,8 @@ from jinja2.loaders import FileSystemLoader
 from luckydonaldUtils.files.basics import mkdir_p
 from luckydonaldUtils.logger import logging
 
+from output.api import routes, classes
+
 __author__ = 'luckydonald'
 
 logger = logging.getLogger(__name__)
@@ -37,8 +39,6 @@ def get_template(file_name):
         raise e
     # end with
 # end def get_template
-
-from output.api import routes, classes
 
 init_template = get_template("init.template")
 classes_template = get_template("classes.template")
