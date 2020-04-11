@@ -592,7 +592,6 @@ class Image(DerpiModel):
         height: int,
         hidden_from_users: bool,
         id: int,
-        intensities: Intensities,
         mime_type: str,
         name: str,
         orig_sha512_hash: str,
@@ -613,6 +612,7 @@ class Image(DerpiModel):
         view_url: str,
         width: int,
         wilson_score: float,
+        intensities: Union[Intensities, None] = None,
     ):
         """
         A parsed Image response of the Derpibooru API.

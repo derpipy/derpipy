@@ -90,9 +90,11 @@ class {{ class.name }}(DerpiModel):
     {% endfor %}
     def __init__(
         self, {#
-        #}{% for param in class.params %}
-        {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation(classes) }}{% if param.optional %}, None] = None{% endif %},
-    {%- endfor %}
+        #}{% for param in class.params if not param.optional %}
+        {{ param.name }}: {{ param.python_typing_representation(classes) }},
+        {%- endfor %}{% for param in class.params if param.optional %}
+        {{ param.name }}: Union[{{ param.python_typing_representation(classes) }}, None] = None,
+        {%- endfor %}
     ):
         """
         A parsed {{ class.name }} response of the Derpibooru API.
