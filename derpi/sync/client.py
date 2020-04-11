@@ -690,7 +690,7 @@ def forum(
 def forum_topics(
     short_name: str,
     page: Union[int, None] = None,
-) -> Topic:
+) -> List[Topic]:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
 
@@ -698,7 +698,7 @@ def forum_topics(
     It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
     which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics
 
-    The API should return json looking like `{"topics":Topic}` which will then be parsed to the python result `Topic`.
+    The API should return json looking like `{"topics":[Topic]}` which will then be parsed to the python result `List[Topic]`.
     
     :param short_name: the variable short_name part of the url.
     :type  short_name: str
@@ -707,16 +707,19 @@ def forum_topics(
     :type  page: int|None
     
     :return: The parsed result from the API.
-    :rtype:  Topic
+    :rtype:  List[Topic]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/forums/{short_name}/topics'
     response: internet.Response = DerpiClient.request('GET', _url, params={
         'page': page,
     })
-    result: Dict[str, Dict] = response.json()
-    result: Dict = result['topics']
-    assert_type_or_raise(result, dict, parameter_name='result')
-    result: Topic = Topic.from_dict(result)
+    result: Dict[str, List[Dict]] = response.json()
+    result: List[Dict] = result['topics']
+    assert_type_or_raise(result, list, parameter_name='result')
+    result: List[Topic] = [
+        Topic.from_dict(item)
+        for item in result
+    ]
     return result
 # end def forum_topics
 
@@ -1417,7 +1420,7 @@ class DerpiClient(object):
         self, 
         short_name: str,
         page: Union[int, None] = None,
-    ) -> Topic:
+    ) -> List[Topic]:
         """
         Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
 
@@ -1425,7 +1428,7 @@ class DerpiClient(object):
         It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
         which would for example look like this: https://derpibooru.org/api/v1/json/forums/dis/topics
 
-        The API should return json looking like `{"topics":Topic}` which will then be parsed to the python result `Topic`.
+        The API should return json looking like `{"topics":[Topic]}` which will then be parsed to the python result `List[Topic]`.
         
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
@@ -1434,7 +1437,7 @@ class DerpiClient(object):
         :type  page: int|None
         
         :return: The parsed result from the API.
-        :rtype:  Topic
+        :rtype:  List[Topic]
         """
         return forum_topics(
             short_name=short_name,
