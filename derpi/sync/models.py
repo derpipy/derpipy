@@ -173,6 +173,9 @@ class Intensities(DerpiModel):
         """
         Implements equality check, i.e. `intensities_instance_a == intensities_instance_b`
         """
+        if not (hasattr(other, 'ne') and hasattr(other, 'nw') and hasattr(other, 'se') and hasattr(other, 'sw')):
+            return False
+        # end if
         return self.ne == other.ne and self.nw == other.nw and self.se == other.se and self.sw == other.sw
     # end __eq__
 # end class
@@ -363,6 +366,9 @@ class Representations(DerpiModel):
         """
         Implements equality check, i.e. `representations_instance_a == representations_instance_b`
         """
+        if not (hasattr(other, 'full') and hasattr(other, 'large') and hasattr(other, 'medium') and hasattr(other, 'small') and hasattr(other, 'tall') and hasattr(other, 'thumb') and hasattr(other, 'thumb_small') and hasattr(other, 'thumb_tiny')):
+            return False
+        # end if
         return self.full == other.full and self.large == other.large and self.medium == other.medium and self.small == other.small and self.tall == other.tall and self.thumb == other.thumb and self.thumb_small == other.thumb_small and self.thumb_tiny == other.thumb_tiny
     # end __eq__
 # end class
@@ -893,6 +899,9 @@ class Image(DerpiModel):
         """
         Implements equality check, i.e. `image_instance_a == image_instance_b`
         """
+        if not (hasattr(other, 'aspect_ratio') and hasattr(other, 'comment_count') and hasattr(other, 'created_at') and hasattr(other, 'deletion_reason') and hasattr(other, 'description') and hasattr(other, 'downvotes') and hasattr(other, 'duplicate_of') and hasattr(other, 'faves') and hasattr(other, 'first_seen_at') and hasattr(other, 'format') and hasattr(other, 'height') and hasattr(other, 'hidden_from_users') and hasattr(other, 'id') and hasattr(other, 'intensities') and hasattr(other, 'mime_type') and hasattr(other, 'name') and hasattr(other, 'orig_sha512_hash') and hasattr(other, 'processed') and hasattr(other, 'representations') and hasattr(other, 'score') and hasattr(other, 'sha512_hash') and hasattr(other, 'source_url') and hasattr(other, 'spoilered') and hasattr(other, 'tag_count') and hasattr(other, 'tag_ids') and hasattr(other, 'tags') and hasattr(other, 'thumbnails_generated') and hasattr(other, 'updated_at') and hasattr(other, 'uploader') and hasattr(other, 'uploader_id') and hasattr(other, 'upvotes') and hasattr(other, 'view_url') and hasattr(other, 'width') and hasattr(other, 'wilson_score')):
+            return False
+        # end if
         return self.aspect_ratio == other.aspect_ratio and self.comment_count == other.comment_count and self.created_at == other.created_at and self.deletion_reason == other.deletion_reason and self.description == other.description and self.downvotes == other.downvotes and self.duplicate_of == other.duplicate_of and self.faves == other.faves and self.first_seen_at == other.first_seen_at and self.format == other.format and self.height == other.height and self.hidden_from_users == other.hidden_from_users and self.id == other.id and self.intensities == other.intensities and self.mime_type == other.mime_type and self.name == other.name and self.orig_sha512_hash == other.orig_sha512_hash and self.processed == other.processed and self.representations == other.representations and self.score == other.score and self.sha512_hash == other.sha512_hash and self.source_url == other.source_url and self.spoilered == other.spoilered and self.tag_count == other.tag_count and self.tag_ids == other.tag_ids and self.tags == other.tags and self.thumbnails_generated == other.thumbnails_generated and self.updated_at == other.updated_at and self.uploader == other.uploader and self.uploader_id == other.uploader_id and self.upvotes == other.upvotes and self.view_url == other.view_url and self.width == other.width and self.wilson_score == other.wilson_score
     # end __eq__
 # end class
@@ -1044,6 +1053,9 @@ class Comment(DerpiModel):
         """
         Implements equality check, i.e. `comment_instance_a == comment_instance_b`
         """
+        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'image_id') and hasattr(other, 'user_id')):
+            return False
+        # end if
         return self.author == other.author and self.body == other.body and self.id == other.id and self.image_id == other.image_id and self.user_id == other.user_id
     # end __eq__
 # end class
@@ -1195,6 +1207,9 @@ class Forum(DerpiModel):
         """
         Implements equality check, i.e. `forum_instance_a == forum_instance_b`
         """
+        if not (hasattr(other, 'name') and hasattr(other, 'short_name') and hasattr(other, 'description') and hasattr(other, 'topic_count') and hasattr(other, 'post_count')):
+            return False
+        # end if
         return self.name == other.name and self.short_name == other.short_name and self.description == other.description and self.topic_count == other.topic_count and self.post_count == other.post_count
     # end __eq__
 # end class
@@ -1398,6 +1413,9 @@ class Topic(DerpiModel):
         """
         Implements equality check, i.e. `topic_instance_a == topic_instance_b`
         """
+        if not (hasattr(other, 'slug') and hasattr(other, 'title') and hasattr(other, 'post_count') and hasattr(other, 'view_count') and hasattr(other, 'sticky') and hasattr(other, 'last_replied_to_at') and hasattr(other, 'locked') and hasattr(other, 'user_id') and hasattr(other, 'author')):
+            return False
+        # end if
         return self.slug == other.slug and self.title == other.title and self.post_count == other.post_count and self.view_count == other.view_count and self.sticky == other.sticky and self.last_replied_to_at == other.last_replied_to_at and self.locked == other.locked and self.user_id == other.user_id and self.author == other.author
     # end __eq__
 # end class
@@ -1536,6 +1554,9 @@ class Post(DerpiModel):
         """
         Implements equality check, i.e. `post_instance_a == post_instance_b`
         """
+        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'user_id')):
+            return False
+        # end if
         return self.author == other.author and self.body == other.body and self.id == other.id and self.user_id == other.user_id
     # end __eq__
 # end class
@@ -1817,6 +1838,9 @@ class Tag(DerpiModel):
         """
         Implements equality check, i.e. `tag_instance_a == tag_instance_b`
         """
+        if not (hasattr(other, 'aliased_tag') and hasattr(other, 'aliases') and hasattr(other, 'category') and hasattr(other, 'description') and hasattr(other, 'dnp_entries') and hasattr(other, 'id') and hasattr(other, 'images') and hasattr(other, 'implied_by_tags') and hasattr(other, 'implied_tags') and hasattr(other, 'name') and hasattr(other, 'name_in_namespace') and hasattr(other, 'namespace') and hasattr(other, 'short_description') and hasattr(other, 'slug') and hasattr(other, 'spoiler_image')):
+            return False
+        # end if
         return self.aliased_tag == other.aliased_tag and self.aliases == other.aliases and self.category == other.category and self.description == other.description and self.dnp_entries == other.dnp_entries and self.id == other.id and self.images == other.images and self.implied_by_tags == other.implied_by_tags and self.implied_tags == other.implied_tags and self.name == other.name and self.name_in_namespace == other.name_in_namespace and self.namespace == other.namespace and self.short_description == other.short_description and self.slug == other.slug and self.spoiler_image == other.spoiler_image
     # end __eq__
 # end class
@@ -2072,6 +2096,9 @@ class User(DerpiModel):
         """
         Implements equality check, i.e. `user_instance_a == user_instance_b`
         """
+        if not (hasattr(other, 'id') and hasattr(other, 'name') and hasattr(other, 'slug') and hasattr(other, 'role') and hasattr(other, 'description') and hasattr(other, 'avatar_url') and hasattr(other, 'created_at') and hasattr(other, 'comments_count') and hasattr(other, 'uploads_count') and hasattr(other, 'posts_count') and hasattr(other, 'topics_count') and hasattr(other, 'links') and hasattr(other, 'awards')):
+            return False
+        # end if
         return self.id == other.id and self.name == other.name and self.slug == other.slug and self.role == other.role and self.description == other.description and self.avatar_url == other.avatar_url and self.created_at == other.created_at and self.comments_count == other.comments_count and self.uploads_count == other.uploads_count and self.posts_count == other.posts_count and self.topics_count == other.topics_count and self.links == other.links and self.awards == other.awards
     # end __eq__
 # end class
@@ -2301,6 +2328,9 @@ class Filter(DerpiModel):
         """
         Implements equality check, i.e. `filter_instance_a == filter_instance_b`
         """
+        if not (hasattr(other, 'id') and hasattr(other, 'name') and hasattr(other, 'description') and hasattr(other, 'user_id') and hasattr(other, 'user_count') and hasattr(other, 'system') and hasattr(other, 'public') and hasattr(other, 'spoilered_tag_ids') and hasattr(other, 'spoilered_complex') and hasattr(other, 'hidden_tag_ids') and hasattr(other, 'hidden_complex')):
+            return False
+        # end if
         return self.id == other.id and self.name == other.name and self.description == other.description and self.user_id == other.user_id and self.user_count == other.user_count and self.system == other.system and self.public == other.public and self.spoilered_tag_ids == other.spoilered_tag_ids and self.spoilered_complex == other.spoilered_complex and self.hidden_tag_ids == other.hidden_tag_ids and self.hidden_complex == other.hidden_complex
     # end __eq__
 # end class
@@ -2439,6 +2469,9 @@ class Links(DerpiModel):
         """
         Implements equality check, i.e. `links_instance_a == links_instance_b`
         """
+        if not (hasattr(other, 'user_id') and hasattr(other, 'created_at') and hasattr(other, 'state') and hasattr(other, 'tag_id')):
+            return False
+        # end if
         return self.user_id == other.user_id and self.created_at == other.created_at and self.state == other.state and self.tag_id == other.tag_id
     # end __eq__
 # end class
@@ -2590,6 +2623,9 @@ class Awards(DerpiModel):
         """
         Implements equality check, i.e. `awards_instance_a == awards_instance_b`
         """
+        if not (hasattr(other, 'image_url') and hasattr(other, 'title') and hasattr(other, 'id') and hasattr(other, 'label') and hasattr(other, 'awarded_on')):
+            return False
+        # end if
         return self.image_url == other.image_url and self.title == other.title and self.id == other.id and self.label == other.label and self.awarded_on == other.awarded_on
     # end __eq__
 # end class
@@ -2767,6 +2803,9 @@ class Gallery(DerpiModel):
         """
         Implements equality check, i.e. `gallery_instance_a == gallery_instance_b`
         """
+        if not (hasattr(other, 'description') and hasattr(other, 'id') and hasattr(other, 'spoiler_warning') and hasattr(other, 'thumbnail_id') and hasattr(other, 'title') and hasattr(other, 'user') and hasattr(other, 'user_id')):
+            return False
+        # end if
         return self.description == other.description and self.id == other.id and self.spoiler_warning == other.spoiler_warning and self.thumbnail_id == other.thumbnail_id and self.title == other.title and self.user == other.user and self.user_id == other.user_id
     # end __eq__
 # end class
@@ -3009,6 +3048,9 @@ class Oembed(DerpiModel):
         """
         Implements equality check, i.e. `oembed_instance_a == oembed_instance_b`
         """
+        if not (hasattr(other, 'author_name') and hasattr(other, 'author_url') and hasattr(other, 'cache_age') and hasattr(other, 'derpibooru_comments') and hasattr(other, 'derpibooru_id') and hasattr(other, 'derpibooru_score') and hasattr(other, 'derpibooru_tags') and hasattr(other, 'provider_name') and hasattr(other, 'provider_url') and hasattr(other, 'title') and hasattr(other, 'type') and hasattr(other, 'version')):
+            return False
+        # end if
         return self.author_name == other.author_name and self.author_url == other.author_url and self.cache_age == other.cache_age and self.derpibooru_comments == other.derpibooru_comments and self.derpibooru_id == other.derpibooru_id and self.derpibooru_score == other.derpibooru_score and self.derpibooru_tags == other.derpibooru_tags and self.provider_name == other.provider_name and self.provider_url == other.provider_url and self.title == other.title and self.type == other.type and self.version == other.version
     # end __eq__
 # end class

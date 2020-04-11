@@ -191,6 +191,9 @@ class {{ class.name }}(DerpiModel):
         """
         Implements equality check, i.e. `{{ class.name|lower }}_instance_a == {{ class.name|lower }}_instance_b`
         """
+        if not ({% for param in class.params %}hasattr(other, {{ param.name.__repr__() }}){% if not loop.last %} and {% endif %}{% endfor %}):
+            return False
+        # end if
         return {% for param in class.params %}self.{{ param.name }} == other.{{ param.name }}{% if not loop.last %} and {% endif %}{% endfor %}
     # end __eq__
 # end class
