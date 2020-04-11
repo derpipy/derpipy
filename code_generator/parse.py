@@ -323,6 +323,17 @@ for row in rows:
         response_format=t,
         example_url=columns[5].a.attrs['href'],
     )
+    if r.name == 'user_filters':
+        for i, param in enumerate(r.allowed_query_parameters):
+            if param.name == 'key':
+                r.allowed_query_parameters[i] = Parameter(
+                    name=param.name, type=param.type,
+                    description=param.description,
+                    optional=False, api_name=param.api_name,
+                )
+            # end if
+        # end for
+    # end if
     routes.append(r)
 # end def
 

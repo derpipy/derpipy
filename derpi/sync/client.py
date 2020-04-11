@@ -274,8 +274,8 @@ def system_filters(
 
 
 def user_filters(
+    key: str,
     page: Union[int, None] = None,
-    key: Union[str, None] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -286,21 +286,21 @@ def user_filters(
 
     The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
     
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-    :type  page: int|None
-    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
-    :type  key: str|None
+    :type  key: str
+    
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/filters/user'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'page': page,
         'key': key,
+        'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['filters']
@@ -1075,8 +1075,8 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def user_filters(
         self, 
+        key: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -1087,20 +1087,20 @@ class DerpiClient(object):
 
         The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
         
-        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-        :type  page: int|None
-        
         :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
-        :type  key: str|None
+        :type  key: str
+        
+        :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+        :type  page: int|None
         
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
         return user_filters(
-            page=page,
             key=self.__key,
+            page=page,
         )
     # end def user_filters
     
