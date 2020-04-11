@@ -66,6 +66,11 @@ if FILE == 'api':
         Parameter(key, 'String', f'A mapping of the {key!r} representation names to their respective URLs.')
         for key in ["full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"]
     ]))
+else:
+    classes.append(Class('SearchResult', [
+        Parameter('hits', 'List[T]', 'List of results'),
+        Parameter('total', 'Integer', 'Total amount of results, e.g. for pagination.'),
+    ]))
 # end if
 
 for element in main.find_all('h2'):
@@ -260,6 +265,11 @@ for row in rows:
         assert isinstance(type_mock, dict)
         keys = type_mock.keys()
         logger.debug(f'type_mock keys: {keys!r}')
+        has_total = False
+        if "total" in keys:
+            has_total = True
+            keys = [k for k in keys if k != 'total']
+        # end def
         assert len(keys) == 1
         keys = list(keys)
         key = keys[0]
@@ -279,6 +289,7 @@ for row in rows:
         # Ins
         key = None
         is_list = False
+        has_total = False
     # end if
 
     # generate a python type out of it
@@ -287,6 +298,7 @@ for row in rows:
         is_list=is_list,
         key=key,
         class_name=class_name,
+        has_total=has_total,
     )
 
     # now apply it all
