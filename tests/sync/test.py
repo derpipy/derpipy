@@ -412,6 +412,12 @@ class OfflineTest(unittest.TestCase):
         self.assertEqual(gallery, expected)
     # end def
 
+    def test_forum(self):
+        forum = Forum.from_dict({"description":"Discuss art of any form, and share techniques and tips","name":"Art Chat","post_count":55603,"short_name":"art","topic_count":1737})
+        expected = Forum(name='Art Chat', short_name='art', description='Discuss art of any form, and share techniques and tips', topic_count=1737, post_count=55603)
+        self.assertEqual(forum, expected)
+    # end def
+
     def est_cls(self):
         cls = Cls.from_dict({}['cls'])
         expected = Cls()
