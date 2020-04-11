@@ -114,7 +114,7 @@ class Intensities(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['ne'] = data['ne']
