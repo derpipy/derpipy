@@ -382,7 +382,7 @@ class Image(DerpiModel):
     :type  id: int
     
     :param intensities: Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated.
-    :type  intensities: Intensities
+    :type  intensities: Intensities|None
     
     :param mime_type: The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm".
     :type  mime_type: str
@@ -487,7 +487,7 @@ class Image(DerpiModel):
     id: int
     
     """ Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated. """
-    intensities: Intensities
+    intensities: Union[Intensities, None]
     
     """ The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm". """
     mime_type: str
@@ -631,7 +631,7 @@ class Image(DerpiModel):
         :type  id: int
         
         :param intensities: Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated.
-        :type  intensities: Intensities
+        :type  intensities: Intensities|None
         
         :param mime_type: The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm".
         :type  mime_type: str
