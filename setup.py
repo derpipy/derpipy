@@ -3,13 +3,15 @@ from setuptools import setup, find_packages
 from os import path
 from itertools import product
 from functools import reduce
+from derpi import VERSION
+
 __author__ = 'luckydonald, pingmader'
 long_description = """Python API wrapper for the new API of derpibooru.org"""
 
 here = path.abspath(path.dirname(__file__))
 
 setup(
-    name='derpi', version="0.0.1",
+    name='derpi', version=VERSION,
     description=long_description,
     long_description=long_description,
     # The project's main homepage.
