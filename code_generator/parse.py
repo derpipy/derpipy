@@ -1,8 +1,9 @@
 import json
 import bs4
 import re
-from bs4 import NavigableString
 from luckydonaldUtils.logger import logging
+from typing import List
+from bs4 import NavigableString
 from models import *
 logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -19,6 +20,26 @@ main = parsed.select_one('.walloftext')
 RE_URL_PRAMS_STR = r':(?P<param>\w+)'  # https://regex101.com/r/78JlNQ/1/
 RE_URL_PRAMS = re.compile(RE_URL_PRAMS_STR)
 RE_URL_PRAMS_REPLACEMENT = r"{\g<param>}"
+
+
+def parse_description(description: List[bs4.PageElement]):
+    string = ''
+    for tag in description:
+        if isinstance(tag, NavigableString):
+            string += str(tag)
+        elif tag.name == 'a' and tag.attrs.get('href', None):
+            if tag.attrs.get('href', '').startswith('#'):
+                string = f'`{class_names[tag.attrs["href"]]}`'
+            else:
+                string += f'[{tag.text}](https://derpibooru.org{tag.attrs["href"]})'
+            # end if
+        else:
+            string += tag.text.join({'em': ['**'] * 2, 'code': ['`'] * 2, 'br': ['\n', ''], None: [''] * 2}[tag.name])
+        # end if
+    # end for
+    string.replace('\r\n', '\n')
+    return string
+# end def
 
 
 class_names = {}
@@ -81,13 +102,8 @@ for element in main.find_all('h2'):
                     )
                 )
             # end if
-            description = "".join([
-                str(t)
-                if isinstance(t, NavigableString) else
-                ('`' + class_names[t.attrs["href"]] + '`') if t.name == 'a' and t.attrs.get('href', '').startswith('#') else t.text
-                for t in columns[2].contents
-            ])
-            optional =  'optional' in description.lower()
+            description = parse_description(columns[2].contents)
+            optional = 'optional' in description.lower()
 
             p = Parameter(
                 name=param,
@@ -113,16 +129,11 @@ for column in table.find_all('th'):
 logger.debug(f'column_headers: {column_headers!r}')
 assert column_headers == ['Name', 'Description']
 rows = table.find_all('tr')[1:]  # skip the <thead>'s <tr> (containing only <td>s anyway)
+
 for row in rows:
     columns = row.find_all('td')
     param = columns[0].code.text
-    description = "".join([
-        str(tag)
-        if isinstance(tag, NavigableString) or not tag.name == 'a' or not tag.attrs.get('href', '') else (
-            f'[{tag.text}](https://derpibooru.org{tag.attrs["href"]})'
-        )
-        for tag in columns[1].contents
-    ]).replace('<br>','\n').replace('<br />', '\n').replace('<br/>', '\n')
+    description = parse_description(columns[1].contents)
     logger.debug(f'{param}: {columns[1].text!r}')
     optional = 'optional' in description.lower()
     query_parameters[param] = Parameter(param, None, description, optional=optional)
@@ -284,12 +295,7 @@ for row in rows:
         method=columns[0].code.text,
         path=p,
         allowed_query_parameters=[query_parameters[param.strip()] for param in columns[2].text.split(',') if param],
-        description="".join([
-            str(tag)
-            if isinstance(tag, NavigableString) else
-            tag.text.join({'em': ['**'] * 2, 'code': ['`'] * 2, None: [''] * 2}[tag.name])
-            for tag in columns[3].contents
-        ]),
+        description=parse_description(columns[3].contents),
         response_format=t,
         example_url=columns[5].a.attrs['href'],
     )
