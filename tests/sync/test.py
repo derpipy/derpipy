@@ -78,12 +78,25 @@ class OnlineTest(unittest.TestCase):
         self.assertIsInstance(oembed, Oembed)
     # end def
 
+    def _contains_best_pony(self, text):
+        text = text.lower()
+        if 'best' not in text:
+            return False
+        if not any([
+            stem in text
+            for stem in ['pony', 'ponies']
+        ]):
+            return False
+        # end if
+        return True
+    # end def
+
     def test_search_comments(self):
         search_comments = client.search_comments(page=1, q='best pony')
         self.assertIsInstance(search_comments, list)
         for comment in search_comments:
             self.assertIsInstance(comment, Comment)
-            self.assertTrue(any([stem in comment.body.lower() for stem in ['best pony', 'best ponies']]), f'case insensitive "best pony"/"best ponies" in comment body: {comment.body!r}')
+            self.assertTrue(self._contains_best_pony(comment.body), f'should contain "best pony" or similar in comment body: {comment.body!r}')
         # end for
     # end def
 # end class
