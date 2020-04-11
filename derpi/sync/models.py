@@ -21,7 +21,11 @@ if __name__ == '__main__':
 
 
 class DerpiModel(object):
-    """ Base class for all models """
+    """
+    Base class for all models
+    """
+
+    _assert_consuming_all_params = True  # If set to true we check that we have consumed all arguments.
 
     @classmethod
     def prepare_dict(cls: Type[DerpiModel], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
@@ -123,9 +127,11 @@ class Intensities(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -159,9 +165,7 @@ class Intensities(DerpiModel):
         """
         Implements `repr(intensities_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(ne={s.ne!r}, nw={s.nw!r}, se={s.se!r}, sw={s.sw!r})".format(s=self)
     # end def __repr__
 
@@ -313,9 +317,11 @@ class Representations(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -349,9 +355,7 @@ class Representations(DerpiModel):
         """
         Implements `repr(representations_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(full={s.full!r}, large={s.large!r}, medium={s.medium!r}, small={s.small!r}, tall={s.tall!r}, thumb={s.thumb!r}, thumb_small={s.thumb_small!r}, thumb_tiny={s.thumb_tiny!r})".format(s=self)
     # end def __repr__
 
@@ -841,9 +845,11 @@ class Image(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -877,9 +883,7 @@ class Image(DerpiModel):
         """
         Implements `repr(image_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r})".format(s=self)
     # end def __repr__
 
@@ -992,9 +996,11 @@ class Comment(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -1028,9 +1034,7 @@ class Comment(DerpiModel):
         """
         Implements `repr(comment_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, image_id={s.image_id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
@@ -1143,9 +1147,11 @@ class Forum(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -1179,9 +1185,7 @@ class Forum(DerpiModel):
         """
         Implements `repr(forum_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(name={s.name!r}, short_name={s.short_name!r}, description={s.description!r}, topic_count={s.topic_count!r}, post_count={s.post_count!r})".format(s=self)
     # end def __repr__
 
@@ -1346,9 +1350,11 @@ class Topic(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -1382,9 +1388,7 @@ class Topic(DerpiModel):
         """
         Implements `repr(topic_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(slug={s.slug!r}, title={s.title!r}, post_count={s.post_count!r}, view_count={s.view_count!r}, sticky={s.sticky!r}, last_replied_to_at={s.last_replied_to_at!r}, locked={s.locked!r}, user_id={s.user_id!r}, author={s.author!r})".format(s=self)
     # end def __repr__
 
@@ -1484,9 +1488,11 @@ class Post(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -1520,9 +1526,7 @@ class Post(DerpiModel):
         """
         Implements `repr(post_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
@@ -1765,9 +1769,11 @@ class Tag(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -1801,9 +1807,7 @@ class Tag(DerpiModel):
         """
         Implements `repr(tag_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r})".format(s=self)
     # end def __repr__
 
@@ -2020,9 +2024,11 @@ class User(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2056,9 +2062,7 @@ class User(DerpiModel):
         """
         Implements `repr(user_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, slug={s.slug!r}, role={s.role!r}, description={s.description!r}, avatar_url={s.avatar_url!r}, created_at={s.created_at!r}, comments_count={s.comments_count!r}, uploads_count={s.uploads_count!r}, posts_count={s.posts_count!r}, topics_count={s.topics_count!r}, links={s.links!r}, awards={s.awards!r})".format(s=self)
     # end def __repr__
 
@@ -2249,9 +2253,11 @@ class Filter(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2285,9 +2291,7 @@ class Filter(DerpiModel):
         """
         Implements `repr(filter_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(id={s.id!r}, name={s.name!r}, description={s.description!r}, user_id={s.user_id!r}, user_count={s.user_count!r}, system={s.system!r}, public={s.public!r}, spoilered_tag_ids={s.spoilered_tag_ids!r}, spoilered_complex={s.spoilered_complex!r}, hidden_tag_ids={s.hidden_tag_ids!r}, hidden_complex={s.hidden_complex!r})".format(s=self)
     # end def __repr__
 
@@ -2387,9 +2391,11 @@ class Links(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2423,9 +2429,7 @@ class Links(DerpiModel):
         """
         Implements `repr(links_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(user_id={s.user_id!r}, created_at={s.created_at!r}, state={s.state!r}, tag_id={s.tag_id!r})".format(s=self)
     # end def __repr__
 
@@ -2538,9 +2542,11 @@ class Awards(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2574,9 +2580,7 @@ class Awards(DerpiModel):
         """
         Implements `repr(awards_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(image_url={s.image_url!r}, title={s.title!r}, id={s.id!r}, label={s.label!r}, awarded_on={s.awarded_on!r})".format(s=self)
     # end def __repr__
 
@@ -2715,9 +2719,11 @@ class Gallery(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2751,9 +2757,7 @@ class Gallery(DerpiModel):
         """
         Implements `repr(gallery_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(description={s.description!r}, id={s.id!r}, spoiler_warning={s.spoiler_warning!r}, thumbnail_id={s.thumbnail_id!r}, title={s.title!r}, user={s.user!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
@@ -2957,9 +2961,11 @@ class Oembed(DerpiModel):
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
-            raise ValueError(
-                f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
-            )
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
         # end if
         return arguments
     # end def prepare_dict
@@ -2993,9 +2999,7 @@ class Oembed(DerpiModel):
         """
         Implements `repr(oembed_instance)`
         """
-        if hasattr(self, '_raw') and self._raw:
-            return "{s.__class__.__name__}.from_dict({s._raw})".format(s=self)
-        # end if
+        
         return "{s.__class__.__name__}(author_name={s.author_name!r}, author_url={s.author_url!r}, cache_age={s.cache_age!r}, derpibooru_comments={s.derpibooru_comments!r}, derpibooru_id={s.derpibooru_id!r}, derpibooru_score={s.derpibooru_score!r}, derpibooru_tags={s.derpibooru_tags!r}, provider_name={s.provider_name!r}, provider_url={s.provider_url!r}, title={s.title!r}, type={s.type!r}, version={s.version!r})".format(s=self)
     # end def __repr__
 
