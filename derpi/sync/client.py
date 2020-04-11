@@ -57,8 +57,8 @@ def comment(
 
 def image(
     image_id: int,
-    key: Union[str, None] = None,
     filter_id: Union[int, None] = None,
+    key: Union[str, None] = None,
 ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -72,21 +72,21 @@ def image(
     :param image_id: the variable image_id part of the url.
     :type  image_id: int
     
+    :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
+    :type  filter_id: int|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
-    :type  filter_id: int|None
     
     :return: The parsed result from the API.
     :rtype:  Image
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/images/{image_id}'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'key': key,
         'filter_id': filter_id,
+        'key': key,
     })
     result: Dict[str, Dict] = response.json()
     result: Dict = result['image']
@@ -274,8 +274,8 @@ def system_filters(
 
 
 def user_filters(
-    key: Union[str, None] = None,
     page: Union[int, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -286,21 +286,21 @@ def user_filters(
 
     The API should return json looking like `{"filters":[Filter]}` which will then be parsed to the python result `List[Filter]`.
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/filters/user'
     response: internet.Response = DerpiClient.request('GET', _url, params={
-        'key': key,
         'page': page,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['filters']
@@ -344,8 +344,8 @@ def oembed(
 
 def search_comments(
     query: str,
-    key: Union[str, None] = None,
     page: Union[int, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -360,13 +360,13 @@ def search_comments(
                   Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Comment]
@@ -374,8 +374,8 @@ def search_comments(
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/comments'
     response: internet.Response = DerpiClient.request('GET', _url, params={
         'q': query,
-        'key': key,
         'page': page,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['comments']
@@ -390,8 +390,8 @@ def search_comments(
 
 def search_galleries(
     query: str,
-    key: Union[str, None] = None,
     page: Union[int, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -406,13 +406,13 @@ def search_galleries(
                   Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Gallery]
@@ -420,8 +420,8 @@ def search_galleries(
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/galleries'
     response: internet.Response = DerpiClient.request('GET', _url, params={
         'q': query,
-        'key': key,
         'page': page,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['galleries']
@@ -436,8 +436,8 @@ def search_galleries(
 
 def search_posts(
     query: str,
-    key: Union[str, None] = None,
     page: Union[int, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -452,13 +452,13 @@ def search_posts(
                   Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
     
+    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
+    :type  page: int|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
-    :type  page: int|None
     
     :return: The parsed result from the API.
     :rtype:  List[Post]
@@ -466,8 +466,8 @@ def search_posts(
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/posts'
     response: internet.Response = DerpiClient.request('GET', _url, params={
         'q': query,
-        'key': key,
         'page': page,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['posts']
@@ -482,12 +482,12 @@ def search_posts(
 
 def search_images(
     query: str,
-    key: Union[str, None] = None,
     filter_id: Union[int, None] = None,
     page: Union[int, None] = None,
     per_page: Union[int, None] = None,
     sort_direction: Union[str, None] = None,
     sort_field: Union[str, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -501,11 +501,6 @@ def search_images(
     :param query: The current search query, if the request is a search request.
                   Note, on derpibooru's side this parameter is called `q`.
     :type  query: str
-    
-    :param key: An optional authentication token. If omitted, no user will be authenticated.
-
-                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
-    :type  key: str|None
     
     :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
     :type  filter_id: int|None
@@ -524,18 +519,23 @@ def search_images(
                        Note, on derpibooru's side this parameter is called `sf`.
     :type  sort_field: str|None
     
+    :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+    :type  key: str|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Image]
     """
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/images'
     response: internet.Response = DerpiClient.request('GET', _url, params={
         'q': query,
-        'key': key,
         'filter_id': filter_id,
         'page': page,
         'per_page': per_page,
         'sd': sort_direction,
         'sf': sort_field,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
@@ -589,8 +589,8 @@ def search_tags(
 
 def search_reverse(
     url: str,
-    key: Union[str, None] = None,
     distance: Union[float, None] = None,
+    key: Union[str, None] = None,
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -604,13 +604,13 @@ def search_reverse(
     :param url: Link a deviantART page, a Tumblr post, or the image directly.
     :type  url: str
     
+    :param distance: Match distance (suggested values: between 0.2 and 0.5).
+    :type  distance: float|None
+    
     :param key: An optional authentication token. If omitted, no user will be authenticated.
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
-    
-    :param distance: Match distance (suggested values: between 0.2 and 0.5).
-    :type  distance: float|None
     
     :return: The parsed result from the API.
     :rtype:  List[Image]
@@ -618,8 +618,8 @@ def search_reverse(
     _url: str = DerpiClient._base_url + f'/api/v1/json/search/reverse'
     response: internet.Response = DerpiClient.request('POST', _url, params={
         'url': url,
-        'key': key,
         'distance': distance,
+        'key': key,
     })
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['images']
@@ -888,6 +888,7 @@ class DerpiClient(object):
         self, 
         image_id: int,
         filter_id: Union[int, None] = None,
+        key: Union[str, None] = None,
     ) -> Image:
         """
         Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -904,13 +905,18 @@ class DerpiClient(object):
         :param filter_id: Assuming the user can access the filter ID given by the parameter, overrides the current filter for this request. This is primarily useful for unauthenticated API access.
         :type  filter_id: int|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  Image
         """
         return image(
             image_id=image_id,
-            key=self.__key,
             filter_id=filter_id,
+            key=self.__key,
         )
     # end def image
     
@@ -1013,6 +1019,7 @@ class DerpiClient(object):
     def filter(
         self, 
         filter_id: int,
+        key: Union[str, None] = None,
     ) -> Filter:
         """
         Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -1025,6 +1032,11 @@ class DerpiClient(object):
         
         :param filter_id: the variable filter_id part of the url.
         :type  filter_id: int
+        
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
         
         :return: The parsed result from the API.
         :rtype:  Filter
@@ -1064,6 +1076,7 @@ class DerpiClient(object):
     def user_filters(
         self, 
         page: Union[int, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -1077,12 +1090,17 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
         return user_filters(
-            key=self.__key,
             page=page,
+            key=self.__key,
         )
     # end def user_filters
     
@@ -1116,6 +1134,7 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Comment]:
         """
         Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -1132,13 +1151,18 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Comment]
         """
         return search_comments(
             query=query,
-            key=self.__key,
             page=page,
+            key=self.__key,
         )
     # end def search_comments
     
@@ -1147,6 +1171,7 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Gallery]:
         """
         Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -1163,13 +1188,18 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Gallery]
         """
         return search_galleries(
             query=query,
-            key=self.__key,
             page=page,
+            key=self.__key,
         )
     # end def search_galleries
     
@@ -1178,6 +1208,7 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Post]:
         """
         Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -1194,13 +1225,18 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Post]
         """
         return search_posts(
             query=query,
-            key=self.__key,
             page=page,
+            key=self.__key,
         )
     # end def search_posts
     
@@ -1213,6 +1249,7 @@ class DerpiClient(object):
         per_page: Union[int, None] = None,
         sort_direction: Union[str, None] = None,
         sort_field: Union[str, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Image]:
         """
         Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -1241,17 +1278,22 @@ class DerpiClient(object):
         :param sort_field: The current sort field, if the request is a search request.
         :type  sort_field: str|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
         return search_images(
             query=query,
-            key=self.__key,
             filter_id=filter_id,
             page=page,
             per_page=per_page,
             sort_direction=sort_direction,
             sort_field=sort_field,
+            key=self.__key,
         )
     # end def search_images
     
@@ -1290,6 +1332,7 @@ class DerpiClient(object):
         self, 
         url: str,
         distance: Union[float, None] = None,
+        key: Union[str, None] = None,
     ) -> List[Image]:
         """
         Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -1306,13 +1349,18 @@ class DerpiClient(object):
         :param distance: Match distance (suggested values: between 0.2 and 0.5).
         :type  distance: float|None
         
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
         return search_reverse(
             url=url,
-            key=self.__key,
             distance=distance,
+            key=self.__key,
         )
     # end def search_reverse
     
