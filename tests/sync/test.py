@@ -2,7 +2,7 @@ import unittest
 import iso8601
 import datetime
 from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter, \
-    Oembed, Links, Awards, Gallery
+    Oembed, Links, Awards, Gallery, Forum
 
 null = None    # jSoN
 false = False  # JsOn
@@ -168,6 +168,15 @@ class OnlineTest(unittest.TestCase):
         self.assertEqual(len(search_reverse), 1, 'should have exactly 1 result')
         self.assertIsInstance(search_reverse[0], Image)
         self.assertEqual(search_reverse[0].id, 1079240)
+    # end def
+
+    def test_forums(self):
+        forums = client.forums()
+        self.assertIsInstance(forums, list)
+        self.assertTrue(forums)
+        for forum in forums:
+            self.assertIsInstance(forum, Forum)
+        # end for
     # end def
 # end class
 
