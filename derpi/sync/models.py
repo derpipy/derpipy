@@ -139,7 +139,7 @@ class Intensities(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Intensities], data: Union[Dict, None]) -> Union[Intensities, None]:
+    def from_dict(cls: Type[Intensities], data: Union[Dict, None, List[Dict]]) -> Union[Intensities, None]:
         """
         Deserialize a new Intensities from a given dictionary.
 
@@ -148,6 +148,9 @@ class Intensities(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -299,7 +302,7 @@ class Representations(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['full'] = data['full']
@@ -332,7 +335,7 @@ class Representations(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Representations], data: Union[Dict, None]) -> Union[Representations, None]:
+    def from_dict(cls: Type[Representations], data: Union[Dict, None, List[Dict]]) -> Union[Representations, None]:
         """
         Deserialize a new Representations from a given dictionary.
 
@@ -341,6 +344,9 @@ class Representations(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -391,7 +397,7 @@ class Image(DerpiModel):
     :param created_at: The creation time, in UTC, of the image.
     :type  created_at: datetime
     
-    :param deletion_reason: The hide reason for the image, or null if none provided. This will only have a value on images which are deleted for a rule violation.
+    :param deletion_reason: The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation.
     :type  deletion_reason: str
     
     :param description: The image's description.
@@ -400,7 +406,7 @@ class Image(DerpiModel):
     :param downvotes: The number of downvotes the image has.
     :type  downvotes: int
     
-    :param duplicate_of: The ID of the target image, or null if none provided. This will only have a value on images which are merged into another image.
+    :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
     :type  duplicate_of: int
     
     :param faves: The number of faves the image has.
@@ -409,7 +415,7 @@ class Image(DerpiModel):
     :param first_seen_at: The time, in UTC, this image was first seen (before any duplicate merging).
     :type  first_seen_at: datetime
     
-    :param format: The file extension of this image. One of "gif", "jpg", "jpeg", "png", "svg", "webm".
+    :param format: The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
     :type  format: str
     
     :param height: The image's height, in pixels.
@@ -421,10 +427,10 @@ class Image(DerpiModel):
     :param id: The image's ID.
     :type  id: int
     
-    :param intensities: Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated.
+    :param intensities: Optional object of [internal image intensity data](https://derpibooru.orghttps://github.com/derpibooru/cli_intensities) for deduplication purposes. May be `null` if intensities have not yet been generated.
     :type  intensities: Intensities|None
     
-    :param mime_type: The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm".
+    :param mime_type: The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`.
     :type  mime_type: str
     
     :param name: The filename that this image was uploaded with.
@@ -436,7 +442,7 @@ class Image(DerpiModel):
     :param processed: Whether the image has finished optimization.
     :type  processed: bool
     
-    :param representations: A mapping of representation names to their respective URLs. Contains the keys "full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny".
+    :param representations: A mapping of representation names to their respective URLs. Contains the keys `"full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"`.
     :type  representations: Representations
     
     :param score: The image's number of upvotes minus the image's number of downvotes.
@@ -460,7 +466,7 @@ class Image(DerpiModel):
     :param tags: A list of tag names this image contains.
     :type  tags: list
     
-    :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from view_url or representations if this is false.
+    :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
     :type  thumbnails_generated: bool
     
     :param updated_at: The time, in UTC, the image was last updated.
@@ -481,7 +487,7 @@ class Image(DerpiModel):
     :param width: The image's width, in pixels.
     :type  width: int
     
-    :param wilson_score: The lower bound of the Wilson score interval for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
+    :param wilson_score: The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
     :type  wilson_score: float
     
     """
@@ -496,7 +502,7 @@ class Image(DerpiModel):
     """ The creation time, in UTC, of the image. """
     created_at: datetime
     
-    """ The hide reason for the image, or null if none provided. This will only have a value on images which are deleted for a rule violation. """
+    """ The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation. """
     deletion_reason: str
     
     """ The image's description. """
@@ -505,7 +511,7 @@ class Image(DerpiModel):
     """ The number of downvotes the image has. """
     downvotes: int
     
-    """ The ID of the target image, or null if none provided. This will only have a value on images which are merged into another image. """
+    """ The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image. """
     duplicate_of: int
     
     """ The number of faves the image has. """
@@ -514,7 +520,7 @@ class Image(DerpiModel):
     """ The time, in UTC, this image was first seen (before any duplicate merging). """
     first_seen_at: datetime
     
-    """ The file extension of this image. One of "gif", "jpg", "jpeg", "png", "svg", "webm". """
+    """ The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`. """
     format: str
     
     """ The image's height, in pixels. """
@@ -526,10 +532,10 @@ class Image(DerpiModel):
     """ The image's ID. """
     id: int
     
-    """ Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated. """
+    """ Optional object of [internal image intensity data](https://derpibooru.orghttps://github.com/derpibooru/cli_intensities) for deduplication purposes. May be `null` if intensities have not yet been generated. """
     intensities: Union[Intensities, None]
     
-    """ The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm". """
+    """ The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`. """
     mime_type: str
     
     """ The filename that this image was uploaded with. """
@@ -541,7 +547,7 @@ class Image(DerpiModel):
     """ Whether the image has finished optimization. """
     processed: bool
     
-    """ A mapping of representation names to their respective URLs. Contains the keys "full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny". """
+    """ A mapping of representation names to their respective URLs. Contains the keys `"full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"`. """
     representations: Representations
     
     """ The image's number of upvotes minus the image's number of downvotes. """
@@ -565,7 +571,7 @@ class Image(DerpiModel):
     """ A list of tag names this image contains. """
     tags: list
     
-    """ Whether this image has finished thumbnail generation. Do not attempt to load images from view_url or representations if this is false. """
+    """ Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false. """
     thumbnails_generated: bool
     
     """ The time, in UTC, the image was last updated. """
@@ -586,7 +592,7 @@ class Image(DerpiModel):
     """ The image's width, in pixels. """
     width: int
     
-    """ The lower bound of the Wilson score interval for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%. """
+    """ The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%. """
     wilson_score: float
     
     def __init__(
@@ -640,7 +646,7 @@ class Image(DerpiModel):
         :param created_at: The creation time, in UTC, of the image.
         :type  created_at: datetime
         
-        :param deletion_reason: The hide reason for the image, or null if none provided. This will only have a value on images which are deleted for a rule violation.
+        :param deletion_reason: The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation.
         :type  deletion_reason: str
         
         :param description: The image's description.
@@ -649,7 +655,7 @@ class Image(DerpiModel):
         :param downvotes: The number of downvotes the image has.
         :type  downvotes: int
         
-        :param duplicate_of: The ID of the target image, or null if none provided. This will only have a value on images which are merged into another image.
+        :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
         :type  duplicate_of: int
         
         :param faves: The number of faves the image has.
@@ -658,7 +664,7 @@ class Image(DerpiModel):
         :param first_seen_at: The time, in UTC, this image was first seen (before any duplicate merging).
         :type  first_seen_at: datetime
         
-        :param format: The file extension of this image. One of "gif", "jpg", "jpeg", "png", "svg", "webm".
+        :param format: The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
         :type  format: str
         
         :param height: The image's height, in pixels.
@@ -670,10 +676,10 @@ class Image(DerpiModel):
         :param id: The image's ID.
         :type  id: int
         
-        :param intensities: Optional object of internal image intensity data for deduplication purposes. May be null if intensities have not yet been generated.
+        :param intensities: Optional object of [internal image intensity data](https://derpibooru.orghttps://github.com/derpibooru/cli_intensities) for deduplication purposes. May be `null` if intensities have not yet been generated.
         :type  intensities: Intensities|None
         
-        :param mime_type: The MIME type of this image. One of "image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm".
+        :param mime_type: The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`.
         :type  mime_type: str
         
         :param name: The filename that this image was uploaded with.
@@ -685,7 +691,7 @@ class Image(DerpiModel):
         :param processed: Whether the image has finished optimization.
         :type  processed: bool
         
-        :param representations: A mapping of representation names to their respective URLs. Contains the keys "full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny".
+        :param representations: A mapping of representation names to their respective URLs. Contains the keys `"full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"`.
         :type  representations: Representations
         
         :param score: The image's number of upvotes minus the image's number of downvotes.
@@ -709,7 +715,7 @@ class Image(DerpiModel):
         :param tags: A list of tag names this image contains.
         :type  tags: list
         
-        :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from view_url or representations if this is false.
+        :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
         :type  thumbnails_generated: bool
         
         :param updated_at: The time, in UTC, the image was last updated.
@@ -730,7 +736,7 @@ class Image(DerpiModel):
         :param width: The image's width, in pixels.
         :type  width: int
         
-        :param wilson_score: The lower bound of the Wilson score interval for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
+        :param wilson_score: The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
         :type  wilson_score: float
         
         """
@@ -778,7 +784,7 @@ class Image(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['aspect_ratio'] = data['aspect_ratio']
@@ -865,7 +871,7 @@ class Image(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Image], data: Union[Dict, None]) -> Union[Image, None]:
+    def from_dict(cls: Type[Image], data: Union[Dict, None, List[Dict]]) -> Union[Image, None]:
         """
         Deserialize a new Image from a given dictionary.
 
@@ -874,6 +880,9 @@ class Image(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -992,7 +1001,7 @@ class Comment(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['author'] = data['author']
@@ -1019,7 +1028,7 @@ class Comment(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Comment], data: Union[Dict, None]) -> Union[Comment, None]:
+    def from_dict(cls: Type[Comment], data: Union[Dict, None, List[Dict]]) -> Union[Comment, None]:
         """
         Deserialize a new Comment from a given dictionary.
 
@@ -1028,6 +1037,9 @@ class Comment(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -1146,7 +1158,7 @@ class Forum(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['name'] = data['name']
@@ -1173,7 +1185,7 @@ class Forum(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Forum], data: Union[Dict, None]) -> Union[Forum, None]:
+    def from_dict(cls: Type[Forum], data: Union[Dict, None, List[Dict]]) -> Union[Forum, None]:
         """
         Deserialize a new Forum from a given dictionary.
 
@@ -1182,6 +1194,9 @@ class Forum(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -1244,7 +1259,7 @@ class Topic(DerpiModel):
     :param locked: Whether the topic is locked.
     :type  locked: bool
     
-    :param user_id: The ID of the user who made the topic. Null if posted anonymously.
+    :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
     :type  user_id: int
     
     :param author: The name of the user who made the topic.
@@ -1274,7 +1289,7 @@ class Topic(DerpiModel):
     """ Whether the topic is locked. """
     locked: bool
     
-    """ The ID of the user who made the topic. Null if posted anonymously. """
+    """ The ID of the user who made the topic. `Null` if posted anonymously. """
     user_id: int
     
     """ The name of the user who made the topic. """
@@ -1318,7 +1333,7 @@ class Topic(DerpiModel):
         :param locked: Whether the topic is locked.
         :type  locked: bool
         
-        :param user_id: The ID of the user who made the topic. Null if posted anonymously.
+        :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
         :type  user_id: int
         
         :param author: The name of the user who made the topic.
@@ -1344,7 +1359,7 @@ class Topic(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['slug'] = data['slug']
@@ -1379,7 +1394,7 @@ class Topic(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Topic], data: Union[Dict, None]) -> Union[Topic, None]:
+    def from_dict(cls: Type[Topic], data: Union[Dict, None, List[Dict]]) -> Union[Topic, None]:
         """
         Deserialize a new Topic from a given dictionary.
 
@@ -1388,6 +1403,9 @@ class Topic(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -1495,7 +1513,7 @@ class Post(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['author'] = data['author']
@@ -1520,7 +1538,7 @@ class Post(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Post], data: Union[Dict, None]) -> Union[Post, None]:
+    def from_dict(cls: Type[Post], data: Union[Dict, None, List[Dict]]) -> Union[Post, None]:
         """
         Deserialize a new Post from a given dictionary.
 
@@ -1529,6 +1547,9 @@ class Post(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -1576,7 +1597,7 @@ class Tag(DerpiModel):
     :param aliases: The slugs of the tags aliased to this tag.
     :type  aliases: list
     
-    :param category: The category class of this tag. One of "character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler".
+    :param category: The category class of this tag. One of `"character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler"`.
     :type  category: str
     
     :param description: The long description for the tag.
@@ -1624,7 +1645,7 @@ class Tag(DerpiModel):
     """ The slugs of the tags aliased to this tag. """
     aliases: list
     
-    """ The category class of this tag. One of "character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler". """
+    """ The category class of this tag. One of `"character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler"`. """
     category: str
     
     """ The long description for the tag. """
@@ -1692,7 +1713,7 @@ class Tag(DerpiModel):
         :param aliases: The slugs of the tags aliased to this tag.
         :type  aliases: list
         
-        :param category: The category class of this tag. One of "character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler".
+        :param category: The category class of this tag. One of `"character", "content-fanmade", "content-official", "error", "oc", "origin", "rating", "species", "spoiler"`.
         :type  category: str
         
         :param description: The long description for the tag.
@@ -1757,7 +1778,7 @@ class Tag(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['aliased_tag'] = data['aliased_tag']
@@ -1804,7 +1825,7 @@ class Tag(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Tag], data: Union[Dict, None]) -> Union[Tag, None]:
+    def from_dict(cls: Type[Tag], data: Union[Dict, None, List[Dict]]) -> Union[Tag, None]:
         """
         Deserialize a new Tag from a given dictionary.
 
@@ -1813,6 +1834,9 @@ class Tag(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -1869,7 +1893,7 @@ class User(DerpiModel):
     :param description: The description (bio) of the user.
     :type  description: str
     
-    :param avatar_url: The URL of the user's thumbnail. Null if they haven't set one.
+    :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
     :type  avatar_url: str
     
     :param created_at: The creation time, in UTC, of the user.
@@ -1887,10 +1911,10 @@ class User(DerpiModel):
     :param topics_count: The forum topics count of the user.
     :type  topics_count: int
     
-    :param links: The links the user has registered. See `Links`.
+    :param links: `Links`.
     :type  links: Links
     
-    :param awards: The awards/badges of the user. See `Awards`.
+    :param awards: `Awards`.
     :type  awards: Awards
     
     """
@@ -1911,7 +1935,7 @@ class User(DerpiModel):
     """ The description (bio) of the user. """
     description: str
     
-    """ The URL of the user's thumbnail. Null if they haven't set one. """
+    """ The URL of the user's thumbnail. `Null` if they haven't set one. """
     avatar_url: str
     
     """ The creation time, in UTC, of the user. """
@@ -1929,10 +1953,10 @@ class User(DerpiModel):
     """ The forum topics count of the user. """
     topics_count: int
     
-    """ The links the user has registered. See `Links`. """
+    """ `Links`. """
     links: Links
     
-    """ The awards/badges of the user. See `Awards`. """
+    """ `Awards`. """
     awards: Awards
     
     def __init__(
@@ -1971,7 +1995,7 @@ class User(DerpiModel):
         :param description: The description (bio) of the user.
         :type  description: str
         
-        :param avatar_url: The URL of the user's thumbnail. Null if they haven't set one.
+        :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
         :type  avatar_url: str
         
         :param created_at: The creation time, in UTC, of the user.
@@ -1989,10 +2013,10 @@ class User(DerpiModel):
         :param topics_count: The forum topics count of the user.
         :type  topics_count: int
         
-        :param links: The links the user has registered. See `Links`.
+        :param links: `Links`.
         :type  links: Links
         
-        :param awards: The awards/badges of the user. See `Awards`.
+        :param awards: `Awards`.
         :type  awards: Awards
         
         """
@@ -2019,7 +2043,7 @@ class User(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['id'] = data['id']
@@ -2033,8 +2057,8 @@ class User(DerpiModel):
         arguments['uploads_count'] = data['uploads_count']
         arguments['posts_count'] = data['posts_count']
         arguments['topics_count'] = data['topics_count']
-        arguments['links'] = data['links']
-        arguments['awards'] = data['awards']
+        arguments['links'] = Links.from_dict(data['links'])
+        arguments['awards'] = Awards.from_dict(data['awards'])
         
         del data['id']
         del data['name']
@@ -2062,7 +2086,7 @@ class User(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[User], data: Union[Dict, None]) -> Union[User, None]:
+    def from_dict(cls: Type[User], data: Union[Dict, None, List[Dict]]) -> Union[User, None]:
         """
         Deserialize a new User from a given dictionary.
 
@@ -2071,6 +2095,9 @@ class User(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -2121,16 +2148,16 @@ class Filter(DerpiModel):
     :param description: The description of the filter.
     :type  description: str
     
-    :param user_id: The id of the user the filter belongs to. Null if it isn't assigned to a user (usually system filters only).
+    :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
     :type  user_id: int
     
     :param user_count: The amount of users employing this filter.
     :type  user_count: int
     
-    :param system: If true, is a system filter. System filters are usable by anyone and don't have a user_id set.
+    :param system: If `true`, is a system filter. System filters are usable by anyone and don't have a `user_id` set.
     :type  system: bool
     
-    :param public: If true, is a public filter. Public filters are usable by anyone.
+    :param public: If `true`, is a public filter. Public filters are usable by anyone.
     :type  public: bool
     
     :param spoilered_tag_ids: A list of tag IDs (as integers) that this filter will spoil.
@@ -2157,16 +2184,16 @@ class Filter(DerpiModel):
     """ The description of the filter. """
     description: str
     
-    """ The id of the user the filter belongs to. Null if it isn't assigned to a user (usually system filters only). """
+    """ The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only). """
     user_id: int
     
     """ The amount of users employing this filter. """
     user_count: int
     
-    """ If true, is a system filter. System filters are usable by anyone and don't have a user_id set. """
+    """ If `true`, is a system filter. System filters are usable by anyone and don't have a `user_id` set. """
     system: bool
     
-    """ If true, is a public filter. Public filters are usable by anyone. """
+    """ If `true`, is a public filter. Public filters are usable by anyone. """
     public: bool
     
     """ A list of tag IDs (as integers) that this filter will spoil. """
@@ -2209,16 +2236,16 @@ class Filter(DerpiModel):
         :param description: The description of the filter.
         :type  description: str
         
-        :param user_id: The id of the user the filter belongs to. Null if it isn't assigned to a user (usually system filters only).
+        :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
         :type  user_id: int
         
         :param user_count: The amount of users employing this filter.
         :type  user_count: int
         
-        :param system: If true, is a system filter. System filters are usable by anyone and don't have a user_id set.
+        :param system: If `true`, is a system filter. System filters are usable by anyone and don't have a `user_id` set.
         :type  system: bool
         
-        :param public: If true, is a public filter. Public filters are usable by anyone.
+        :param public: If `true`, is a public filter. Public filters are usable by anyone.
         :type  public: bool
         
         :param spoilered_tag_ids: A list of tag IDs (as integers) that this filter will spoil.
@@ -2255,7 +2282,7 @@ class Filter(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['id'] = data['id']
@@ -2294,7 +2321,7 @@ class Filter(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Filter], data: Union[Dict, None]) -> Union[Filter, None]:
+    def from_dict(cls: Type[Filter], data: Union[Dict, None, List[Dict]]) -> Union[Filter, None]:
         """
         Deserialize a new Filter from a given dictionary.
 
@@ -2303,6 +2330,9 @@ class Filter(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -2353,7 +2383,7 @@ class Links(DerpiModel):
     :param state: The state of this link.
     :type  state: str
     
-    :param tag_id: The ID of an associated tag for this link. Null if no tag linked.
+    :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
     :type  tag_id: int
     
     """
@@ -2368,7 +2398,7 @@ class Links(DerpiModel):
     """ The state of this link. """
     state: str
     
-    """ The ID of an associated tag for this link. Null if no tag linked. """
+    """ The ID of an associated tag for this link. `Null` if no tag linked. """
     tag_id: int
     
     def __init__(
@@ -2392,7 +2422,7 @@ class Links(DerpiModel):
         :param state: The state of this link.
         :type  state: str
         
-        :param tag_id: The ID of an associated tag for this link. Null if no tag linked.
+        :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
         :type  tag_id: int
         
         """
@@ -2410,7 +2440,7 @@ class Links(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['user_id'] = data['user_id']
@@ -2435,7 +2465,7 @@ class Links(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Links], data: Union[Dict, None]) -> Union[Links, None]:
+    def from_dict(cls: Type[Links], data: Union[Dict, None, List[Dict]]) -> Union[Links, None]:
         """
         Deserialize a new Links from a given dictionary.
 
@@ -2444,6 +2474,9 @@ class Links(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -2562,7 +2595,7 @@ class Awards(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['image_url'] = data['image_url']
@@ -2589,7 +2622,7 @@ class Awards(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Awards], data: Union[Dict, None]) -> Union[Awards, None]:
+    def from_dict(cls: Type[Awards], data: Union[Dict, None, List[Dict]]) -> Union[Awards, None]:
         """
         Deserialize a new Awards from a given dictionary.
 
@@ -2598,6 +2631,9 @@ class Awards(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -2738,7 +2774,7 @@ class Gallery(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['description'] = data['description']
@@ -2769,7 +2805,7 @@ class Gallery(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Gallery], data: Union[Dict, None]) -> Union[Gallery, None]:
+    def from_dict(cls: Type[Gallery], data: Union[Dict, None, List[Dict]]) -> Union[Gallery, None]:
         """
         Deserialize a new Gallery from a given dictionary.
 
@@ -2778,6 +2814,9 @@ class Gallery(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
@@ -2825,7 +2864,7 @@ class Oembed(DerpiModel):
     :param author_url: The source URL of the image.
     :type  author_url: str
     
-    :param cache_age: Always 7200.
+    :param cache_age: Always `7200`.
     :type  cache_age: int
     
     :param derpibooru_comments: The number of comments made on the image.
@@ -2840,19 +2879,19 @@ class Oembed(DerpiModel):
     :param derpibooru_tags: The names of the image's tags.
     :type  derpibooru_tags: list
     
-    :param provider_name: Always "Derpibooru".
+    :param provider_name: Always `"Derpibooru"`.
     :type  provider_name: str
     
-    :param provider_url: Always "https://derpibooru.org".
+    :param provider_url: Always `"https://derpibooru.org"`.
     :type  provider_url: str
     
     :param title: The image's ID and associated tags, as would be given on the title of the image page.
     :type  title: str
     
-    :param type: Always "photo".
+    :param type: Always `"photo"`.
     :type  type: str
     
-    :param version: Always "1.0".
+    :param version: Always `"1.0"`.
     :type  version: str
     
     """
@@ -2864,7 +2903,7 @@ class Oembed(DerpiModel):
     """ The source URL of the image. """
     author_url: str
     
-    """ Always 7200. """
+    """ Always `7200`. """
     cache_age: int
     
     """ The number of comments made on the image. """
@@ -2879,19 +2918,19 @@ class Oembed(DerpiModel):
     """ The names of the image's tags. """
     derpibooru_tags: list
     
-    """ Always "Derpibooru". """
+    """ Always `"Derpibooru"`. """
     provider_name: str
     
-    """ Always "https://derpibooru.org". """
+    """ Always `"https://derpibooru.org"`. """
     provider_url: str
     
     """ The image's ID and associated tags, as would be given on the title of the image page. """
     title: str
     
-    """ Always "photo". """
+    """ Always `"photo"`. """
     type: str
     
-    """ Always "1.0". """
+    """ Always `"1.0"`. """
     version: str
     
     def __init__(
@@ -2920,7 +2959,7 @@ class Oembed(DerpiModel):
         :param author_url: The source URL of the image.
         :type  author_url: str
         
-        :param cache_age: Always 7200.
+        :param cache_age: Always `7200`.
         :type  cache_age: int
         
         :param derpibooru_comments: The number of comments made on the image.
@@ -2935,19 +2974,19 @@ class Oembed(DerpiModel):
         :param derpibooru_tags: The names of the image's tags.
         :type  derpibooru_tags: list
         
-        :param provider_name: Always "Derpibooru".
+        :param provider_name: Always `"Derpibooru"`.
         :type  provider_name: str
         
-        :param provider_url: Always "https://derpibooru.org".
+        :param provider_url: Always `"https://derpibooru.org"`.
         :type  provider_url: str
         
         :param title: The image's ID and associated tags, as would be given on the title of the image page.
         :type  title: str
         
-        :param type: Always "photo".
+        :param type: Always `"photo"`.
         :type  type: str
         
-        :param version: Always "1.0".
+        :param version: Always `"1.0"`.
         :type  version: str
         
         """
@@ -2973,7 +3012,7 @@ class Oembed(DerpiModel):
         :return: new dict with valid values
         :rtype: dict
         """
-        assert_type_or_raise(data, dict, parameter_name="array")
+        assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
         arguments['author_name'] = data['author_name']
@@ -3014,7 +3053,7 @@ class Oembed(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Oembed], data: Union[Dict, None]) -> Union[Oembed, None]:
+    def from_dict(cls: Type[Oembed], data: Union[Dict, None, List[Dict]]) -> Union[Oembed, None]:
         """
         Deserialize a new Oembed from a given dictionary.
 
@@ -3023,6 +3062,9 @@ class Oembed(DerpiModel):
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
