@@ -96,7 +96,7 @@ def image(
 # end def image
 
 
-def featured_images(
+def featured_image(
 ) -> Image:
     """
     Fetches an **image response** for the for the current featured image.
@@ -117,7 +117,7 @@ def featured_images(
     assert_type_or_raise(result, dict, parameter_name='result')
     result: Image = Image.from_dict(result)
     return result
-# end def featured_images
+# end def featured_image
 
 
 def tag(
@@ -888,7 +888,7 @@ class DerpiClient(object):
     # end def image
     
     # noinspection PyMethodMayBeStatic
-    def featured_images(
+    def featured_image(
         self, 
     ) -> Image:
         """
@@ -903,9 +903,9 @@ class DerpiClient(object):
         :return: The parsed result from the API.
         :rtype:  Image
         """
-        return featured_images(
+        return featured_image(
         )
-    # end def featured_images
+    # end def featured_image
     
     # noinspection PyMethodMayBeStatic
     def tag(
