@@ -7,8 +7,8 @@ from models import *
 logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-
-with open('./output/api.html', 'r') as f:
+FILE = 'api'
+with open(f'./output/{FILE}.html', 'r') as f:
     html = f.read()
 # end with
 
@@ -33,16 +33,19 @@ for element in main.find_all('h2'):
 
 
 classes = []
-classes.append(Class('Intensities', [
-    Parameter("ne", 'Float', 'Northeast intensity. Whatever that means…'),
-    Parameter("nw", 'Float', 'Northwest intensity. Whatever that means…'),
-    Parameter("se", 'Float', 'Southeast intensity. Whatever that means…'),
-    Parameter("sw", 'Float', 'Southwest intensity. Whatever that means…'),
-]))
-classes.append(Class('Representations', [
-    Parameter(key, 'String', f'A mapping of the {key!r} representation names to their respective URLs.')
-    for key in ["full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"]
-]))
+
+if FILE == 'api':
+    classes.append(Class('Intensities', [
+        Parameter("ne", 'Float', 'Northeast intensity. Whatever that means…'),
+        Parameter("nw", 'Float', 'Northwest intensity. Whatever that means…'),
+        Parameter("se", 'Float', 'Southeast intensity. Whatever that means…'),
+        Parameter("sw", 'Float', 'Southwest intensity. Whatever that means…'),
+    ]))
+    classes.append(Class('Representations', [
+        Parameter(key, 'String', f'A mapping of the {key!r} representation names to their respective URLs.')
+        for key in ["full", "large", "medium", "small", "tall", "thumb", "thumb_small", "thumb_tiny"]
+    ]))
+# end if
 
 for element in main.find_all('h2'):
     if element.text and 'id' in element.attrs and element.attrs['id'] and element.attrs['id'].endswith('-response') and element.text.endswith(' Responses'):
@@ -294,7 +297,7 @@ for row in rows:
 # end def
 
 
-with open('./output/api.py', 'w') as f:
+with open(f'./output/{FILE}.py', 'w') as f:
     f.write('from models import *\n')
     f.write('\n')
     f.write('routes = [\n')
