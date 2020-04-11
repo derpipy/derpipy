@@ -25,6 +25,11 @@ class OnlineTest(unittest.TestCase):
         featured_image = client.featured_image()
         self.assertIsInstance(featured_image, Image)
     # end def
+
+    def test_tag(self):
+        tag = client.tag('oc-colon-littlepip')
+        self.assertIsInstance(tag, Image)
+    # end def
 # end class
 
 

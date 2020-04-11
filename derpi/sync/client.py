@@ -121,7 +121,7 @@ def featured_image(
 
 
 def tag(
-    tag_id: int,
+    tag_id: str,
 ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
@@ -133,7 +133,7 @@ def tag(
     The API should return json looking like `{"tag":Tag}` which will then be parsed to the python result `Tag`.
     
     :param tag_id: the variable tag_id part of the url.
-    :type  tag_id: int
+    :type  tag_id: str
     
     :return: The parsed result from the API.
     :rtype:  Tag
@@ -910,7 +910,7 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def tag(
         self, 
-        tag_id: int,
+        tag_id: str,
     ) -> Tag:
         """
         Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used.
@@ -922,7 +922,7 @@ class DerpiClient(object):
         The API should return json looking like `{"tag":Tag}` which will then be parsed to the python result `Tag`.
         
         :param tag_id: the variable tag_id part of the url.
-        :type  tag_id: int
+        :type  tag_id: str
         
         :return: The parsed result from the API.
         :rtype:  Tag

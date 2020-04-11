@@ -192,7 +192,7 @@ for row in rows:
         param = match.groupdict()['param']
         url_p = Parameter(
             name=param,
-            type="Integer" if param.endswith('_id') else "String",
+            type="Integer" if param.endswith('_id') and param != 'tag_id' else "String",
             description=f'the variable {param} part of the url.'
         )
         path_params.append(url_p)
