@@ -129,10 +129,8 @@ class {{ class.name }}(DerpiModel{% if class.name == 'SearchResult' %}, Generic[
         arguments = super().prepare_dict(data) {# -
         #}{% for param in class.params %}{% if param.type == 'RFC3339 datetime' %}
         arguments[{{ param.name.__repr__() }}] = iso8601.parse_date(data[{{ param.name.__repr__() }}]) {#-
-        #}{% elif param.type == 'Intensities' %}
-        arguments[{{ param.name.__repr__() }}] = Intensities.from_dict(data[{{ param.name.__repr__() }}]) {#-
-        #}{% elif param.type == 'Representations' %}
-        arguments[{{ param.name.__repr__() }}] = Representations.from_dict(data[{{ param.name.__repr__() }}]) {#-
+        #}{% elif  param.python_typing_representation(classes)[0].isupper() %}
+        arguments[{{ param.name.__repr__() }}] = {{ param.type }}.from_dict(data[{{ param.name.__repr__() }}]) {#-
         #}{% else %}
         arguments[{{ param.name.__repr__() }}] = data[{{ param.name.__repr__() }}] {#-
         #}{% endif %}{% if param.optional %} if data.get({{ param.name.__repr__() }}, None) is not None else None{% endif %}{% endfor -%}{#  #}
