@@ -63,6 +63,7 @@ class Parameter(object):
         'Array': 'list',
         'Boolean': 'bool',
         # 'Object': 'dict',
+        'List[T]': 'List[T]'
     }
 
     def python_typing_representation(self, classes: Union[None, List[Class]] = None):
@@ -89,7 +90,7 @@ class Parameter(object):
 
 
 class ResponseType(object):
-    def __init__(self, schema: str, key: Union[str, None], is_list: bool, class_name: str):
+    def __init__(self, schema: str, key: Union[str, None], is_list: bool, class_name: str, has_total: bool = False):
         """
         :param schema: String representation of it. E.g. `{"images":[Image]}`
         :param key: The response is an dict with that key, e.g. `{"key": Object}`.
@@ -101,14 +102,15 @@ class ResponseType(object):
         self.key = key   # `{"key": Object}` or `Object` if None.
         self.is_list = is_list  # [Image] or Image
         self.class_name = class_name  # Image
+        self.has_total = has_total  # {"image": Image, "total": 4458}}
     # end def
 
     def __str__(self):
-        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r}, python_typing_representation={self.python_typing_representation!r})"
+        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r}, has_total={self.has_total!r}, python_typing_representation={self.python_typing_representation!r})"
     # end def
 
     def __repr__(self):  # without the property
-        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r})"
+        return f"{self.__class__.__name__}(schema={self.schema!r}, is_list={self.is_list!r}, key={self.key!r}, class_name={self.class_name!r}, has_total={self.has_total!r})"
     # end def
 
     def python_typing_representation(self, json_mode: bool, include_dict=True):
@@ -118,6 +120,9 @@ class ResponseType(object):
         # end if
         if json_mode and include_dict and self.key:
             string = f'Dict[str, {string}]'
+        # end if
+        if self.has_total:
+            string = f'SearchResult[{string}]'
         # end if
         return string
 # end class
