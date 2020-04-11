@@ -1,7 +1,7 @@
 import unittest
 import iso8601
 import datetime
-from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag
+from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post
 
 null = None    # jSoN
 false = False  # JsOn
@@ -34,6 +34,11 @@ class OnlineTest(unittest.TestCase):
     def test_tag__aliased(self):
         tag = client.tag('littlepip')
         self.assertIsInstance(tag, Tag)
+    # end def
+
+    def test_post(self):
+        post = client.post(4704912)
+        self.assertIsInstance(post, Post)
     # end def
 # end class
 
@@ -154,6 +159,29 @@ class OfflineTest(unittest.TestCase):
         expected = Tag(aliased_tag='oc-colon-littlepip', aliases=[], category=None, description='', dnp_entries=[], id=33169, images=0, implied_by_tags=[], implied_tags=[], name='littlepip', name_in_namespace='littlepip', namespace=None, short_description='', slug='littlepip', spoiler_image=None, spoiler_image_uri=None)
         self.assertEqual(tag, expected)
 
+    def test_post(self):
+        post = Post.from_dict({
+          "post": {
+            "author": "Joey",
+            "avatar": "https://derpicdn.net/avatars/2019/11/13/14215782720827205181237247282992609700.png",
+            "body": "This notice is primarily targeted towards developers, but may affect anyone using third party applications to update the site:\r\n\r\n*If you do not know what an API is and you only browse Derpibooru in a web browser, than this post does not affect you, and you can ignore this announcement.*\r\n\r\nIn December, Derpibooru completed the migration to \"Philomena\":https://github.com/derpibooru/philomena - our new, rewritten from the ground-up codebase - to significantly improve performance of the site and to pave the way for future enhancements.\r\n\r\nAs part of this migration, Philomena implements a new API that allows more capabilities than our previous API. You can read a bit about that \"here\":/forums/meta/topics/philomena-open-beta-breaking-api-changes\r\n\r\nThe old API has remained available since the migration to ensure compatibility with older apps and to allow third party developers time to migrate to the new API. Regrettably, maintaining compatibility with the old API is causing some limits with regards to changes we'd like to make to the site's code. As such, our development team has made the decision to begin deprecating and shutting down the old API.\r\n\r\nCurrently the old API is scheduled to be decommissioned on *March 31st, 2020*.\r\n\r\nIf you write third party apps or scripts that interact with Derpibooru, we encourage you to make sure that your application is compatible with the new API by then. You can read documentation on the current API \"here\":/pages/api\r\n\r\nIf you use an app or script that interacts with the site, and it has not been updated since December, then it is likely it's utilizing the old API still, and you should reach out to the developer to ensure that it's updated so compatibility is maintained.",
+            "created_at": "2020-02-20T16:18:04",
+            "edit_reason": null,
+            "edited_at": "2020-02-21T05:42:40Z",
+            "id": 4704912,
+            "updated_at": "2020-02-21T05:42:40",
+            "user_id": 216494
+          }
+        }['post'])
+        expected = Post(author='Joey', body='This notice is primarily targeted towards developers, but may affect anyone using third party applications to update the site:\r\n\r\n*If you do not know what an API is and you only browse Derpibooru in a web browser, than this post does not affect you, and you can ignore this announcement.*\r\n\r\nIn December, Derpibooru completed the migration to "Philomena":https://github.com/derpibooru/philomena - our new, rewritten from the ground-up codebase - to significantly improve performance of the site and to pave the way for future enhancements.\r\n\r\nAs part of this migration, Philomena implements a new API that allows more capabilities than our previous API. You can read a bit about that "here":/forums/meta/topics/philomena-open-beta-breaking-api-changes\r\n\r\nThe old API has remained available since the migration to ensure compatibility with older apps and to allow third party developers time to migrate to the new API. Regrettably, maintaining compatibility with the old API is causing some limits with regards to changes we\'d like to make to the site\'s code. As such, our development team has made the decision to begin deprecating and shutting down the old API.\r\n\r\nCurrently the old API is scheduled to be decommissioned on *March 31st, 2020*.\r\n\r\nIf you write third party apps or scripts that interact with Derpibooru, we encourage you to make sure that your application is compatible with the new API by then. You can read documentation on the current API "here":/pages/api\r\n\r\nIf you use an app or script that interacts with the site, and it has not been updated since December, then it is likely it\'s utilizing the old API still, and you should reach out to the developer to ensure that it\'s updated so compatibility is maintained.', id=4704912, user_id=216494, avatar='https://derpicdn.net/avatars/2019/11/13/14215782720827205181237247282992609700.png', created_at=datetime.datetime(2020, 2, 20, 16, 18, 4, tzinfo=datetime.timezone.utc), edit_reason=None, edited_at=datetime.datetime(2020, 2, 21, 5, 42, 40, tzinfo=datetime.timezone.utc), updated_at=datetime.datetime(2020, 2, 21, 5, 42, 40, tzinfo=datetime.timezone.utc))
+        self.assertEqual(post, expected)
+    # end def
+
+    def tst(self):
+        cls = Cls.from_dict({})
+        expected = Cls()
+        self.assertEqual(cls, expected)
+    # emd def
 
 if __name__ == '__main__':
     unittest.main()
