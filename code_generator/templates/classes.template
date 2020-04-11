@@ -151,7 +151,7 @@ class {{ class.name }}(DerpiModel{% if class.name == 'SearchResult' %}, Generic[
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[{{ class.name }}], data: Union[Dict, None]) -> Union[{{ class.name }}, None]:
+    def from_dict(cls: Type[{{ class.name }}], data: Union[Dict, None, List[Dict]]) -> Union[{{ class.name }}, None]:
         """
         Deserialize a new {{ class.name }} from a given dictionary.
 
@@ -160,6 +160,9 @@ class {{ class.name }}(DerpiModel{% if class.name == 'SearchResult' %}, Generic[
         """
         if not data:  # None or {}
             return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
         # end if
 
         data: Dict = cls.prepare_dict(data)
