@@ -114,7 +114,7 @@ class OnlineTest(unittest.TestCase):
     # end def
 
     def test_search_comments(self):
-        search_comments = client.search_comments(page=1, q='best pony')
+        search_comments = client.search_comments('best pony')
         self.assertIsInstance(search_comments, list)
         for comment in search_comments:
             self.assertIsInstance(comment, Comment)
@@ -123,7 +123,7 @@ class OnlineTest(unittest.TestCase):
     # end def
 
     def test_search_galleries(self):
-        search_galleries = client.search_galleries(page=1, q='best pony')
+        search_galleries = client.search_galleries('best pony')
         self.assertIsInstance(search_galleries, list)
         for gallery in search_galleries:
             self.assertIsInstance(gallery, Gallery)
@@ -132,7 +132,7 @@ class OnlineTest(unittest.TestCase):
     # end def
 
     def test_search_posts(self):
-        search_posts = client.search_posts(page=1, q='best pony')
+        search_posts = client.search_posts('best pony')
         self.assertIsInstance(search_posts, list)
         for post in search_posts:
             self.assertIsInstance(post, Post)
@@ -142,7 +142,7 @@ class OnlineTest(unittest.TestCase):
 
     def test_search_images(self):
         items = 2
-        search_images = client.search_images(page=1, q='littlepip', per_page=items)
+        search_images = client.search_images(query='littlepip', per_page=items)
         self.assertIsInstance(search_images, list)
         self.assertEquals(len(search_images), items)
         for image in search_images:
@@ -152,7 +152,7 @@ class OnlineTest(unittest.TestCase):
     # end def
 
     def test_search_tags(self):
-        search_tags = client.search_tags(page=1, q='littlepip')
+        search_tags = client.search_tags('littlepip', page=1)
         self.assertIsInstance(search_tags, list)
         self.assertTrue(search_tags)
         for tag in search_tags:
