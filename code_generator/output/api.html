@@ -24,7 +24,7 @@
       </tr>
       <tr>
         <td><code>page</code></td>
-        <td>Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is <code>1</code>.</td>
+        <td>Controls the current page of the response, if the response is paginated. Empty values default to the first page.</td>
       </tr>
       <tr>
         <td><code>per_page</code></td>
@@ -86,7 +86,7 @@
         <td><code>GET</code></td>
         <td><code>/api/v1/json/tags/:tag_id</code></td>
         <td><code></code></td>
-        <td>Fetches a <em>tag response</em> for the <em>tag slug</em> given by the <code>tag_id</code> URL parameter. The tag's ID is <em>not</em> used. For getting a tag by ID the search endpoint can be used like <code>search/tags?q=id:4458</code>.</td>
+        <td>Fetches a <em>tag response</em> for the <em>tag slug</em> given by the <code>tag_id</code> URL parameter. The tag's ID is <em>not</em> used.</td>
         <td><code>{"tag":<a href="#tag-response">tag-response</a>}</code></td>
         <td><a href="/api/v1/json/tags/artist-colon-atryl"><code>/api/v1/json/tags/artist-colon-atryl</code></a></td>
       </tr>
@@ -141,15 +141,15 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/comments</code></td>
-        <td><code>key, page, q</code></td>
-        <td>Executes the search given by the <code>q</code> query parameter (case insensitive and stemming is applied. If you search for <em>best pony</em> results like <em>Best Ponies</em> are also be returned), and returns <em>comment responses</em> sorted by descending creation time.</td>
+        <td><code>key, page</code></td>
+        <td>Executes the search given by the <code>q</code> query parameter, and returns <em>comment responses</em> sorted by descending creation time.</td>
         <td><code>{"comments":[<a href="#comment-response">comment-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/comments?q=image_id:1000000"><code>/api/v1/json/search/comments?q=image_id:1000000</code></a></td>
       </tr>
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/galleries</code></td>
-        <td><code>key, page, q</code></td>
+        <td><code>key, page</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>gallery responses</em> sorted by descending creation time.</td>
         <td><code>{"galleries":[<a href="#gallery-response">gallery-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/galleries?q=title:mean*"><code>/api/v1/json/search/galleries?q=title:mean*</code></a></td>
@@ -157,7 +157,7 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/posts</code></td>
-        <td><code>key, page, q</code></td>
+        <td><code>key, page</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>post responses</em> sorted by descending creation time.</td>
         <td><code>{"posts":[<a href="#post-response">post-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/posts?q=subject:time wasting thread"><code>/api/v1/json/search/posts?q=subject:time wasting thread</code></a></td>
@@ -173,7 +173,7 @@
       <tr>
         <td><code>GET</code></td>
         <td><code>/api/v1/json/search/tags</code></td>
-        <td><code>page, q</code></td>
+        <td><code>page</code></td>
         <td>Executes the search given by the <code>q</code> query parameter, and returns <em>tag responses</em> sorted by descending image count.</td>
         <td><code>{"tags":[<a href="#tag-response">tag-response</a>]}</code></td>
         <td><a href="/api/v1/json/search/tags?q=analyzed_name:wing"><code>/api/v1/json/search/tags?q=analyzed_name:wing</code></a></td>
@@ -191,7 +191,7 @@
         <td><code>/api/v1/json/forums</code></td>
         <td></td>
         <td>Fetches a list of <em>forum responses</em>.</td>
-        <td><code>{"forums":[<a href="#forum-response">forum-response</a>]}</code></td>
+        <td><code>{"forums":<a href="#forum-response">forum-response</a>}</code></td>
         <td><a href="/api/v1/json/forums"><code>/api/v1/json/forums</code></a></td>
       </tr>
       <tr>
@@ -207,7 +207,7 @@
         <td><code>/api/v1/json/forums/:short_name/topics</code></td>
         <td><code>page</code></td>
         <td>Fetches a list of <em>topic responses</em> for the abbreviated forum name given by the <code>short_name</code> URL parameter.</td>
-        <td><code>{"topics":[<a href="#topic-response">topic-response</a>]}</code></td>
+        <td><code>{"topics":<a href="#topic-response">topic-response</a>}</code></td>
         <td><a href="/api/v1/json/forums/dis/topics"><code>/api/v1/json/forums/dis/topics</code></a></td>
       </tr>
       <tr>
@@ -223,7 +223,7 @@
         <td><code>/api/v1/json/forums/:short_name/topics/:topic_slug/posts</code></td>
         <td><code>page</code></td>
         <td>Fetches a list of <em>post responses</em> for the abbreviated forum name given by the <code>short_name</code> and topic given by <code>topic_slug</code> URL parameters.</td>
-        <td><code>{"posts":[<a href="#post-response">post-response</a>]}</code></td>
+        <td><code>{"posts":<a href="#post-response">post-response</a>}</code></td>
         <td><a href="/api/v1/json/forums/dis/topics/ask-the-mods-anything/posts"><code>/api/v1/json/forums/dis/topics/ask-the-mods-anything/posts</code></a></td>
       </tr>
       <tr>
@@ -418,100 +418,6 @@
       </tr>
     </tbody>
   </table>
-  <h2 id="representations-response">Representations Responses</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Field</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>full</code></td>
-        <td>String</td>
-        <td>The url to the image in original resolution.</td>
-      </tr>
-      <tr>
-        <td><code>large</code></td>
-        <td>String</td>
-        <td>The url to the image in large resolution.</td>
-      </tr>
-      <tr>
-        <td><code>medium</code></td>
-        <td>String</td>
-        <td>The url to the image in medium resolution.</td>
-      </tr>
-      <tr>
-        <td><code>small</code></td>
-        <td>String</td>
-        <td>The url to the image in small resolution.</td>
-      </tr>
-      <tr>
-        <td><code>tall</code></td>
-        <td>String</td>
-        <td>The url to the image in tall resolution.</td>
-      </tr>
-      <tr>
-        <td><code>thumb</code></td>
-        <td>String</td>
-        <td>The url to the image thumbnail in normal resolution.</td>
-      </tr>
-      <tr>
-        <td><code>thumb_small</code></td>
-        <td>String</td>
-        <td>The url to the image thumbnail in small resolution.</td>
-      </tr>
-      <tr>
-        <td><code>thumb_tiny</code></td>
-        <td>String</td>
-        <td>The url to the image thumbnail in tiny resolution.</td>
-      </tr>
-      <tr>
-        <td><code>mp4</code></td>
-        <td>String</td>
-        <td>Optional. The url to the animated image as mp4 format.</td>
-      </tr>
-      <tr>
-        <td><code>webm</code></td>
-        <td>String</td>
-        <td>Optional. The url to the animated image as webm format.</td>
-      </tr>
-    </tbody>
-  </table>
-  <h2 id="intensities-response">Intensities Responses</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Field</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>ne</code></td>
-        <td>Float</td>
-        <td>Northeast intensity. Whatever that means…</td>
-      </tr>
-      <tr>
-        <td><code>nw</code></td>
-        <td>Float</td>
-        <td>Northwest intensity. Whatever that means…</td>
-      </tr>
-      <tr>
-        <td><code>se</code></td>
-        <td>Float</td>
-        <td>Southeast intensity. Whatever that means…</td>
-      </tr>
-      <tr>
-        <td><code>sw</code></td>
-        <td>Float</td>
-        <td>Southwest intensity. Whatever that means…</td>
-      </tr>
-    </tbody>
-  </table>
   <h2 id="comment-response">Comment Responses</h2>
   <table class="table">
     <thead>
@@ -528,11 +434,6 @@
         <td>The comment's author.</td>
       </tr>
       <tr>
-        <td><code>avatar</code></td>
-        <td>String</td>
-        <td>The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like <code>data:image/svg+xml;base64,…</code>.</td>
-      </tr>
-      <tr>
         <td><code>body</code></td>
         <td>String</td>
         <td>The comment text.</td>
@@ -543,29 +444,9 @@
         <td>The comment's ID.</td>
       </tr>
       <tr>
-        <td><code>created_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>The creation time, in UTC, of this comment.</td>
-      </tr>
-      <tr>
         <td><code>image_id</code></td>
         <td>Integer</td>
         <td>The ID of the image the comment belongs to.</td>
-      </tr>
-      <tr>
-        <td><code>edit_reason</code></td>
-        <td>String</td>
-        <td>Optional. The user provided reason for an edit, if any.</td>
-      </tr>
-      <tr>
-        <td><code>edited_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>Optional. The edit time, in UTC, of this comment.</td>
-      </tr>
-      <tr>
-        <td><code>updated_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>The time, in UTC, the comment was last updated.</td>
       </tr>
       <tr>
         <td><code>user_id</code></td>
@@ -698,31 +579,6 @@
         <td>Integer</td>
         <td>The ID of the user the comment belongs to, if any.</td>
       </tr>
-      <tr>
-        <td><code>avatar</code></td>
-        <td>String</td>
-        <td>The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like <code>data:image/svg+xml;base64,…</code>.</td>
-      </tr>
-      <tr>
-        <td><code>created_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>The creation time, in UTC, of this post.</td>
-      </tr>
-      <tr>
-        <td><code>edit_reason</code></td>
-        <td>String</td>
-        <td>Optional. The user provided reason for an edit, if given.</td>
-      </tr>
-      <tr>
-        <td><code>edited_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>Optional. The edit time, in UTC, of this post. If it got edited.</td>
-      </tr>
-      <tr>
-        <td><code>updated_at</code></td>
-        <td>RFC3339 datetime</td>
-        <td>The time, in UTC, the post was last updated.</td>
-      </tr>
     </tbody>
   </table>
   <h2 id="tag-response">Tag Responses</h2>
@@ -808,12 +664,7 @@
       <tr>
         <td><code>spoiler_image</code></td>
         <td>String</td>
-        <td>Optional. The spoiler image URL for the tag.</td>
-      </tr>
-      <tr>
-        <td><code>spoiler_image_uri</code></td>
-        <td>String</td>
-        <td>Optional. The spoiler image URL for the tag.</td>
+        <td>The spoiler image URL for the tag.</td>
       </tr>
     </tbody>
   </table>
