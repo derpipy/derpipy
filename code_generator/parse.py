@@ -28,6 +28,9 @@ def parse_description(description: List[bs4.PageElement], class_names):
     for tag in description:
         if isinstance(tag, NavigableString):
             string += str(tag)
+            if 'optional' in str(tag).lower():
+                optional = True
+            # end if
         elif tag.name == 'a' and tag.attrs.get('href', None):
             if tag.attrs.get('href', '').startswith('#'):
                 string = f'`{class_names[tag.attrs["href"]]}`'

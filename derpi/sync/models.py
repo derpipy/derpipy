@@ -731,10 +731,10 @@ class Representations(DerpiModel):
     :type  thumb_tiny: str
     
     :param mp4: Optional. The url to the animated image as mp4 format.
-    :type  mp4: str
+    :type  mp4: str|None
     
     :param webm: Optional. The url to the animated image as webm format.
-    :type  webm: str
+    :type  webm: str|None
     
     """
 
@@ -764,10 +764,10 @@ class Representations(DerpiModel):
     thumb_tiny: str
     
     """ Optional. The url to the animated image as mp4 format. """
-    mp4: str
+    mp4: Union[str, None]
     
     """ Optional. The url to the animated image as webm format. """
-    webm: str
+    webm: Union[str, None]
     
     def __init__(
         self, 
@@ -779,8 +779,8 @@ class Representations(DerpiModel):
         thumb: str,
         thumb_small: str,
         thumb_tiny: str,
-        mp4: str,
-        webm: str,
+        mp4: Union[str, None] = None,
+        webm: Union[str, None] = None,
     ):
         """
         A parsed Representations response of the Derpibooru API.
@@ -812,10 +812,10 @@ class Representations(DerpiModel):
         :type  thumb_tiny: str
         
         :param mp4: Optional. The url to the animated image as mp4 format.
-        :type  mp4: str
+        :type  mp4: str|None
         
         :param webm: Optional. The url to the animated image as webm format.
-        :type  webm: str
+        :type  webm: str|None
         
         """
         self.full = full
@@ -849,8 +849,8 @@ class Representations(DerpiModel):
         arguments['thumb'] = data['thumb']
         arguments['thumb_small'] = data['thumb_small']
         arguments['thumb_tiny'] = data['thumb_tiny']
-        arguments['mp4'] = data['mp4']
-        arguments['webm'] = data['webm']
+        arguments['mp4'] = data['mp4'] if data.get('mp4', None) is not None else None
+        arguments['webm'] = data['webm'] if data.get('webm', None) is not None else None
         
         del data['full']
         del data['large']
@@ -860,8 +860,12 @@ class Representations(DerpiModel):
         del data['thumb']
         del data['thumb_small']
         del data['thumb_tiny']
-        del data['mp4']
-        del data['webm']
+        if 'mp4' in data:
+            del data['mp4']
+        # end if
+        if 'webm' in data:
+            del data['webm']
+        # end if
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
