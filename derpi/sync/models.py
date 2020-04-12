@@ -176,7 +176,7 @@ class Image(DerpiModel):
     :type  created_at: datetime
     
     :param deletion_reason: The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation.
-    :type  deletion_reason: str
+    :type  deletion_reason: str|None
     
     :param description: The image's description.
     :type  description: str
@@ -185,7 +185,7 @@ class Image(DerpiModel):
     :type  downvotes: int
     
     :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
-    :type  duplicate_of: int
+    :type  duplicate_of: int|None
     
     :param faves: The number of faves the image has.
     :type  faves: int
@@ -281,7 +281,7 @@ class Image(DerpiModel):
     created_at: datetime
     
     """ The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation. """
-    deletion_reason: str
+    deletion_reason: Union[str, None]
     
     """ The image's description. """
     description: str
@@ -290,7 +290,7 @@ class Image(DerpiModel):
     downvotes: int
     
     """ The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image. """
-    duplicate_of: int
+    duplicate_of: Union[int, None]
     
     """ The number of faves the image has. """
     faves: int
@@ -378,10 +378,8 @@ class Image(DerpiModel):
         aspect_ratio: float,
         comment_count: int,
         created_at: datetime,
-        deletion_reason: str,
         description: str,
         downvotes: int,
-        duplicate_of: int,
         faves: int,
         first_seen_at: datetime,
         format: str,
@@ -408,6 +406,8 @@ class Image(DerpiModel):
         view_url: str,
         width: int,
         wilson_score: float,
+        deletion_reason: Union[str, None] = None,
+        duplicate_of: Union[int, None] = None,
         intensities: Union[Intensities, None] = None,
     ):
         """
@@ -425,7 +425,7 @@ class Image(DerpiModel):
         :type  created_at: datetime
         
         :param deletion_reason: The hide reason for the image, or `null` if none provided. This will only have a value on images which are deleted for a rule violation.
-        :type  deletion_reason: str
+        :type  deletion_reason: str|None
         
         :param description: The image's description.
         :type  description: str
@@ -434,7 +434,7 @@ class Image(DerpiModel):
         :type  downvotes: int
         
         :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
-        :type  duplicate_of: int
+        :type  duplicate_of: int|None
         
         :param faves: The number of faves the image has.
         :type  faves: int
@@ -568,10 +568,10 @@ class Image(DerpiModel):
         arguments['aspect_ratio'] = data['aspect_ratio']
         arguments['comment_count'] = data['comment_count']
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
-        arguments['deletion_reason'] = data['deletion_reason']
+        arguments['deletion_reason'] = data['deletion_reason'] if data.get('deletion_reason', None) is not None else None
         arguments['description'] = data['description']
         arguments['downvotes'] = data['downvotes']
-        arguments['duplicate_of'] = data['duplicate_of']
+        arguments['duplicate_of'] = data['duplicate_of'] if data.get('duplicate_of', None) is not None else None
         arguments['faves'] = data['faves']
         arguments['first_seen_at'] = iso8601.parse_date(data['first_seen_at'])
         arguments['format'] = data['format']
@@ -603,10 +603,14 @@ class Image(DerpiModel):
         del data['aspect_ratio']
         del data['comment_count']
         del data['created_at']
-        del data['deletion_reason']
+        if 'deletion_reason' in data:
+            del data['deletion_reason']
+        # end if
         del data['description']
         del data['downvotes']
-        del data['duplicate_of']
+        if 'duplicate_of' in data:
+            del data['duplicate_of']
+        # end if
         del data['faves']
         del data['first_seen_at']
         del data['format']
@@ -727,10 +731,10 @@ class Representations(DerpiModel):
     :type  thumb_tiny: str
     
     :param mp4: Optional. The url to the animated image as mp4 format.
-    :type  mp4: str|None
+    :type  mp4: str
     
     :param webm: Optional. The url to the animated image as webm format.
-    :type  webm: str|None
+    :type  webm: str
     
     """
 
@@ -760,10 +764,10 @@ class Representations(DerpiModel):
     thumb_tiny: str
     
     """ Optional. The url to the animated image as mp4 format. """
-    mp4: Union[str, None]
+    mp4: str
     
     """ Optional. The url to the animated image as webm format. """
-    webm: Union[str, None]
+    webm: str
     
     def __init__(
         self, 
@@ -775,8 +779,8 @@ class Representations(DerpiModel):
         thumb: str,
         thumb_small: str,
         thumb_tiny: str,
-        mp4: Union[str, None] = None,
-        webm: Union[str, None] = None,
+        mp4: str,
+        webm: str,
     ):
         """
         A parsed Representations response of the Derpibooru API.
@@ -808,10 +812,10 @@ class Representations(DerpiModel):
         :type  thumb_tiny: str
         
         :param mp4: Optional. The url to the animated image as mp4 format.
-        :type  mp4: str|None
+        :type  mp4: str
         
         :param webm: Optional. The url to the animated image as webm format.
-        :type  webm: str|None
+        :type  webm: str
         
         """
         self.full = full
@@ -845,8 +849,8 @@ class Representations(DerpiModel):
         arguments['thumb'] = data['thumb']
         arguments['thumb_small'] = data['thumb_small']
         arguments['thumb_tiny'] = data['thumb_tiny']
-        arguments['mp4'] = data['mp4'] if data.get('mp4', None) is not None else None
-        arguments['webm'] = data['webm'] if data.get('webm', None) is not None else None
+        arguments['mp4'] = data['mp4']
+        arguments['webm'] = data['webm']
         
         del data['full']
         del data['large']
@@ -856,12 +860,8 @@ class Representations(DerpiModel):
         del data['thumb']
         del data['thumb_small']
         del data['thumb_tiny']
-        if 'mp4' in data:
-            del data['mp4']
-        # end if
-        if 'webm' in data:
-            del data['webm']
-        # end if
+        del data['mp4']
+        del data['webm']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -1075,28 +1075,28 @@ class Comment(DerpiModel):
     :param author: The comment's author.
     :type  author: str
     
-    :param avatar: The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
+    :param avatar: The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI.
     :type  avatar: str
     
     :param body: The comment text.
     :type  body: str
     
+    :param created_at: The creation time, in UTC, of the comment.
+    :type  created_at: datetime
+    
+    :param edit_reason: The edit reason for this comment, or `null` if none provided.
+    :type  edit_reason: str|None
+    
+    :param edited_at: The time, in UTC, this comment was last edited at, or `null` if it was not edited.
+    :type  edited_at: datetime|None
+    
     :param id: The comment's ID.
     :type  id: int
-    
-    :param created_at: The creation time, in UTC, of this comment.
-    :type  created_at: datetime
     
     :param image_id: The ID of the image the comment belongs to.
     :type  image_id: int
     
-    :param edit_reason: Optional. The user provided reason for an edit, if any.
-    :type  edit_reason: str|None
-    
-    :param edited_at: Optional. The edit time, in UTC, of this comment.
-    :type  edited_at: datetime|None
-    
-    :param updated_at: The time, in UTC, the comment was last updated.
+    :param updated_at: The time, in UTC, the comment was last updated at.
     :type  updated_at: datetime
     
     :param user_id: The ID of the user the comment belongs to, if any.
@@ -1108,28 +1108,28 @@ class Comment(DerpiModel):
     """ The comment's author. """
     author: str
     
-    """ The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`. """
+    """ The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI. """
     avatar: str
     
     """ The comment text. """
     body: str
     
+    """ The creation time, in UTC, of the comment. """
+    created_at: datetime
+    
+    """ The edit reason for this comment, or `null` if none provided. """
+    edit_reason: Union[str, None]
+    
+    """ The time, in UTC, this comment was last edited at, or `null` if it was not edited. """
+    edited_at: Union[datetime, None]
+    
     """ The comment's ID. """
     id: int
-    
-    """ The creation time, in UTC, of this comment. """
-    created_at: datetime
     
     """ The ID of the image the comment belongs to. """
     image_id: int
     
-    """ Optional. The user provided reason for an edit, if any. """
-    edit_reason: Union[str, None]
-    
-    """ Optional. The edit time, in UTC, of this comment. """
-    edited_at: Union[datetime, None]
-    
-    """ The time, in UTC, the comment was last updated. """
+    """ The time, in UTC, the comment was last updated at. """
     updated_at: datetime
     
     """ The ID of the user the comment belongs to, if any. """
@@ -1140,8 +1140,8 @@ class Comment(DerpiModel):
         author: str,
         avatar: str,
         body: str,
-        id: int,
         created_at: datetime,
+        id: int,
         image_id: int,
         updated_at: datetime,
         user_id: int,
@@ -1156,28 +1156,28 @@ class Comment(DerpiModel):
         :param author: The comment's author.
         :type  author: str
         
-        :param avatar: The comment's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
+        :param avatar: The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI.
         :type  avatar: str
         
         :param body: The comment text.
         :type  body: str
         
+        :param created_at: The creation time, in UTC, of the comment.
+        :type  created_at: datetime
+        
+        :param edit_reason: The edit reason for this comment, or `null` if none provided.
+        :type  edit_reason: str|None
+        
+        :param edited_at: The time, in UTC, this comment was last edited at, or `null` if it was not edited.
+        :type  edited_at: datetime|None
+        
         :param id: The comment's ID.
         :type  id: int
-        
-        :param created_at: The creation time, in UTC, of this comment.
-        :type  created_at: datetime
         
         :param image_id: The ID of the image the comment belongs to.
         :type  image_id: int
         
-        :param edit_reason: Optional. The user provided reason for an edit, if any.
-        :type  edit_reason: str|None
-        
-        :param edited_at: Optional. The edit time, in UTC, of this comment.
-        :type  edited_at: datetime|None
-        
-        :param updated_at: The time, in UTC, the comment was last updated.
+        :param updated_at: The time, in UTC, the comment was last updated at.
         :type  updated_at: datetime
         
         :param user_id: The ID of the user the comment belongs to, if any.
@@ -1187,11 +1187,11 @@ class Comment(DerpiModel):
         self.author = author
         self.avatar = avatar
         self.body = body
-        self.id = id
         self.created_at = created_at
-        self.image_id = image_id
         self.edit_reason = edit_reason
         self.edited_at = edited_at
+        self.id = id
+        self.image_id = image_id
         self.updated_at = updated_at
         self.user_id = user_id
     # end def __init__
@@ -1210,26 +1210,26 @@ class Comment(DerpiModel):
         arguments['author'] = data['author']
         arguments['avatar'] = data['avatar']
         arguments['body'] = data['body']
-        arguments['id'] = data['id']
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
-        arguments['image_id'] = data['image_id']
         arguments['edit_reason'] = data['edit_reason'] if data.get('edit_reason', None) is not None else None
         arguments['edited_at'] = iso8601.parse_date(data['edited_at']) if data.get('edited_at', None) is not None else None
+        arguments['id'] = data['id']
+        arguments['image_id'] = data['image_id']
         arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
         arguments['user_id'] = data['user_id']
         
         del data['author']
         del data['avatar']
         del data['body']
-        del data['id']
         del data['created_at']
-        del data['image_id']
         if 'edit_reason' in data:
             del data['edit_reason']
         # end if
         if 'edited_at' in data:
             del data['edited_at']
         # end if
+        del data['id']
+        del data['image_id']
         del data['updated_at']
         del data['user_id']
 
@@ -1269,7 +1269,7 @@ class Comment(DerpiModel):
         """
         Implements `str(comment_instance)`
         """
-        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, id={s.id!r}, created_at={s.created_at!r}, image_id={s.image_id!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, id={s.id!r}, image_id={s.image_id!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -1277,17 +1277,17 @@ class Comment(DerpiModel):
         Implements `repr(comment_instance)`
         """
         
-        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, id={s.id!r}, created_at={s.created_at!r}, image_id={s.image_id!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, id={s.id!r}, image_id={s.image_id!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `comment_instance_a == comment_instance_b`
         """
-        if not (hasattr(other, 'author') and hasattr(other, 'avatar') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'created_at') and hasattr(other, 'image_id') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'updated_at') and hasattr(other, 'user_id')):
+        if not (hasattr(other, 'author') and hasattr(other, 'avatar') and hasattr(other, 'body') and hasattr(other, 'created_at') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'id') and hasattr(other, 'image_id') and hasattr(other, 'updated_at') and hasattr(other, 'user_id')):
             return False
         # end if
-        return self.author == other.author and self.avatar == other.avatar and self.body == other.body and self.id == other.id and self.created_at == other.created_at and self.image_id == other.image_id and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.updated_at == other.updated_at and self.user_id == other.user_id
+        return self.author == other.author and self.avatar == other.avatar and self.body == other.body and self.created_at == other.created_at and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.id == other.id and self.image_id == other.image_id and self.updated_at == other.updated_at and self.user_id == other.user_id
     # end __eq__
 # end class
 
@@ -1477,7 +1477,7 @@ class Topic(DerpiModel):
     :type  locked: bool
     
     :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
-    :type  user_id: int
+    :type  user_id: int|None
     
     :param author: The name of the user who made the topic.
     :type  author: str
@@ -1507,7 +1507,7 @@ class Topic(DerpiModel):
     locked: bool
     
     """ The ID of the user who made the topic. `Null` if posted anonymously. """
-    user_id: int
+    user_id: Union[int, None]
     
     """ The name of the user who made the topic. """
     author: str
@@ -1521,8 +1521,8 @@ class Topic(DerpiModel):
         sticky: bool,
         last_replied_to_at: datetime,
         locked: bool,
-        user_id: int,
         author: str,
+        user_id: Union[int, None] = None,
     ):
         """
         A parsed Topic response of the Derpibooru API.
@@ -1551,7 +1551,7 @@ class Topic(DerpiModel):
         :type  locked: bool
         
         :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
-        :type  user_id: int
+        :type  user_id: int|None
         
         :param author: The name of the user who made the topic.
         :type  author: str
@@ -1586,7 +1586,7 @@ class Topic(DerpiModel):
         arguments['sticky'] = data['sticky']
         arguments['last_replied_to_at'] = iso8601.parse_date(data['last_replied_to_at'])
         arguments['locked'] = data['locked']
-        arguments['user_id'] = data['user_id']
+        arguments['user_id'] = data['user_id'] if data.get('user_id', None) is not None else None
         arguments['author'] = data['author']
         
         del data['slug']
@@ -1596,7 +1596,9 @@ class Topic(DerpiModel):
         del data['sticky']
         del data['last_replied_to_at']
         del data['locked']
-        del data['user_id']
+        if 'user_id' in data:
+            del data['user_id']
+        # end if
         del data['author']
 
         if data:
@@ -1667,29 +1669,29 @@ class Post(DerpiModel):
     :param author: The post's author.
     :type  author: str
     
+    :param avatar: The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI.
+    :type  avatar: str
+    
     :param body: The post text.
     :type  body: str
+    
+    :param created_at: The creation time, in UTC, of the post.
+    :type  created_at: datetime
+    
+    :param edit_reason: The edit reason for this post.
+    :type  edit_reason: str
+    
+    :param edited_at: The time, in UTC, this post was last edited at, or `null` if it was not edited.
+    :type  edited_at: datetime|None
     
     :param id: The post's ID (used to identify it).
     :type  id: int
     
-    :param user_id: The ID of the user the comment belongs to, if any.
-    :type  user_id: int
-    
-    :param avatar: The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-    :type  avatar: str
-    
-    :param created_at: The creation time, in UTC, of this post.
-    :type  created_at: datetime
-    
-    :param edit_reason: Optional. The user provided reason for an edit, if given.
-    :type  edit_reason: str|None
-    
-    :param edited_at: Optional. The edit time, in UTC, of this post. If it got edited.
-    :type  edited_at: datetime|None
-    
-    :param updated_at: The time, in UTC, the post was last updated.
+    :param updated_at: The time, in UTC, the post was last updated at.
     :type  updated_at: datetime
+    
+    :param user_id: The ID of the user the post belongs to, if any.
+    :type  user_id: int
     
     """
 
@@ -1697,40 +1699,40 @@ class Post(DerpiModel):
     """ The post's author. """
     author: str
     
+    """ The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI. """
+    avatar: str
+    
     """ The post text. """
     body: str
+    
+    """ The creation time, in UTC, of the post. """
+    created_at: datetime
+    
+    """ The edit reason for this post. """
+    edit_reason: str
+    
+    """ The time, in UTC, this post was last edited at, or `null` if it was not edited. """
+    edited_at: Union[datetime, None]
     
     """ The post's ID (used to identify it). """
     id: int
     
-    """ The ID of the user the comment belongs to, if any. """
-    user_id: int
-    
-    """ The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`. """
-    avatar: str
-    
-    """ The creation time, in UTC, of this post. """
-    created_at: datetime
-    
-    """ Optional. The user provided reason for an edit, if given. """
-    edit_reason: Union[str, None]
-    
-    """ Optional. The edit time, in UTC, of this post. If it got edited. """
-    edited_at: Union[datetime, None]
-    
-    """ The time, in UTC, the post was last updated. """
+    """ The time, in UTC, the post was last updated at. """
     updated_at: datetime
+    
+    """ The ID of the user the post belongs to, if any. """
+    user_id: int
     
     def __init__(
         self, 
         author: str,
-        body: str,
-        id: int,
-        user_id: int,
         avatar: str,
+        body: str,
         created_at: datetime,
+        edit_reason: str,
+        id: int,
         updated_at: datetime,
-        edit_reason: Union[str, None] = None,
+        user_id: int,
         edited_at: Union[datetime, None] = None,
     ):
         """
@@ -1741,40 +1743,40 @@ class Post(DerpiModel):
         :param author: The post's author.
         :type  author: str
         
+        :param avatar: The URL of the author's avatar. May be a link to the CDN path, or a `data:` URI.
+        :type  avatar: str
+        
         :param body: The post text.
         :type  body: str
+        
+        :param created_at: The creation time, in UTC, of the post.
+        :type  created_at: datetime
+        
+        :param edit_reason: The edit reason for this post.
+        :type  edit_reason: str
+        
+        :param edited_at: The time, in UTC, this post was last edited at, or `null` if it was not edited.
+        :type  edited_at: datetime|None
         
         :param id: The post's ID (used to identify it).
         :type  id: int
         
-        :param user_id: The ID of the user the comment belongs to, if any.
-        :type  user_id: int
-        
-        :param avatar: The post's author's avatar. Normal URL or a base64 encoded inline svg with an appropriate header. Format like `data:image/svg+xml;base64,…`.
-        :type  avatar: str
-        
-        :param created_at: The creation time, in UTC, of this post.
-        :type  created_at: datetime
-        
-        :param edit_reason: Optional. The user provided reason for an edit, if given.
-        :type  edit_reason: str|None
-        
-        :param edited_at: Optional. The edit time, in UTC, of this post. If it got edited.
-        :type  edited_at: datetime|None
-        
-        :param updated_at: The time, in UTC, the post was last updated.
+        :param updated_at: The time, in UTC, the post was last updated at.
         :type  updated_at: datetime
+        
+        :param user_id: The ID of the user the post belongs to, if any.
+        :type  user_id: int
         
         """
         self.author = author
-        self.body = body
-        self.id = id
-        self.user_id = user_id
         self.avatar = avatar
+        self.body = body
         self.created_at = created_at
         self.edit_reason = edit_reason
         self.edited_at = edited_at
+        self.id = id
         self.updated_at = updated_at
+        self.user_id = user_id
     # end def __init__
 
     @classmethod
@@ -1789,28 +1791,26 @@ class Post(DerpiModel):
 
         arguments = super().prepare_dict(data) 
         arguments['author'] = data['author']
-        arguments['body'] = data['body']
-        arguments['id'] = data['id']
-        arguments['user_id'] = data['user_id']
         arguments['avatar'] = data['avatar']
+        arguments['body'] = data['body']
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
-        arguments['edit_reason'] = data['edit_reason'] if data.get('edit_reason', None) is not None else None
+        arguments['edit_reason'] = data['edit_reason']
         arguments['edited_at'] = iso8601.parse_date(data['edited_at']) if data.get('edited_at', None) is not None else None
+        arguments['id'] = data['id']
         arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
+        arguments['user_id'] = data['user_id']
         
         del data['author']
-        del data['body']
-        del data['id']
-        del data['user_id']
         del data['avatar']
+        del data['body']
         del data['created_at']
-        if 'edit_reason' in data:
-            del data['edit_reason']
-        # end if
+        del data['edit_reason']
         if 'edited_at' in data:
             del data['edited_at']
         # end if
+        del data['id']
         del data['updated_at']
+        del data['user_id']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -1848,7 +1848,7 @@ class Post(DerpiModel):
         """
         Implements `str(post_instance)`
         """
-        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r}, avatar={s.avatar!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, id={s.id!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -1856,17 +1856,17 @@ class Post(DerpiModel):
         Implements `repr(post_instance)`
         """
         
-        return "{s.__class__.__name__}(author={s.author!r}, body={s.body!r}, id={s.id!r}, user_id={s.user_id!r}, avatar={s.avatar!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, updated_at={s.updated_at!r})".format(s=self)
+        return "{s.__class__.__name__}(author={s.author!r}, avatar={s.avatar!r}, body={s.body!r}, created_at={s.created_at!r}, edit_reason={s.edit_reason!r}, edited_at={s.edited_at!r}, id={s.id!r}, updated_at={s.updated_at!r}, user_id={s.user_id!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `post_instance_a == post_instance_b`
         """
-        if not (hasattr(other, 'author') and hasattr(other, 'body') and hasattr(other, 'id') and hasattr(other, 'user_id') and hasattr(other, 'avatar') and hasattr(other, 'created_at') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'updated_at')):
+        if not (hasattr(other, 'author') and hasattr(other, 'avatar') and hasattr(other, 'body') and hasattr(other, 'created_at') and hasattr(other, 'edit_reason') and hasattr(other, 'edited_at') and hasattr(other, 'id') and hasattr(other, 'updated_at') and hasattr(other, 'user_id')):
             return False
         # end if
-        return self.author == other.author and self.body == other.body and self.id == other.id and self.user_id == other.user_id and self.avatar == other.avatar and self.created_at == other.created_at and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.updated_at == other.updated_at
+        return self.author == other.author and self.avatar == other.avatar and self.body == other.body and self.created_at == other.created_at and self.edit_reason == other.edit_reason and self.edited_at == other.edited_at and self.id == other.id and self.updated_at == other.updated_at and self.user_id == other.user_id
     # end __eq__
 # end class
 
@@ -1919,10 +1919,7 @@ class Tag(DerpiModel):
     :param slug: The slug for the tag.
     :type  slug: str
     
-    :param spoiler_image: Optional. The spoiler image URL for the tag.
-    :type  spoiler_image: str|None
-    
-    :param spoiler_image_uri: Optional. The spoiler image URL for the tag.
+    :param spoiler_image_uri: The spoiler image URL for the tag, or `null` if none provided. 
     :type  spoiler_image_uri: str|None
     
     """
@@ -1970,10 +1967,7 @@ class Tag(DerpiModel):
     """ The slug for the tag. """
     slug: str
     
-    """ Optional. The spoiler image URL for the tag. """
-    spoiler_image: Union[str, None]
-    
-    """ Optional. The spoiler image URL for the tag. """
+    """ The spoiler image URL for the tag, or `null` if none provided.  """
     spoiler_image_uri: Union[str, None]
     
     def __init__(
@@ -1992,7 +1986,6 @@ class Tag(DerpiModel):
         namespace: str,
         short_description: str,
         slug: str,
-        spoiler_image: Union[str, None] = None,
         spoiler_image_uri: Union[str, None] = None,
     ):
         """
@@ -2042,10 +2035,7 @@ class Tag(DerpiModel):
         :param slug: The slug for the tag.
         :type  slug: str
         
-        :param spoiler_image: Optional. The spoiler image URL for the tag.
-        :type  spoiler_image: str|None
-        
-        :param spoiler_image_uri: Optional. The spoiler image URL for the tag.
+        :param spoiler_image_uri: The spoiler image URL for the tag, or `null` if none provided. 
         :type  spoiler_image_uri: str|None
         
         """
@@ -2063,7 +2053,6 @@ class Tag(DerpiModel):
         self.namespace = namespace
         self.short_description = short_description
         self.slug = slug
-        self.spoiler_image = spoiler_image
         self.spoiler_image_uri = spoiler_image_uri
     # end def __init__
 
@@ -2092,7 +2081,6 @@ class Tag(DerpiModel):
         arguments['namespace'] = data['namespace']
         arguments['short_description'] = data['short_description']
         arguments['slug'] = data['slug']
-        arguments['spoiler_image'] = data['spoiler_image'] if data.get('spoiler_image', None) is not None else None
         arguments['spoiler_image_uri'] = data['spoiler_image_uri'] if data.get('spoiler_image_uri', None) is not None else None
         
         del data['aliased_tag']
@@ -2109,9 +2097,6 @@ class Tag(DerpiModel):
         del data['namespace']
         del data['short_description']
         del data['slug']
-        if 'spoiler_image' in data:
-            del data['spoiler_image']
-        # end if
         if 'spoiler_image_uri' in data:
             del data['spoiler_image_uri']
         # end if
@@ -2152,7 +2137,7 @@ class Tag(DerpiModel):
         """
         Implements `str(tag_instance)`
         """
-        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -2160,17 +2145,17 @@ class Tag(DerpiModel):
         Implements `repr(tag_instance)`
         """
         
-        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image={s.spoiler_image!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
+        return "{s.__class__.__name__}(aliased_tag={s.aliased_tag!r}, aliases={s.aliases!r}, category={s.category!r}, description={s.description!r}, dnp_entries={s.dnp_entries!r}, id={s.id!r}, images={s.images!r}, implied_by_tags={s.implied_by_tags!r}, implied_tags={s.implied_tags!r}, name={s.name!r}, name_in_namespace={s.name_in_namespace!r}, namespace={s.namespace!r}, short_description={s.short_description!r}, slug={s.slug!r}, spoiler_image_uri={s.spoiler_image_uri!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `tag_instance_a == tag_instance_b`
         """
-        if not (hasattr(other, 'aliased_tag') and hasattr(other, 'aliases') and hasattr(other, 'category') and hasattr(other, 'description') and hasattr(other, 'dnp_entries') and hasattr(other, 'id') and hasattr(other, 'images') and hasattr(other, 'implied_by_tags') and hasattr(other, 'implied_tags') and hasattr(other, 'name') and hasattr(other, 'name_in_namespace') and hasattr(other, 'namespace') and hasattr(other, 'short_description') and hasattr(other, 'slug') and hasattr(other, 'spoiler_image') and hasattr(other, 'spoiler_image_uri')):
+        if not (hasattr(other, 'aliased_tag') and hasattr(other, 'aliases') and hasattr(other, 'category') and hasattr(other, 'description') and hasattr(other, 'dnp_entries') and hasattr(other, 'id') and hasattr(other, 'images') and hasattr(other, 'implied_by_tags') and hasattr(other, 'implied_tags') and hasattr(other, 'name') and hasattr(other, 'name_in_namespace') and hasattr(other, 'namespace') and hasattr(other, 'short_description') and hasattr(other, 'slug') and hasattr(other, 'spoiler_image_uri')):
             return False
         # end if
-        return self.aliased_tag == other.aliased_tag and self.aliases == other.aliases and self.category == other.category and self.description == other.description and self.dnp_entries == other.dnp_entries and self.id == other.id and self.images == other.images and self.implied_by_tags == other.implied_by_tags and self.implied_tags == other.implied_tags and self.name == other.name and self.name_in_namespace == other.name_in_namespace and self.namespace == other.namespace and self.short_description == other.short_description and self.slug == other.slug and self.spoiler_image == other.spoiler_image and self.spoiler_image_uri == other.spoiler_image_uri
+        return self.aliased_tag == other.aliased_tag and self.aliases == other.aliases and self.category == other.category and self.description == other.description and self.dnp_entries == other.dnp_entries and self.id == other.id and self.images == other.images and self.implied_by_tags == other.implied_by_tags and self.implied_tags == other.implied_tags and self.name == other.name and self.name_in_namespace == other.name_in_namespace and self.namespace == other.namespace and self.short_description == other.short_description and self.slug == other.slug and self.spoiler_image_uri == other.spoiler_image_uri
     # end __eq__
 # end class
 
@@ -2197,7 +2182,7 @@ class User(DerpiModel):
     :type  description: str
     
     :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
-    :type  avatar_url: str
+    :type  avatar_url: str|None
     
     :param created_at: The creation time, in UTC, of the user.
     :type  created_at: datetime
@@ -2239,7 +2224,7 @@ class User(DerpiModel):
     description: str
     
     """ The URL of the user's thumbnail. `Null` if they haven't set one. """
-    avatar_url: str
+    avatar_url: Union[str, None]
     
     """ The creation time, in UTC, of the user. """
     created_at: datetime
@@ -2269,7 +2254,6 @@ class User(DerpiModel):
         slug: str,
         role: str,
         description: str,
-        avatar_url: str,
         created_at: datetime,
         comments_count: int,
         uploads_count: int,
@@ -2277,6 +2261,7 @@ class User(DerpiModel):
         topics_count: int,
         links: Links,
         awards: Awards,
+        avatar_url: Union[str, None] = None,
     ):
         """
         A parsed User response of the Derpibooru API.
@@ -2299,7 +2284,7 @@ class User(DerpiModel):
         :type  description: str
         
         :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
-        :type  avatar_url: str
+        :type  avatar_url: str|None
         
         :param created_at: The creation time, in UTC, of the user.
         :type  created_at: datetime
@@ -2354,7 +2339,7 @@ class User(DerpiModel):
         arguments['slug'] = data['slug']
         arguments['role'] = data['role']
         arguments['description'] = data['description']
-        arguments['avatar_url'] = data['avatar_url']
+        arguments['avatar_url'] = data['avatar_url'] if data.get('avatar_url', None) is not None else None
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
         arguments['comments_count'] = data['comments_count']
         arguments['uploads_count'] = data['uploads_count']
@@ -2368,7 +2353,9 @@ class User(DerpiModel):
         del data['slug']
         del data['role']
         del data['description']
-        del data['avatar_url']
+        if 'avatar_url' in data:
+            del data['avatar_url']
+        # end if
         del data['created_at']
         del data['comments_count']
         del data['uploads_count']
@@ -2452,7 +2439,7 @@ class Filter(DerpiModel):
     :type  description: str
     
     :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
-    :type  user_id: int
+    :type  user_id: int|None
     
     :param user_count: The amount of users employing this filter.
     :type  user_count: int
@@ -2488,7 +2475,7 @@ class Filter(DerpiModel):
     description: str
     
     """ The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only). """
-    user_id: int
+    user_id: Union[int, None]
     
     """ The amount of users employing this filter. """
     user_count: int
@@ -2516,7 +2503,6 @@ class Filter(DerpiModel):
         id: int,
         name: str,
         description: str,
-        user_id: int,
         user_count: int,
         system: bool,
         public: bool,
@@ -2524,6 +2510,7 @@ class Filter(DerpiModel):
         spoilered_complex: str,
         hidden_tag_ids: list,
         hidden_complex: str,
+        user_id: Union[int, None] = None,
     ):
         """
         A parsed Filter response of the Derpibooru API.
@@ -2540,7 +2527,7 @@ class Filter(DerpiModel):
         :type  description: str
         
         :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
-        :type  user_id: int
+        :type  user_id: int|None
         
         :param user_count: The amount of users employing this filter.
         :type  user_count: int
@@ -2591,7 +2578,7 @@ class Filter(DerpiModel):
         arguments['id'] = data['id']
         arguments['name'] = data['name']
         arguments['description'] = data['description']
-        arguments['user_id'] = data['user_id']
+        arguments['user_id'] = data['user_id'] if data.get('user_id', None) is not None else None
         arguments['user_count'] = data['user_count']
         arguments['system'] = data['system']
         arguments['public'] = data['public']
@@ -2603,7 +2590,9 @@ class Filter(DerpiModel):
         del data['id']
         del data['name']
         del data['description']
-        del data['user_id']
+        if 'user_id' in data:
+            del data['user_id']
+        # end if
         del data['user_count']
         del data['system']
         del data['public']
@@ -2687,7 +2676,7 @@ class Links(DerpiModel):
     :type  state: str
     
     :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
-    :type  tag_id: int
+    :type  tag_id: int|None
     
     """
 
@@ -2702,14 +2691,14 @@ class Links(DerpiModel):
     state: str
     
     """ The ID of an associated tag for this link. `Null` if no tag linked. """
-    tag_id: int
+    tag_id: Union[int, None]
     
     def __init__(
         self, 
         user_id: int,
         created_at: datetime,
         state: str,
-        tag_id: int,
+        tag_id: Union[int, None] = None,
     ):
         """
         A parsed Links response of the Derpibooru API.
@@ -2726,7 +2715,7 @@ class Links(DerpiModel):
         :type  state: str
         
         :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
-        :type  tag_id: int
+        :type  tag_id: int|None
         
         """
         self.user_id = user_id
@@ -2749,12 +2738,14 @@ class Links(DerpiModel):
         arguments['user_id'] = data['user_id']
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
         arguments['state'] = data['state']
-        arguments['tag_id'] = data['tag_id']
+        arguments['tag_id'] = data['tag_id'] if data.get('tag_id', None) is not None else None
         
         del data['user_id']
         del data['created_at']
         del data['state']
-        del data['tag_id']
+        if 'tag_id' in data:
+            del data['tag_id']
+        # end if
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')

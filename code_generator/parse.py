@@ -8,7 +8,7 @@ from models import *
 logging.add_colored_handler(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-FILE = 'api0'
+FILE = 'api1'
 with open(f'./output/{FILE}.html', 'r') as f:
     html = f.read()
 # end with
@@ -22,8 +22,9 @@ RE_URL_PRAMS = re.compile(RE_URL_PRAMS_STR)
 RE_URL_PRAMS_REPLACEMENT = r"{\g<param>}"
 
 
-def parse_description(description: List[bs4.PageElement]):
+def parse_description(description: List[bs4.PageElement], class_names):
     string = ''
+    optional = False
     for tag in description:
         if isinstance(tag, NavigableString):
             string += str(tag)
@@ -33,12 +34,17 @@ def parse_description(description: List[bs4.PageElement]):
             else:
                 string += f'[{tag.text}](https://derpibooru.org{tag.attrs["href"]})'
             # end if
+        elif tag.name == 'code':
+            string += f'`{tag.text}`'
+            if tag.text.lower() == "null":
+                optional = True
+            # end if
         else:
-            string += tag.text.join({'em': ['**'] * 2, 'code': ['`'] * 2, 'br': ['\n', ''], None: [''] * 2}[tag.name])
+            string += tag.text.join({'em': ['**'] * 2, 'br': ['\n', ''], None: [''] * 2}[tag.name])
         # end if
     # end for
     string.replace('\r\n', '\n')
-    return string
+    return string, optional
 # end def
 
 
@@ -107,8 +113,7 @@ for element in main.find_all('h2'):
                     )
                 )
             # end if
-            description = parse_description(columns[2].contents)
-            optional = 'optional' in description.lower()
+            description, optional = parse_description(columns[2].contents, class_names=class_names)
 
             p = Parameter(
                 name=param,
@@ -138,9 +143,8 @@ rows = table.find_all('tr')[1:]  # skip the <thead>'s <tr> (containing only <td>
 for row in rows:
     columns = row.find_all('td')
     param = columns[0].code.text
-    description = parse_description(columns[1].contents)
     logger.debug(f'{param}: {columns[1].text!r}')
-    optional = 'optional' in description.lower()
+    description, optional = parse_description(columns[1].contents, class_names=class_names)
     query_parameters[param] = Parameter(param, None, description, optional=optional)
 # end for
 
@@ -313,13 +317,15 @@ for row in rows:
         has_total=has_total,
     )
 
+    description, _ = parse_description(columns[3].contents, class_names=class_names)
+
     # now apply it all
     r = Route(
         name=name,
         method=columns[0].code.text,
         path=p,
         allowed_query_parameters=[query_parameters[param.strip()] for param in columns[2].text.split(',') if param],
-        description=parse_description(columns[3].contents),
+        description=description,
         response_format=t,
         example_url=columns[5].a.attrs['href'],
     )
