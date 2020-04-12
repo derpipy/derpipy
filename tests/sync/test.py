@@ -17,12 +17,8 @@ def cloudflare_blocked_request(
     from derpi.sync.client import internet
     response: internet.Response = internet.request(
         method=method, url=url, params=params,
-        cookies={
-            "_philomena_key": "…",
-            "__cfduid": "…",
-            "cf_clearance": "…",
-            "_ses": "…",
-        }, headers={
+        cookies={},
+        headers={
             'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
         }
     )
