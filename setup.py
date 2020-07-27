@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 from os import path
 from itertools import product
 from functools import reduce
-from derpi import VERSION
+from derpi.version import VERSION
 
 __author__ = 'luckydonald, pingmader'
 long_description = """Python API wrapper for the new API of derpibooru.org"""

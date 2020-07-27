@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'luckydonald'
 
-__version__ = "0.2.0"
-VERSION = __version__
+from .version import __version__, VERSION
 
-import logging
-logger = logging.getLogger(__name__)
-logger.debug(f'derpi version: {VERSION}')
-
-from .syncrounous import client
+try:
+    from .syncrounous import client
+except ImportError:
+    pass
+# end def
