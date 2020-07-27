@@ -275,7 +275,7 @@ class OfflineTest(unittest.TestCase):
             "faves": 813,
             "size": 1810951,
             "animated": false,
-            "upvotes": 1114,
+            "upvotes": 1443,
             "format": "png",
             "duplicate_of": null,
             "uploader_id": 459261,
