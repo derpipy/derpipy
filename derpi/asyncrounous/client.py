@@ -1125,7 +1125,6 @@ class DerpiClient(object):
         self, 
         image_id: int,
         filter_id: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> Image:
         """
@@ -1170,7 +1169,6 @@ class DerpiClient(object):
     async def image_upload(
         self, 
         url: str,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> Image:
         """
@@ -1342,7 +1340,6 @@ class DerpiClient(object):
     async def filter(
         self, 
         filter_id: int,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> Filter:
         """
@@ -1416,7 +1413,6 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     async def user_filters(
         self, 
-        key: str,
         page: Union[int, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Filter]:
@@ -1493,7 +1489,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Comment]:
         """
@@ -1539,7 +1534,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Gallery]:
         """
@@ -1585,7 +1579,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Post]:
         """
@@ -1635,7 +1628,6 @@ class DerpiClient(object):
         per_page: Union[int, None] = None,
         sort_direction: Union[str, None] = None,
         sort_field: Union[str, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Image]:
         """
@@ -1736,7 +1728,6 @@ class DerpiClient(object):
         self, 
         url: str,
         distance: Union[float, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, internet.AsyncClient] = None,
     ) -> List[Image]:
         """

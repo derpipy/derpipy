@@ -61,7 +61,7 @@ route = \
 {% for route in routes %}
 
 {%if is_asyncio %}async {% endif %}def {{ route.name }}( {#-
-    #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
+    #}{% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}
     {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
     {%- endfor %}{% if is_asyncio %}
     _client: Union[None, internet.AsyncClient] = None,{% else %}
@@ -76,7 +76,7 @@ route = \
 
     The API should return json looking like `{{ route.response_format.schema }}` which will then be parsed to the python result `{{ route.response_format.python_typing_representation(json_mode=False) }}`.{#
     #}
-    {% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
+    {% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}
     :param {{ param.name }}: {{ param.description | indent(width=8 + 7 + param.name.__len__() + 2) | trim() }}{% if param.api_name != param.name %}
     {{ " " * (7 + param.name.__len__() + 2) }}Note, on derpibooru's side this parameter is called `{{ param.api_name }}`.{% endif %}
     :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
@@ -112,7 +112,7 @@ route = \
     """
     _url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
     response: internet.Response = {% if is_asyncio %}await {% endif %}DerpiClient.request({{route.method.__repr__()}}, url=_url, client=_client{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
-         #}{% for param in route.all_parameters_ordered_generator(include_url_params=False) %}
+         #}{% for param in route.all_parameters_ordered_generator(include_url_params=False, include_key=True) %}
         {{ param.api_name.__repr__() }}: {{ param.name }},
         {%- endfor %}
     {{ '}' }}{% endif %})
@@ -187,7 +187,7 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     {% if is_asyncio %}async {% endif %}def {{ route.name }}(
         self, {#
-        #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
+        #}{% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=False) %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
         {%- endfor %}
         _client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None,
@@ -201,7 +201,7 @@ class DerpiClient(object):
 
         The API should return json looking like `{{ route.response_format.schema }}` which will then be parsed to the python result `{{ route.response_format.python_typing_representation(json_mode=False) }}`.{#
         #}
-        {% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
+        {% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
         {% endfor %}{% if is_asyncio %}
@@ -235,7 +235,7 @@ class DerpiClient(object):
         :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
         """
         return {%if is_asyncio %}await {% endif %}{{ route.name }}( {#-
-            #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}{% if param.name != 'key' %}
+            #}{% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}{% if param.name != 'key' %}
             {{ param.name }}={{ param.name }},
             {%- else %}
             {{ param.name }}=self.__key,

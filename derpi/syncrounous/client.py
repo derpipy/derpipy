@@ -1423,7 +1423,6 @@ class DerpiClient(object):
         self, 
         image_id: int,
         filter_id: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Image:
         """
@@ -1480,7 +1479,6 @@ class DerpiClient(object):
     def image_upload(
         self, 
         url: str,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Image:
         """
@@ -1712,7 +1710,6 @@ class DerpiClient(object):
     def filter(
         self, 
         filter_id: int,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Filter:
         """
@@ -1810,7 +1807,6 @@ class DerpiClient(object):
     # noinspection PyMethodMayBeStatic
     def user_filters(
         self, 
-        key: str,
         page: Union[int, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Filter]:
@@ -1911,7 +1907,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Comment]:
         """
@@ -1969,7 +1964,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Gallery]:
         """
@@ -2027,7 +2021,6 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Post]:
         """
@@ -2089,7 +2082,6 @@ class DerpiClient(object):
         per_page: Union[int, None] = None,
         sort_direction: Union[str, None] = None,
         sort_field: Union[str, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Image]:
         """
@@ -2214,7 +2206,6 @@ class DerpiClient(object):
         self, 
         url: str,
         distance: Union[float, None] = None,
-        key: Union[str, None] = None,
         _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Image]:
         """

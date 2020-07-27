@@ -29,7 +29,7 @@ class Route(object):
         return f"{self.__class__.__name__}(name={self.name!r}, method={self.method!r}, path={self.path!r}, allowed_query_parameters={self.allowed_query_parameters!r}, description={self.description!r}, response_format={self.response_format!r}, example_url={self.example_url!r})"
     # end def
 
-    def all_parameters_ordered_generator(self, include_url_params: bool):
+    def all_parameters_ordered_generator(self, include_url_params: bool, include_key: bool):
         """
         url parts first, then required arguments and then optional arguments.
         The 'key' argument is always the last one (in that group of required or optional).
@@ -42,9 +42,13 @@ class Route(object):
         # end if
 
         yield from [param for param in self.allowed_query_parameters if not param.optional and param.name != 'key']
-        yield from [param for param in self.allowed_query_parameters if not param.optional and param.name == 'key']
+        if include_key:
+            yield from [param for param in self.allowed_query_parameters if not param.optional and param.name == 'key']
+        # end if
         yield from [param for param in self.allowed_query_parameters if param.optional and param.name != 'key']
-        yield from [param for param in self.allowed_query_parameters if param.optional and param.name == 'key']
+        if include_key:
+            yield from [param for param in self.allowed_query_parameters if param.optional and param.name == 'key']
+        # end if
     # end def
 
     __repr__ = __str__
