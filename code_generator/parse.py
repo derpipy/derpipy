@@ -179,10 +179,12 @@ logger.debug(f'query_parameters: {query_parameters!r}')
 assert all([p.type is not None for p in query_parameters.values()])
 
 
-
+# Maps routes to python method names
+# Format is {"url": "python_name"}
 route_names = {}
 route_names['/api/v1/json/comments/:comment_id'] = 'comment'
 route_names['/api/v1/json/images/:image_id'] = 'image'
+route_names['/api/v1/json/images'] = 'image_upload'
 route_names['/api/v1/json/images/featured'] = 'featured_image'
 route_names['/api/v1/json/tags/:tag_id'] = 'tag'
 route_names['/api/v1/json/posts/:post_id'] = 'post'
