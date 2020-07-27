@@ -12,7 +12,7 @@ DerpiModel._assert_consuming_all_params = True
 
 
 def cloudflare_blocked_request(
-    cls, method, url, params=None
+    cls, method, url, params=None, client=None,
 ):
     from derpi.syncrounous.client import internet
     response: internet.Response = internet.request(
@@ -20,7 +20,7 @@ def cloudflare_blocked_request(
         cookies={},
         headers={
             'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
-        }
+        },
     )
     cls._check_response(response)
     return response
