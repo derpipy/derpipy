@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 __author__ = 'luckydonald'
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 VERSION = __version__
 
 import logging
