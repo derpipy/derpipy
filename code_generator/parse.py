@@ -85,6 +85,7 @@ else:
 for element in main.find_all('h2'):
     if element.text and 'id' in element.attrs and element.attrs['id'] and element.attrs['id'].endswith('-response') and element.text.endswith(' Responses'):
         name = element.text[:-10]  # ' Responses' has length 10.
+        name = name.replace(' ', '')  # remove whitespaces. This should result in CamelCase.
 
         c = Class(name, [])
         id = element.attrs['id']

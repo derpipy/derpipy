@@ -12,7 +12,7 @@ from luckydonaldUtils.exceptions import assert_type_or_raise
 
 
 __author__ = 'luckydonald'
-__all__ = ['DerpiModel', 'SearchResult', 'Image', 'Representations', 'Intensities', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Image Errors', 'Oembed']
+__all__ = ['DerpiModel', 'SearchResult', 'Image', 'Representations', 'Intensities', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'ImageErrors', 'Oembed']
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -3152,9 +3152,9 @@ class Gallery(DerpiModel):
 # end class
 
 
-class Image Errors(DerpiModel):
+class ImageErrors(DerpiModel):
     """
-    A parsed Image Errors response of the Derpibooru API.
+    A parsed ImageErrors response of the Derpibooru API.
     Yes, a better description should be here.
 
     
@@ -3249,7 +3249,7 @@ class Image Errors(DerpiModel):
         uploaded_image: list,
     ):
         """
-        A parsed Image Errors response of the Derpibooru API.
+        A parsed ImageErrors response of the Derpibooru API.
         Yes, a better description should be here.
 
         
@@ -3305,9 +3305,9 @@ class Image Errors(DerpiModel):
     # end def __init__
 
     @classmethod
-    def prepare_dict(cls: Type[Image Errors], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+    def prepare_dict(cls: Type[ImageErrors], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
         """
-        Builds a new dict with valid values for the Image Errors constructor.
+        Builds a new dict with valid values for the ImageErrors constructor.
 
         :return: new dict with valid values
         :rtype: dict
@@ -3353,12 +3353,12 @@ class Image Errors(DerpiModel):
     # end def prepare_dict
 
     @classmethod
-    def from_dict(cls: Type[Image Errors], data: Union[Dict, None, List[Dict]]) -> Union[Image Errors, None]:
+    def from_dict(cls: Type[ImageErrors], data: Union[Dict, None, List[Dict]]) -> Union[ImageErrors, None]:
         """
-        Deserialize a new Image Errors from a given dictionary.
+        Deserialize a new ImageErrors from a given dictionary.
 
-        :return: new Image Errors instance.
-        :rtype: Image Errors|None
+        :return: new ImageErrors instance.
+        :rtype: ImageErrors|None
         """
         if not data:  # None or {}
             return None
@@ -3368,21 +3368,21 @@ class Image Errors(DerpiModel):
         # end if
 
         data: Dict = cls.prepare_dict(data)
-        instance: Image Errors = cls(**data)
+        instance: ImageErrors = cls(**data)
         instance._raw = data
         return instance
     # end def from_dict
 
     def __str__(self):
         """
-        Implements `str(image errors_instance)`
+        Implements `str(imageerrors_instance)`
         """
         return "{s.__class__.__name__}(image={s.image!r}, image_aspect_ratio={s.image_aspect_ratio!r}, image_format={s.image_format!r}, image_height={s.image_height!r}, image_width={s.image_width!r}, image_size={s.image_size!r}, image_is_animated={s.image_is_animated!r}, image_mime_type={s.image_mime_type!r}, image_orig_sha512_hash={s.image_orig_sha512_hash!r}, image_sha512_hash={s.image_sha512_hash!r}, tag_input={s.tag_input!r}, uploaded_image={s.uploaded_image!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
         """
-        Implements `repr(image errors_instance)`
+        Implements `repr(imageerrors_instance)`
         """
         
         return "{s.__class__.__name__}(image={s.image!r}, image_aspect_ratio={s.image_aspect_ratio!r}, image_format={s.image_format!r}, image_height={s.image_height!r}, image_width={s.image_width!r}, image_size={s.image_size!r}, image_is_animated={s.image_is_animated!r}, image_mime_type={s.image_mime_type!r}, image_orig_sha512_hash={s.image_orig_sha512_hash!r}, image_sha512_hash={s.image_sha512_hash!r}, tag_input={s.tag_input!r}, uploaded_image={s.uploaded_image!r})".format(s=self)
@@ -3390,7 +3390,7 @@ class Image Errors(DerpiModel):
 
     def __eq__(self, other):
         """
-        Implements equality check, i.e. `image errors_instance_a == image errors_instance_b`
+        Implements equality check, i.e. `imageerrors_instance_a == imageerrors_instance_b`
         """
         if not (hasattr(other, 'image') and hasattr(other, 'image_aspect_ratio') and hasattr(other, 'image_format') and hasattr(other, 'image_height') and hasattr(other, 'image_width') and hasattr(other, 'image_size') and hasattr(other, 'image_is_animated') and hasattr(other, 'image_mime_type') and hasattr(other, 'image_orig_sha512_hash') and hasattr(other, 'image_sha512_hash') and hasattr(other, 'tag_input') and hasattr(other, 'uploaded_image')):
             return False
