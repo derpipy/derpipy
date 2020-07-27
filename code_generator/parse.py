@@ -2,7 +2,7 @@ import json
 import bs4
 import re
 from luckydonaldUtils.logger import logging
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from bs4 import NavigableString
 from models import *
 logging.add_colored_handler(level=logging.DEBUG)
@@ -181,30 +181,30 @@ assert all([p.type is not None for p in query_parameters.values()])
 
 # Maps routes to python method names
 # Format is {"url": "python_name"}
-route_names: Dict[str, str] = {}
-route_names['/api/v1/json/comments/:comment_id'] = 'comment'
-route_names['/api/v1/json/images/:image_id'] = 'image'
-route_names['/api/v1/json/images'] = 'image_upload'
-route_names['/api/v1/json/images/featured'] = 'featured_image'
-route_names['/api/v1/json/tags/:tag_id'] = 'tag'
-route_names['/api/v1/json/posts/:post_id'] = 'post'
-route_names['/api/v1/json/profiles/:user_id'] = 'user'
-route_names['/api/v1/json/filters/:filter_id'] = 'filter'
-route_names['/api/v1/json/filters/system'] = 'system_filters'
-route_names['/api/v1/json/filters/user'] = 'user_filters'
-route_names['/api/v1/json/oembed'] = 'oembed'
-route_names['/api/v1/json/search/comments'] = 'search_comments'
-route_names['/api/v1/json/search/galleries'] = 'search_galleries'
-route_names['/api/v1/json/search/posts'] = 'search_posts'
-route_names['/api/v1/json/search/images'] = 'search_images'
-route_names['/api/v1/json/search/tags'] = 'search_tags'
-route_names['/api/v1/json/search/reverse'] = 'search_reverse'
-route_names['/api/v1/json/forums'] = 'forums'
-route_names['/api/v1/json/forums/:short_name'] = 'forum'
-route_names['/api/v1/json/forums/:short_name/topics'] = 'forum_topics'
-route_names['/api/v1/json/forums/:short_name/topics/:topic_slug'] = 'forum_topic'
-route_names['/api/v1/json/forums/:short_name/topics/:topic_slug/posts'] = 'forum_posts'
-route_names['/api/v1/json/forums/:short_name/topics/:topic_slug/posts/:post_id'] = 'forum_post'
+route_names: Dict[Tuple[str, str], str] = {}
+route_names['GET',  '/api/v1/json/comments/:comment_id'] = 'comment'
+route_names['GET',  '/api/v1/json/images/:image_id'] = 'image'
+route_names['POST', '/api/v1/json/images'] = 'image_upload'
+route_names['GET',  '/api/v1/json/images/featured'] = 'featured_image'
+route_names['GET',  '/api/v1/json/tags/:tag_id'] = 'tag'
+route_names['GET',  '/api/v1/json/posts/:post_id'] = 'post'
+route_names['GET',  '/api/v1/json/profiles/:user_id'] = 'user'
+route_names['GET',  '/api/v1/json/filters/:filter_id'] = 'filter'
+route_names['GET',  '/api/v1/json/filters/system'] = 'system_filters'
+route_names['GET',  '/api/v1/json/filters/user'] = 'user_filters'
+route_names['GET',  '/api/v1/json/oembed'] = 'oembed'
+route_names['GET',  '/api/v1/json/search/comments'] = 'search_comments'
+route_names['GET',  '/api/v1/json/search/galleries'] = 'search_galleries'
+route_names['GET',  '/api/v1/json/search/posts'] = 'search_posts'
+route_names['GET',  '/api/v1/json/search/images'] = 'search_images'
+route_names['GET',  '/api/v1/json/search/tags'] = 'search_tags'
+route_names['POST', '/api/v1/json/search/reverse'] = 'search_reverse'
+route_names['GET',  '/api/v1/json/forums'] = 'forums'
+route_names['GET',  '/api/v1/json/forums/:short_name'] = 'forum'
+route_names['GET',  '/api/v1/json/forums/:short_name/topics'] = 'forum_topics'
+route_names['GET',  '/api/v1/json/forums/:short_name/topics/:topic_slug'] = 'forum_topic'
+route_names['GET',  '/api/v1/json/forums/:short_name/topics/:topic_slug/posts'] = 'forum_posts'
+route_names['GET',  '/api/v1/json/forums/:short_name/topics/:topic_slug/posts/:post_id'] = 'forum_post'
 
 
 routes = []
@@ -220,8 +220,9 @@ assert column_headers == ['Method', 'Path', 'Allowed Query Parameters', 'Descrip
 rows = table.find_all('tr')[1:]  # skip the <thead>'s <tr> (containing only <td>s anyway)
 for row in rows:
     columns = row.find_all('td')
+    method = columns[0].code.text
     path = columns[1].code.text
-    name = route_names[path]
+    name = route_names[method, path]
     path_python = re.sub(RE_URL_PRAMS, RE_URL_PRAMS_REPLACEMENT, path)
     path_params = []
     matches = re.finditer(RE_URL_PRAMS, path)
