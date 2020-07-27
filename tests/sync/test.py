@@ -1,7 +1,7 @@
 import unittest
 import iso8601
 import datetime
-from derpi.sync import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter, \
+from derpi.syncrounous import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter, \
     Oembed, Links, Awards, Gallery, Forum, Topic
 
 null = None    # jSoN
@@ -14,7 +14,7 @@ DerpiModel._assert_consuming_all_params = True
 def cloudflare_blocked_request(
     cls, method, url, params=None
 ):
-    from derpi.sync.client import internet
+    from derpi.syncrounous.client import internet
     response: internet.Response = internet.request(
         method=method, url=url, params=params,
         cookies={},
@@ -53,6 +53,12 @@ class OnlineTest(unittest.TestCase):
     def test_tag__aliased(self):
         tag = client.tag('littlepip')
         self.assertIsInstance(tag, Tag)
+    # end def
+
+    def test_tag__with_spoiler(self):
+        tag = client.tag('-colon-<')
+        self.assertIsInstance(tag, Tag)
+        self.assertIsNotNone(tag.spoiler_image_uri)
     # end def
 
     def test_post(self):
@@ -305,7 +311,7 @@ class OfflineTest(unittest.TestCase):
             "spoiler_image_uri": null
           }
         }['tag'])
-        expected = Tag(aliased_tag=None, aliases=['littlepip'], category='oc', description='Creator: Kkat\r\nSpecies: Unicorn Female\r\nMain protagonist of the "Fallout: Equestria series":http://www.fimfiction.net/story/119190/fallout-equestria  (NSFW)\r\n>>610341s', dnp_entries=[], id=113046, images=3663, implied_by_tags=['futa+oc-colon-littlepip', 'busty+littlepip', 'pipabetes', 'pipbutt'], implied_tags=['fallout+equestria', 'oc'], name='oc:littlepip', name_in_namespace='littlepip', namespace='oc', short_description='', slug='oc-colon-littlepip', spoiler_image=None, spoiler_image_uri=None)
+        expected = Tag(aliased_tag=None, aliases=['littlepip'], category='oc', description='Creator: Kkat\r\nSpecies: Unicorn Female\r\nMain protagonist of the "Fallout: Equestria series":http://www.fimfiction.net/story/119190/fallout-equestria  (NSFW)\r\n>>610341s', dnp_entries=[], id=113046, images=3663, implied_by_tags=['futa+oc-colon-littlepip', 'busty+littlepip', 'pipabetes', 'pipbutt'], implied_tags=['fallout+equestria', 'oc'], name='oc:littlepip', name_in_namespace='littlepip', namespace='oc', short_description='', slug='oc-colon-littlepip', spoiler_image_uri=None)
         self.assertEqual(tag, expected)
     # end def
 
@@ -329,7 +335,7 @@ class OfflineTest(unittest.TestCase):
             "spoiler_image_uri": null
           }
         }['tag'])
-        expected = Tag(aliased_tag='oc-colon-littlepip', aliases=[], category=None, description='', dnp_entries=[], id=33169, images=0, implied_by_tags=[], implied_tags=[], name='littlepip', name_in_namespace='littlepip', namespace=None, short_description='', slug='littlepip', spoiler_image=None, spoiler_image_uri=None)
+        expected = Tag(aliased_tag='oc-colon-littlepip', aliases=[], category=None, description='', dnp_entries=[], id=33169, images=0, implied_by_tags=[], implied_tags=[], name='littlepip', name_in_namespace='littlepip', namespace=None, short_description='', slug='littlepip', spoiler_image_uri=None)
         self.assertEqual(tag, expected)
 
     def test_post(self):
