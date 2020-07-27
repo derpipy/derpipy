@@ -1,8 +1,10 @@
 import unittest
 import iso8601
 import datetime
-from derpi.syncrounous import client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter, \
-    Oembed, Links, Awards, Gallery, Forum, Topic
+from derpi.syncrounous import (
+    client, Comment, Image, Intensities, Representations, DerpiModel, Tag, Post, User, Filter,
+    Oembed, Links, Awards, Gallery, Forum, Topic,
+)
 
 null = None    # jSoN
 false = False  # JsOn
@@ -28,6 +30,7 @@ def cloudflare_blocked_request(
 
 # end def
 client.DerpiClient.request = classmethod(cloudflare_blocked_request)
+
 
 class OnlineTest(unittest.TestCase):
     def test_comment(self):
@@ -470,6 +473,7 @@ class OfflineTest(unittest.TestCase):
         expected = Cls()
         self.assertEqual(cls, expected)
     # end def
+
 
 if __name__ == '__main__':
     unittest.main()
