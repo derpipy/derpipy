@@ -166,6 +166,9 @@ class Image(DerpiModel):
     Yes, a better description should be here.
 
     
+    :param animated: Whether the image is animated.
+    :type  animated: bool
+    
     :param aspect_ratio: The image's width divided by its height.
     :type  aspect_ratio: float
     
@@ -187,19 +190,22 @@ class Image(DerpiModel):
     :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
     :type  duplicate_of: int|None
     
+    :param duration: The number of seconds the image lasts, if animated.
+    :type  duration: float
+    
     :param faves: The number of faves the image has.
     :type  faves: int
     
-    :param first_seen_at: The time, in UTC, this image was first seen (before any duplicate merging).
+    :param first_seen_at: The time, in UTC, the image was first seen (before any duplicate merging).
     :type  first_seen_at: datetime
     
-    :param format: The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
+    :param format: The file extension of the image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
     :type  format: str
     
     :param height: The image's height, in pixels.
     :type  height: int
     
-    :param hidden_from_users: Whether this image is hidden. An image is hidden if it is merged or deleted for a rule violation.
+    :param hidden_from_users: Whether the image is hidden. An image is hidden if it is merged or deleted for a rule violation.
     :type  hidden_from_users: bool
     
     :param id: The image's ID.
@@ -211,10 +217,10 @@ class Image(DerpiModel):
     :param mime_type: The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`.
     :type  mime_type: str
     
-    :param name: The filename that this image was uploaded with.
+    :param name: The filename that the image was uploaded with.
     :type  name: str
     
-    :param orig_sha512_hash: The SHA512 hash of this image as it was originally uploaded.
+    :param orig_sha512_hash: The SHA512 hash of the image as it was originally uploaded.
     :type  orig_sha512_hash: str
     
     :param processed: Whether the image has finished optimization.
@@ -229,22 +235,25 @@ class Image(DerpiModel):
     :param sha512_hash: The SHA512 hash of this image after it has been processed.
     :type  sha512_hash: str
     
+    :param size: The number of bytes the image's file contains.
+    :type  size: int
+    
     :param source_url: The current source URL of the image.
     :type  source_url: str
     
-    :param spoilered: Whether this image is hit by the current filter.
+    :param spoilered: Whether the image is hit by the current filter.
     :type  spoilered: bool
     
-    :param tag_count: The number of tags present on this image.
+    :param tag_count: The number of tags present on the image.
     :type  tag_count: int
     
-    :param tag_ids: A list of tag IDs this image contains.
+    :param tag_ids: A list of tag IDs the image contains.
     :type  tag_ids: list
     
-    :param tags: A list of tag names this image contains.
+    :param tags: A list of tag names the image contains.
     :type  tags: list
     
-    :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
+    :param thumbnails_generated: Whether the image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
     :type  thumbnails_generated: bool
     
     :param updated_at: The time, in UTC, the image was last updated.
@@ -268,17 +277,11 @@ class Image(DerpiModel):
     :param wilson_score: The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
     :type  wilson_score: float
     
-    :param size: The image's file size in bytes.
-    :type  size: int
-    
-    :param animated: Whether this image is animated.
-    :type  animated: bool
-    
-    :param duration: Length of the animation. (Seems to always be set to `0.04` for images which aren't animated).
-    :type  duration: float
-    
     """
 
+    
+    """ Whether the image is animated. """
+    animated: bool
     
     """ The image's width divided by its height. """
     aspect_ratio: float
@@ -301,19 +304,22 @@ class Image(DerpiModel):
     """ The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image. """
     duplicate_of: Union[int, None]
     
+    """ The number of seconds the image lasts, if animated. """
+    duration: float
+    
     """ The number of faves the image has. """
     faves: int
     
-    """ The time, in UTC, this image was first seen (before any duplicate merging). """
+    """ The time, in UTC, the image was first seen (before any duplicate merging). """
     first_seen_at: datetime
     
-    """ The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`. """
+    """ The file extension of the image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`. """
     format: str
     
     """ The image's height, in pixels. """
     height: int
     
-    """ Whether this image is hidden. An image is hidden if it is merged or deleted for a rule violation. """
+    """ Whether the image is hidden. An image is hidden if it is merged or deleted for a rule violation. """
     hidden_from_users: bool
     
     """ The image's ID. """
@@ -325,10 +331,10 @@ class Image(DerpiModel):
     """ The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`. """
     mime_type: str
     
-    """ The filename that this image was uploaded with. """
+    """ The filename that the image was uploaded with. """
     name: str
     
-    """ The SHA512 hash of this image as it was originally uploaded. """
+    """ The SHA512 hash of the image as it was originally uploaded. """
     orig_sha512_hash: str
     
     """ Whether the image has finished optimization. """
@@ -343,22 +349,25 @@ class Image(DerpiModel):
     """ The SHA512 hash of this image after it has been processed. """
     sha512_hash: str
     
+    """ The number of bytes the image's file contains. """
+    size: int
+    
     """ The current source URL of the image. """
     source_url: str
     
-    """ Whether this image is hit by the current filter. """
+    """ Whether the image is hit by the current filter. """
     spoilered: bool
     
-    """ The number of tags present on this image. """
+    """ The number of tags present on the image. """
     tag_count: int
     
-    """ A list of tag IDs this image contains. """
+    """ A list of tag IDs the image contains. """
     tag_ids: list
     
-    """ A list of tag names this image contains. """
+    """ A list of tag names the image contains. """
     tags: list
     
-    """ Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false. """
+    """ Whether the image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false. """
     thumbnails_generated: bool
     
     """ The time, in UTC, the image was last updated. """
@@ -382,22 +391,15 @@ class Image(DerpiModel):
     """ The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%. """
     wilson_score: float
     
-    """ The image's file size in bytes. """
-    size: int
-    
-    """ Whether this image is animated. """
-    animated: bool
-    
-    """ Length of the animation. (Seems to always be set to `0.04` for images which aren't animated). """
-    duration: float
-    
     def __init__(
         self, 
+        animated: bool,
         aspect_ratio: float,
         comment_count: int,
         created_at: datetime,
         description: str,
         downvotes: int,
+        duration: float,
         faves: int,
         first_seen_at: datetime,
         format: str,
@@ -411,6 +413,7 @@ class Image(DerpiModel):
         representations: Representations,
         score: int,
         sha512_hash: str,
+        size: int,
         source_url: str,
         spoilered: bool,
         tag_count: int,
@@ -423,9 +426,6 @@ class Image(DerpiModel):
         view_url: str,
         width: int,
         wilson_score: float,
-        size: int,
-        animated: bool,
-        duration: float,
         deletion_reason: Union[str, None] = None,
         duplicate_of: Union[int, None] = None,
         intensities: Union[Intensities, None] = None,
@@ -435,6 +435,9 @@ class Image(DerpiModel):
         A parsed Image response of the Derpibooru API.
         Yes, a better description should be here.
 
+        
+        :param animated: Whether the image is animated.
+        :type  animated: bool
         
         :param aspect_ratio: The image's width divided by its height.
         :type  aspect_ratio: float
@@ -457,19 +460,22 @@ class Image(DerpiModel):
         :param duplicate_of: The ID of the target image, or `null` if none provided. This will only have a value on images which are merged into another image.
         :type  duplicate_of: int|None
         
+        :param duration: The number of seconds the image lasts, if animated.
+        :type  duration: float
+        
         :param faves: The number of faves the image has.
         :type  faves: int
         
-        :param first_seen_at: The time, in UTC, this image was first seen (before any duplicate merging).
+        :param first_seen_at: The time, in UTC, the image was first seen (before any duplicate merging).
         :type  first_seen_at: datetime
         
-        :param format: The file extension of this image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
+        :param format: The file extension of the image. One of `"gif", "jpg", "jpeg", "png", "svg", "webm"`.
         :type  format: str
         
         :param height: The image's height, in pixels.
         :type  height: int
         
-        :param hidden_from_users: Whether this image is hidden. An image is hidden if it is merged or deleted for a rule violation.
+        :param hidden_from_users: Whether the image is hidden. An image is hidden if it is merged or deleted for a rule violation.
         :type  hidden_from_users: bool
         
         :param id: The image's ID.
@@ -481,10 +487,10 @@ class Image(DerpiModel):
         :param mime_type: The MIME type of this image. One of `"image/gif", "image/jpeg", "image/png", "image/svg+xml", "video/webm"`.
         :type  mime_type: str
         
-        :param name: The filename that this image was uploaded with.
+        :param name: The filename that the image was uploaded with.
         :type  name: str
         
-        :param orig_sha512_hash: The SHA512 hash of this image as it was originally uploaded.
+        :param orig_sha512_hash: The SHA512 hash of the image as it was originally uploaded.
         :type  orig_sha512_hash: str
         
         :param processed: Whether the image has finished optimization.
@@ -499,22 +505,25 @@ class Image(DerpiModel):
         :param sha512_hash: The SHA512 hash of this image after it has been processed.
         :type  sha512_hash: str
         
+        :param size: The number of bytes the image's file contains.
+        :type  size: int
+        
         :param source_url: The current source URL of the image.
         :type  source_url: str
         
-        :param spoilered: Whether this image is hit by the current filter.
+        :param spoilered: Whether the image is hit by the current filter.
         :type  spoilered: bool
         
-        :param tag_count: The number of tags present on this image.
+        :param tag_count: The number of tags present on the image.
         :type  tag_count: int
         
-        :param tag_ids: A list of tag IDs this image contains.
+        :param tag_ids: A list of tag IDs the image contains.
         :type  tag_ids: list
         
-        :param tags: A list of tag names this image contains.
+        :param tags: A list of tag names the image contains.
         :type  tags: list
         
-        :param thumbnails_generated: Whether this image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
+        :param thumbnails_generated: Whether the image has finished thumbnail generation. Do not attempt to load images from `view_url` or `representations` if this is false.
         :type  thumbnails_generated: bool
         
         :param updated_at: The time, in UTC, the image was last updated.
@@ -538,16 +547,8 @@ class Image(DerpiModel):
         :param wilson_score: The lower bound of the [Wilson score interval](https://derpibooru.orghttps://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval) for the image, based on its upvotes and downvotes, given a z-score corresponding to a confidence of 99.5%.
         :type  wilson_score: float
         
-        :param size: The image's file size in bytes.
-        :type  size: int
-        
-        :param animated: Whether this image is animated.
-        :type  animated: bool
-        
-        :param duration: Length of the animation. (Seems to always be set to `0.04` for images which aren't animated).
-        :type  duration: float
-        
         """
+        self.animated = animated
         self.aspect_ratio = aspect_ratio
         self.comment_count = comment_count
         self.created_at = created_at
@@ -555,6 +556,7 @@ class Image(DerpiModel):
         self.description = description
         self.downvotes = downvotes
         self.duplicate_of = duplicate_of
+        self.duration = duration
         self.faves = faves
         self.first_seen_at = first_seen_at
         self.format = format
@@ -569,6 +571,7 @@ class Image(DerpiModel):
         self.representations = representations
         self.score = score
         self.sha512_hash = sha512_hash
+        self.size = size
         self.source_url = source_url
         self.spoilered = spoilered
         self.tag_count = tag_count
@@ -582,9 +585,6 @@ class Image(DerpiModel):
         self.view_url = view_url
         self.width = width
         self.wilson_score = wilson_score
-        self.size = size
-        self.animated = animated
-        self.duration = duration
     # end def __init__
 
     @classmethod
@@ -598,6 +598,7 @@ class Image(DerpiModel):
         assert_type_or_raise(data, dict, parameter_name="data")
 
         arguments = super().prepare_dict(data) 
+        arguments['animated'] = data['animated']
         arguments['aspect_ratio'] = data['aspect_ratio']
         arguments['comment_count'] = data['comment_count']
         arguments['created_at'] = iso8601.parse_date(data['created_at'])
@@ -605,6 +606,7 @@ class Image(DerpiModel):
         arguments['description'] = data['description']
         arguments['downvotes'] = data['downvotes']
         arguments['duplicate_of'] = data['duplicate_of'] if data.get('duplicate_of', None) is not None else None
+        arguments['duration'] = data['duration']
         arguments['faves'] = data['faves']
         arguments['first_seen_at'] = iso8601.parse_date(data['first_seen_at'])
         arguments['format'] = data['format']
@@ -619,6 +621,7 @@ class Image(DerpiModel):
         arguments['representations'] = Representations.from_dict(data['representations'])
         arguments['score'] = data['score']
         arguments['sha512_hash'] = data['sha512_hash']
+        arguments['size'] = data['size']
         arguments['source_url'] = data['source_url']
         arguments['spoilered'] = data['spoilered']
         arguments['tag_count'] = data['tag_count']
@@ -632,10 +635,8 @@ class Image(DerpiModel):
         arguments['view_url'] = data['view_url']
         arguments['width'] = data['width']
         arguments['wilson_score'] = data['wilson_score']
-        arguments['size'] = data['size']
-        arguments['animated'] = data['animated']
-        arguments['duration'] = data['duration']
         
+        del data['animated']
         del data['aspect_ratio']
         del data['comment_count']
         del data['created_at']
@@ -647,6 +648,7 @@ class Image(DerpiModel):
         if 'duplicate_of' in data:
             del data['duplicate_of']
         # end if
+        del data['duration']
         del data['faves']
         del data['first_seen_at']
         del data['format']
@@ -663,6 +665,7 @@ class Image(DerpiModel):
         del data['representations']
         del data['score']
         del data['sha512_hash']
+        del data['size']
         del data['source_url']
         del data['spoilered']
         del data['tag_count']
@@ -678,9 +681,6 @@ class Image(DerpiModel):
         del data['view_url']
         del data['width']
         del data['wilson_score']
-        del data['size']
-        del data['animated']
-        del data['duration']
 
         if data:
             logger.warning(f'still got leftover data: {data!r}')
@@ -718,7 +718,7 @@ class Image(DerpiModel):
         """
         Implements `str(image_instance)`
         """
-        return "{s.__class__.__name__}(aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r}, size={s.size!r}, animated={s.animated!r}, duration={s.duration!r})".format(s=self)
+        return "{s.__class__.__name__}(animated={s.animated!r}, aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, duration={s.duration!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, size={s.size!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r})".format(s=self)
     # end def __str__
 
     def __repr__(self):
@@ -726,17 +726,17 @@ class Image(DerpiModel):
         Implements `repr(image_instance)`
         """
         
-        return "{s.__class__.__name__}(aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r}, size={s.size!r}, animated={s.animated!r}, duration={s.duration!r})".format(s=self)
+        return "{s.__class__.__name__}(animated={s.animated!r}, aspect_ratio={s.aspect_ratio!r}, comment_count={s.comment_count!r}, created_at={s.created_at!r}, deletion_reason={s.deletion_reason!r}, description={s.description!r}, downvotes={s.downvotes!r}, duplicate_of={s.duplicate_of!r}, duration={s.duration!r}, faves={s.faves!r}, first_seen_at={s.first_seen_at!r}, format={s.format!r}, height={s.height!r}, hidden_from_users={s.hidden_from_users!r}, id={s.id!r}, intensities={s.intensities!r}, mime_type={s.mime_type!r}, name={s.name!r}, orig_sha512_hash={s.orig_sha512_hash!r}, processed={s.processed!r}, representations={s.representations!r}, score={s.score!r}, sha512_hash={s.sha512_hash!r}, size={s.size!r}, source_url={s.source_url!r}, spoilered={s.spoilered!r}, tag_count={s.tag_count!r}, tag_ids={s.tag_ids!r}, tags={s.tags!r}, thumbnails_generated={s.thumbnails_generated!r}, updated_at={s.updated_at!r}, uploader={s.uploader!r}, uploader_id={s.uploader_id!r}, upvotes={s.upvotes!r}, view_url={s.view_url!r}, width={s.width!r}, wilson_score={s.wilson_score!r})".format(s=self)
     # end def __repr__
 
     def __eq__(self, other):
         """
         Implements equality check, i.e. `image_instance_a == image_instance_b`
         """
-        if not (hasattr(other, 'aspect_ratio') and hasattr(other, 'comment_count') and hasattr(other, 'created_at') and hasattr(other, 'deletion_reason') and hasattr(other, 'description') and hasattr(other, 'downvotes') and hasattr(other, 'duplicate_of') and hasattr(other, 'faves') and hasattr(other, 'first_seen_at') and hasattr(other, 'format') and hasattr(other, 'height') and hasattr(other, 'hidden_from_users') and hasattr(other, 'id') and hasattr(other, 'intensities') and hasattr(other, 'mime_type') and hasattr(other, 'name') and hasattr(other, 'orig_sha512_hash') and hasattr(other, 'processed') and hasattr(other, 'representations') and hasattr(other, 'score') and hasattr(other, 'sha512_hash') and hasattr(other, 'source_url') and hasattr(other, 'spoilered') and hasattr(other, 'tag_count') and hasattr(other, 'tag_ids') and hasattr(other, 'tags') and hasattr(other, 'thumbnails_generated') and hasattr(other, 'updated_at') and hasattr(other, 'uploader') and hasattr(other, 'uploader_id') and hasattr(other, 'upvotes') and hasattr(other, 'view_url') and hasattr(other, 'width') and hasattr(other, 'wilson_score') and hasattr(other, 'size') and hasattr(other, 'animated') and hasattr(other, 'duration')):
+        if not (hasattr(other, 'animated') and hasattr(other, 'aspect_ratio') and hasattr(other, 'comment_count') and hasattr(other, 'created_at') and hasattr(other, 'deletion_reason') and hasattr(other, 'description') and hasattr(other, 'downvotes') and hasattr(other, 'duplicate_of') and hasattr(other, 'duration') and hasattr(other, 'faves') and hasattr(other, 'first_seen_at') and hasattr(other, 'format') and hasattr(other, 'height') and hasattr(other, 'hidden_from_users') and hasattr(other, 'id') and hasattr(other, 'intensities') and hasattr(other, 'mime_type') and hasattr(other, 'name') and hasattr(other, 'orig_sha512_hash') and hasattr(other, 'processed') and hasattr(other, 'representations') and hasattr(other, 'score') and hasattr(other, 'sha512_hash') and hasattr(other, 'size') and hasattr(other, 'source_url') and hasattr(other, 'spoilered') and hasattr(other, 'tag_count') and hasattr(other, 'tag_ids') and hasattr(other, 'tags') and hasattr(other, 'thumbnails_generated') and hasattr(other, 'updated_at') and hasattr(other, 'uploader') and hasattr(other, 'uploader_id') and hasattr(other, 'upvotes') and hasattr(other, 'view_url') and hasattr(other, 'width') and hasattr(other, 'wilson_score')):
             return False
         # end if
-        return self.aspect_ratio == other.aspect_ratio and self.comment_count == other.comment_count and self.created_at == other.created_at and self.deletion_reason == other.deletion_reason and self.description == other.description and self.downvotes == other.downvotes and self.duplicate_of == other.duplicate_of and self.faves == other.faves and self.first_seen_at == other.first_seen_at and self.format == other.format and self.height == other.height and self.hidden_from_users == other.hidden_from_users and self.id == other.id and self.intensities == other.intensities and self.mime_type == other.mime_type and self.name == other.name and self.orig_sha512_hash == other.orig_sha512_hash and self.processed == other.processed and self.representations == other.representations and self.score == other.score and self.sha512_hash == other.sha512_hash and self.source_url == other.source_url and self.spoilered == other.spoilered and self.tag_count == other.tag_count and self.tag_ids == other.tag_ids and self.tags == other.tags and self.thumbnails_generated == other.thumbnails_generated and self.updated_at == other.updated_at and self.uploader == other.uploader and self.uploader_id == other.uploader_id and self.upvotes == other.upvotes and self.view_url == other.view_url and self.width == other.width and self.wilson_score == other.wilson_score and self.size == other.size and self.animated == other.animated and self.duration == other.duration
+        return self.animated == other.animated and self.aspect_ratio == other.aspect_ratio and self.comment_count == other.comment_count and self.created_at == other.created_at and self.deletion_reason == other.deletion_reason and self.description == other.description and self.downvotes == other.downvotes and self.duplicate_of == other.duplicate_of and self.duration == other.duration and self.faves == other.faves and self.first_seen_at == other.first_seen_at and self.format == other.format and self.height == other.height and self.hidden_from_users == other.hidden_from_users and self.id == other.id and self.intensities == other.intensities and self.mime_type == other.mime_type and self.name == other.name and self.orig_sha512_hash == other.orig_sha512_hash and self.processed == other.processed and self.representations == other.representations and self.score == other.score and self.sha512_hash == other.sha512_hash and self.size == other.size and self.source_url == other.source_url and self.spoilered == other.spoilered and self.tag_count == other.tag_count and self.tag_ids == other.tag_ids and self.tags == other.tags and self.thumbnails_generated == other.thumbnails_generated and self.updated_at == other.updated_at and self.uploader == other.uploader and self.uploader_id == other.uploader_id and self.upvotes == other.upvotes and self.view_url == other.view_url and self.width == other.width and self.wilson_score == other.wilson_score
     # end __eq__
 # end class
 
