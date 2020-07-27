@@ -59,7 +59,8 @@ setup(
     keywords=(
         'derpibooru derpibooru.org python api wrapper my_little_pony mlp '
         'friendship_is_magic FiM fim earthpony unicorn pegasus ' + reduce(
-            lambda a, x: a+' '+x, map(lambda x: x[0]+x[1], product(['pon', 'p0n'], ['', 'y', 'e', 'ies', 'es', 's']))
+            lambda a, x: a+' '+x, map(lambda x: x[0]+x[1], product(['pon', 'p0n'],
+                                                                   ['', 'y', 'i', 'e', 'ies', 'es', 's']))
         )
     ),
     # You can just specify the packages manually here if your project is
@@ -70,7 +71,7 @@ setup(
     # project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['iso8601'],
+    install_requires=['iso8601', 'luckydonald-utils'],
     # List additional groups of dependencies here (e.g. development dependencies).
     # You can install these using the following syntax, for example:
     # $ pip install -e .[dev,test]
