@@ -181,7 +181,7 @@ assert all([p.type is not None for p in query_parameters.values()])
 
 # Maps routes to python method names
 # Format is {"url": "python_name"}
-route_names = {}
+route_names: Dict[str, str] = {}
 route_names['/api/v1/json/comments/:comment_id'] = 'comment'
 route_names['/api/v1/json/images/:image_id'] = 'image'
 route_names['/api/v1/json/images'] = 'image_upload'
