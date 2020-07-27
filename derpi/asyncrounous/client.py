@@ -22,7 +22,6 @@ if __name__ == '__main__':
 async def comment(
     comment_id: int,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Comment:
     """
     Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -61,7 +60,6 @@ async def image(
     filter_id: Union[int, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -110,7 +108,6 @@ async def image_upload(
     url: str,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Image:
     """
     Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
@@ -154,7 +151,6 @@ async def image_upload(
 
 async def featured_image(
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Image:
     """
     Fetches an **image response** for the for the current featured image.
@@ -188,7 +184,6 @@ async def featured_image(
 async def tag(
     tag_id: str,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
@@ -225,7 +220,6 @@ async def tag(
 async def post(
     post_id: int,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Post:
     """
     Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -262,7 +256,6 @@ async def post(
 async def user(
     user_id: int,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> User:
     """
     Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -300,7 +293,6 @@ async def filter(
     filter_id: int,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Filter:
     """
     Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -344,7 +336,6 @@ async def filter(
 async def system_filters(
     page: Union[int, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -387,7 +378,6 @@ async def user_filters(
     key: str,
     page: Union[int, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -435,7 +425,6 @@ async def user_filters(
 async def oembed(
     url: str,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Oembed:
     """
     Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -475,7 +464,6 @@ async def search_comments(
     page: Union[int, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -530,7 +518,6 @@ async def search_galleries(
     page: Union[int, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -585,7 +572,6 @@ async def search_posts(
     page: Union[int, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -644,7 +630,6 @@ async def search_images(
     sort_field: Union[str, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -716,7 +701,6 @@ async def search_tags(
     query: str,
     page: Union[int, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Tag]:
     """
     Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -765,7 +749,6 @@ async def search_reverse(
     distance: Union[float, None] = None,
     key: Union[str, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -816,7 +799,6 @@ async def search_reverse(
 
 async def forums(
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Forum]:
     """
     Fetches a list of **forum responses**.
@@ -853,7 +835,6 @@ async def forums(
 async def forum(
     short_name: str,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Forum:
     """
     Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -891,7 +872,6 @@ async def forum_topics(
     short_name: str,
     page: Union[int, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Topic]:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -937,7 +917,6 @@ async def forum_topic(
     short_name: str,
     topic_slug: str,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Topic:
     """
     Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -979,7 +958,6 @@ async def forum_posts(
     topic_slug: str,
     page: Union[int, None] = None,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> List[Post]:
     """
     Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1029,7 +1007,6 @@ async def forum_post(
     topic_slug: str,
     post_id: int,
     _client: Union[None, internet.AsyncClient] = None,
-    
 ) -> Post:
     """
     Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
@@ -1081,7 +1058,6 @@ class DerpiClient(object):
         """
         self.__key = key
         self.__client = client,
-        
     # end def
 
     @classmethod
@@ -1141,7 +1117,6 @@ class DerpiClient(object):
         return await comment(
             comment_id=comment_id,
             _client=_client if _client else self.__client,
-            
         )
     # end def comment
     
@@ -1188,7 +1163,6 @@ class DerpiClient(object):
             filter_id=filter_id,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def image
     
@@ -1230,7 +1204,6 @@ class DerpiClient(object):
             url=url,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def image_upload
     
@@ -1260,7 +1233,6 @@ class DerpiClient(object):
         """
         return await featured_image(
             _client=_client if _client else self.__client,
-            
         )
     # end def featured_image
     
@@ -1295,7 +1267,6 @@ class DerpiClient(object):
         return await tag(
             tag_id=tag_id,
             _client=_client if _client else self.__client,
-            
         )
     # end def tag
     
@@ -1330,7 +1301,6 @@ class DerpiClient(object):
         return await post(
             post_id=post_id,
             _client=_client if _client else self.__client,
-            
         )
     # end def post
     
@@ -1365,7 +1335,6 @@ class DerpiClient(object):
         return await user(
             user_id=user_id,
             _client=_client if _client else self.__client,
-            
         )
     # end def user
     
@@ -1407,7 +1376,6 @@ class DerpiClient(object):
             filter_id=filter_id,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def filter
     
@@ -1442,7 +1410,6 @@ class DerpiClient(object):
         return await system_filters(
             page=page,
             _client=_client if _client else self.__client,
-            
         )
     # end def system_filters
     
@@ -1484,7 +1451,6 @@ class DerpiClient(object):
             key=self.__key,
             page=page,
             _client=_client if _client else self.__client,
-            
         )
     # end def user_filters
     
@@ -1519,7 +1485,6 @@ class DerpiClient(object):
         return await oembed(
             url=url,
             _client=_client if _client else self.__client,
-            
         )
     # end def oembed
     
@@ -1566,7 +1531,6 @@ class DerpiClient(object):
             page=page,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_comments
     
@@ -1613,7 +1577,6 @@ class DerpiClient(object):
             page=page,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_galleries
     
@@ -1660,7 +1623,6 @@ class DerpiClient(object):
             page=page,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_posts
     
@@ -1727,7 +1689,6 @@ class DerpiClient(object):
             sort_field=sort_field,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_images
     
@@ -1767,7 +1728,6 @@ class DerpiClient(object):
             query=query,
             page=page,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_tags
     
@@ -1814,7 +1774,6 @@ class DerpiClient(object):
             distance=distance,
             key=self.__key,
             _client=_client if _client else self.__client,
-            
         )
     # end def search_reverse
     
@@ -1844,7 +1803,6 @@ class DerpiClient(object):
         """
         return await forums(
             _client=_client if _client else self.__client,
-            
         )
     # end def forums
     
@@ -1879,7 +1837,6 @@ class DerpiClient(object):
         return await forum(
             short_name=short_name,
             _client=_client if _client else self.__client,
-            
         )
     # end def forum
     
@@ -1919,7 +1876,6 @@ class DerpiClient(object):
             short_name=short_name,
             page=page,
             _client=_client if _client else self.__client,
-            
         )
     # end def forum_topics
     
@@ -1959,7 +1915,6 @@ class DerpiClient(object):
             short_name=short_name,
             topic_slug=topic_slug,
             _client=_client if _client else self.__client,
-            
         )
     # end def forum_topic
     
@@ -2004,7 +1959,6 @@ class DerpiClient(object):
             topic_slug=topic_slug,
             page=page,
             _client=_client if _client else self.__client,
-            
         )
     # end def forum_posts
     
@@ -2049,7 +2003,6 @@ class DerpiClient(object):
             topic_slug=topic_slug,
             post_id=post_id,
             _client=_client if _client else self.__client,
-            
         )
     # end def forum_post
     

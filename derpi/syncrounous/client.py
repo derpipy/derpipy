@@ -11,8 +11,10 @@ from .models import *
 
 # import either requests or httpx, whichever sync http client is available.
 try:
+    is_requests = True
     import requests as internet
 except ImportError:
+    is_requests = False
     try:
         import httpx as internet
     except ImportError:
@@ -29,6 +31,7 @@ if __name__ == '__main__':
 
 def comment(
     comment_id: int,
+    _client: Union[None, internet.Session] = None,
 ) -> Comment:
     """
     Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -41,6 +44,25 @@ def comment(
     
     :param comment_id: the variable comment_id part of the url.
     :type  comment_id: int
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = comment(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = comment(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = comment(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Comment
@@ -59,6 +81,7 @@ def image(
     image_id: int,
     filter_id: Union[int, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -80,6 +103,25 @@ def image(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = image(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = image(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = image(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
+    
     :return: The parsed result from the API.
     :rtype:  Image
     """
@@ -99,6 +141,7 @@ def image(
 def image_upload(
     url: str,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> Image:
     """
     Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
@@ -117,6 +160,25 @@ def image_upload(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = image_upload(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = image_upload(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = image_upload(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
+    
     :return: The parsed result from the API.
     :rtype:  Image
     """
@@ -134,6 +196,7 @@ def image_upload(
 
 
 def featured_image(
+    _client: Union[None, internet.Session] = None,
 ) -> Image:
     """
     Fetches an **image response** for the for the current featured image.
@@ -143,6 +206,25 @@ def featured_image(
     which would for example look like this: https://derpibooru.org/api/v1/json/images/featured
 
     The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = featured_image(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = featured_image(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = featured_image(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Image
@@ -159,6 +241,7 @@ def featured_image(
 
 def tag(
     tag_id: str,
+    _client: Union[None, internet.Session] = None,
 ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
@@ -171,6 +254,25 @@ def tag(
     
     :param tag_id: the variable tag_id part of the url.
     :type  tag_id: str
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = tag(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = tag(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = tag(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Tag
@@ -187,6 +289,7 @@ def tag(
 
 def post(
     post_id: int,
+    _client: Union[None, internet.Session] = None,
 ) -> Post:
     """
     Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -199,6 +302,25 @@ def post(
     
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = post(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = post(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = post(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Post
@@ -215,6 +337,7 @@ def post(
 
 def user(
     user_id: int,
+    _client: Union[None, internet.Session] = None,
 ) -> User:
     """
     Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -227,6 +350,25 @@ def user(
     
     :param user_id: the variable user_id part of the url.
     :type  user_id: int
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = user(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = user(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = user(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  User
@@ -244,6 +386,7 @@ def user(
 def filter(
     filter_id: int,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> Filter:
     """
     Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -262,6 +405,25 @@ def filter(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = filter(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = filter(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = filter(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
+    
     :return: The parsed result from the API.
     :rtype:  Filter
     """
@@ -279,6 +441,7 @@ def filter(
 
 def system_filters(
     page: Union[int, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -291,6 +454,25 @@ def system_filters(
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = system_filters(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = system_filters(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = system_filters(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
@@ -313,6 +495,7 @@ def system_filters(
 def user_filters(
     key: str,
     page: Union[int, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -330,6 +513,25 @@ def user_filters(
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = user_filters(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = user_filters(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = user_filters(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
@@ -352,6 +554,7 @@ def user_filters(
 
 def oembed(
     url: str,
+    _client: Union[None, internet.Session] = None,
 ) -> Oembed:
     """
     Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -364,6 +567,25 @@ def oembed(
     
     :param url: Link a deviantART page, a Tumblr post, or the image directly.
     :type  url: str
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = oembed(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = oembed(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = oembed(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Oembed
@@ -383,6 +605,7 @@ def search_comments(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -404,6 +627,25 @@ def search_comments(
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_comments(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_comments(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_comments(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Comment]
@@ -429,6 +671,7 @@ def search_galleries(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -450,6 +693,25 @@ def search_galleries(
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_galleries(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_galleries(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_galleries(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Gallery]
@@ -475,6 +737,7 @@ def search_posts(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -496,6 +759,25 @@ def search_posts(
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_posts(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_posts(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_posts(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Post]
@@ -525,6 +807,7 @@ def search_images(
     sort_direction: Union[str, None] = None,
     sort_field: Union[str, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -561,6 +844,25 @@ def search_images(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_images(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_images(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_images(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
+    
     :return: The parsed result from the API.
     :rtype:  List[Image]
     """
@@ -588,6 +890,7 @@ def search_images(
 def search_tags(
     query: str,
     page: Union[int, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Tag]:
     """
     Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -604,6 +907,25 @@ def search_tags(
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_tags(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_tags(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_tags(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Tag]
@@ -628,6 +950,7 @@ def search_reverse(
     url: str,
     distance: Union[float, None] = None,
     key: Union[str, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -648,6 +971,25 @@ def search_reverse(
 
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = search_reverse(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = search_reverse(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = search_reverse(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Image]
@@ -670,6 +1012,7 @@ def search_reverse(
 
 
 def forums(
+    _client: Union[None, internet.Session] = None,
 ) -> List[Forum]:
     """
     Fetches a list of **forum responses**.
@@ -679,6 +1022,25 @@ def forums(
     which would for example look like this: https://derpibooru.org/api/v1/json/forums
 
     The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forums(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forums(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forums(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Forum]
@@ -698,6 +1060,7 @@ def forums(
 
 def forum(
     short_name: str,
+    _client: Union[None, internet.Session] = None,
 ) -> Forum:
     """
     Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -710,6 +1073,25 @@ def forum(
     
     :param short_name: the variable short_name part of the url.
     :type  short_name: str
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forum(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forum(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forum(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Forum
@@ -727,6 +1109,7 @@ def forum(
 def forum_topics(
     short_name: str,
     page: Union[int, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Topic]:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -742,6 +1125,25 @@ def forum_topics(
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forum_topics(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forum_topics(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forum_topics(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Topic]
@@ -764,6 +1166,7 @@ def forum_topics(
 def forum_topic(
     short_name: str,
     topic_slug: str,
+    _client: Union[None, internet.Session] = None,
 ) -> Topic:
     """
     Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -779,6 +1182,25 @@ def forum_topic(
     
     :param topic_slug: the variable topic_slug part of the url.
     :type  topic_slug: str
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forum_topic(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forum_topic(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forum_topic(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Topic
@@ -797,6 +1219,7 @@ def forum_posts(
     short_name: str,
     topic_slug: str,
     page: Union[int, None] = None,
+    _client: Union[None, internet.Session] = None,
 ) -> List[Post]:
     """
     Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -815,6 +1238,25 @@ def forum_posts(
     
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forum_posts(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forum_posts(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forum_posts(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  List[Post]
@@ -838,6 +1280,7 @@ def forum_post(
     short_name: str,
     topic_slug: str,
     post_id: int,
+    _client: Union[None, internet.Session] = None,
 ) -> Post:
     """
     Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
@@ -856,6 +1299,25 @@ def forum_post(
     
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
+    
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = forum_post(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = forum_post(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = forum_post(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     
     :return: The parsed result from the API.
     :rtype:  Post
@@ -876,15 +1338,21 @@ class DerpiClient(object):
     """
     _base_url = 'https://derpibooru.org'
 
-    def __init__(self, key):
+    def __init__(self, key, client: Union[None, (internet.Session if is_requests else internet.Client)] = None):
         """
         :param key: API key
         """
         self.__key = key
+        self.__client = client,
     # end def
 
     @classmethod
-    def request(cls: Type['DerpiClient'], method, url, params=None) -> internet.Response:
+    def request(cls: Type['DerpiClient'], method, url, params=None, client: Union[None, (internet.Session if is_requests else internet.Client)] = None) -> internet.Response:
+        if client is None:  # if we have no client, call ourself recursively with a with statement.
+            with internet.Session() if is_requests else internet.Client() as client:
+                return cls.request(method=method, url=url, params=params, client=client)
+            # end with
+        # end if
         response: internet.Response = internet.request(method=method, url=url, params=params)
         cls._check_response(response)
         return response
@@ -908,6 +1376,7 @@ class DerpiClient(object):
     def comment(
         self, 
         comment_id: int,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Comment:
         """
         Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -921,11 +1390,31 @@ class DerpiClient(object):
         :param comment_id: the variable comment_id part of the url.
         :type  comment_id: int
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = comment(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = comment(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = comment(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Comment
         """
         return comment(
             comment_id=comment_id,
+            _client=_client if _client else self.__client,
         )
     # end def comment
     
@@ -935,6 +1424,7 @@ class DerpiClient(object):
         image_id: int,
         filter_id: Union[int, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Image:
         """
         Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -956,6 +1446,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = image(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = image(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = image(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Image
         """
@@ -963,6 +1472,7 @@ class DerpiClient(object):
             image_id=image_id,
             filter_id=filter_id,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def image
     
@@ -971,6 +1481,7 @@ class DerpiClient(object):
         self, 
         url: str,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Image:
         """
         Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
@@ -989,18 +1500,39 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = image_upload(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = image_upload(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = image_upload(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Image
         """
         return image_upload(
             url=url,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def image_upload
     
     # noinspection PyMethodMayBeStatic
     def featured_image(
         self, 
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Image:
         """
         Fetches an **image response** for the for the current featured image.
@@ -1011,10 +1543,30 @@ class DerpiClient(object):
 
         The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = featured_image(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = featured_image(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = featured_image(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Image
         """
         return featured_image(
+            _client=_client if _client else self.__client,
         )
     # end def featured_image
     
@@ -1022,6 +1574,7 @@ class DerpiClient(object):
     def tag(
         self, 
         tag_id: str,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Tag:
         """
         Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
@@ -1035,11 +1588,31 @@ class DerpiClient(object):
         :param tag_id: the variable tag_id part of the url.
         :type  tag_id: str
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = tag(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = tag(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = tag(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Tag
         """
         return tag(
             tag_id=tag_id,
+            _client=_client if _client else self.__client,
         )
     # end def tag
     
@@ -1047,6 +1620,7 @@ class DerpiClient(object):
     def post(
         self, 
         post_id: int,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Post:
         """
         Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -1060,11 +1634,31 @@ class DerpiClient(object):
         :param post_id: the variable post_id part of the url.
         :type  post_id: int
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = post(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = post(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = post(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Post
         """
         return post(
             post_id=post_id,
+            _client=_client if _client else self.__client,
         )
     # end def post
     
@@ -1072,6 +1666,7 @@ class DerpiClient(object):
     def user(
         self, 
         user_id: int,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> User:
         """
         Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -1085,11 +1680,31 @@ class DerpiClient(object):
         :param user_id: the variable user_id part of the url.
         :type  user_id: int
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = user(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = user(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = user(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  User
         """
         return user(
             user_id=user_id,
+            _client=_client if _client else self.__client,
         )
     # end def user
     
@@ -1098,6 +1713,7 @@ class DerpiClient(object):
         self, 
         filter_id: int,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Filter:
         """
         Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -1116,12 +1732,32 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = filter(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = filter(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = filter(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Filter
         """
         return filter(
             filter_id=filter_id,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def filter
     
@@ -1129,6 +1765,7 @@ class DerpiClient(object):
     def system_filters(
         self, 
         page: Union[int, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -1142,11 +1779,31 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = system_filters(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = system_filters(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = system_filters(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
         return system_filters(
             page=page,
+            _client=_client if _client else self.__client,
         )
     # end def system_filters
     
@@ -1155,6 +1812,7 @@ class DerpiClient(object):
         self, 
         key: str,
         page: Union[int, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Filter]:
         """
         Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -1173,12 +1831,32 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = user_filters(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = user_filters(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = user_filters(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Filter]
         """
         return user_filters(
             key=self.__key,
             page=page,
+            _client=_client if _client else self.__client,
         )
     # end def user_filters
     
@@ -1186,6 +1864,7 @@ class DerpiClient(object):
     def oembed(
         self, 
         url: str,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Oembed:
         """
         Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -1199,11 +1878,31 @@ class DerpiClient(object):
         :param url: Link a deviantART page, a Tumblr post, or the image directly.
         :type  url: str
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = oembed(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = oembed(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = oembed(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Oembed
         """
         return oembed(
             url=url,
+            _client=_client if _client else self.__client,
         )
     # end def oembed
     
@@ -1213,6 +1912,7 @@ class DerpiClient(object):
         query: str,
         page: Union[int, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Comment]:
         """
         Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -1234,6 +1934,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_comments(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_comments(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_comments(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Comment]
         """
@@ -1241,6 +1960,7 @@ class DerpiClient(object):
             query=query,
             page=page,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def search_comments
     
@@ -1250,6 +1970,7 @@ class DerpiClient(object):
         query: str,
         page: Union[int, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Gallery]:
         """
         Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -1271,6 +1992,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_galleries(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_galleries(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_galleries(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Gallery]
         """
@@ -1278,6 +2018,7 @@ class DerpiClient(object):
             query=query,
             page=page,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def search_galleries
     
@@ -1287,6 +2028,7 @@ class DerpiClient(object):
         query: str,
         page: Union[int, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Post]:
         """
         Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -1308,6 +2050,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_posts(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_posts(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_posts(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Post]
         """
@@ -1315,6 +2076,7 @@ class DerpiClient(object):
             query=query,
             page=page,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def search_posts
     
@@ -1328,6 +2090,7 @@ class DerpiClient(object):
         sort_direction: Union[str, None] = None,
         sort_field: Union[str, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Image]:
         """
         Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -1361,6 +2124,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_images(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_images(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_images(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
@@ -1372,6 +2154,7 @@ class DerpiClient(object):
             sort_direction=sort_direction,
             sort_field=sort_field,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def search_images
     
@@ -1380,6 +2163,7 @@ class DerpiClient(object):
         self, 
         query: str,
         page: Union[int, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Tag]:
         """
         Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -1396,12 +2180,32 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_tags(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_tags(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_tags(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Tag]
         """
         return search_tags(
             query=query,
             page=page,
+            _client=_client if _client else self.__client,
         )
     # end def search_tags
     
@@ -1411,6 +2215,7 @@ class DerpiClient(object):
         url: str,
         distance: Union[float, None] = None,
         key: Union[str, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Image]:
         """
         Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -1432,6 +2237,25 @@ class DerpiClient(object):
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
         :type  key: str|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = search_reverse(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = search_reverse(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = search_reverse(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Image]
         """
@@ -1439,12 +2263,14 @@ class DerpiClient(object):
             url=url,
             distance=distance,
             key=self.__key,
+            _client=_client if _client else self.__client,
         )
     # end def search_reverse
     
     # noinspection PyMethodMayBeStatic
     def forums(
         self, 
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Forum]:
         """
         Fetches a list of **forum responses**.
@@ -1455,10 +2281,30 @@ class DerpiClient(object):
 
         The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forums(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forums(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forums(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Forum]
         """
         return forums(
+            _client=_client if _client else self.__client,
         )
     # end def forums
     
@@ -1466,6 +2312,7 @@ class DerpiClient(object):
     def forum(
         self, 
         short_name: str,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Forum:
         """
         Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -1479,11 +2326,31 @@ class DerpiClient(object):
         :param short_name: the variable short_name part of the url.
         :type  short_name: str
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forum(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forum(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forum(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Forum
         """
         return forum(
             short_name=short_name,
+            _client=_client if _client else self.__client,
         )
     # end def forum
     
@@ -1492,6 +2359,7 @@ class DerpiClient(object):
         self, 
         short_name: str,
         page: Union[int, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Topic]:
         """
         Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -1508,12 +2376,32 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forum_topics(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forum_topics(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forum_topics(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Topic]
         """
         return forum_topics(
             short_name=short_name,
             page=page,
+            _client=_client if _client else self.__client,
         )
     # end def forum_topics
     
@@ -1522,6 +2410,7 @@ class DerpiClient(object):
         self, 
         short_name: str,
         topic_slug: str,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Topic:
         """
         Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1538,12 +2427,32 @@ class DerpiClient(object):
         :param topic_slug: the variable topic_slug part of the url.
         :type  topic_slug: str
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forum_topic(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forum_topic(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forum_topic(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Topic
         """
         return forum_topic(
             short_name=short_name,
             topic_slug=topic_slug,
+            _client=_client if _client else self.__client,
         )
     # end def forum_topic
     
@@ -1553,6 +2462,7 @@ class DerpiClient(object):
         short_name: str,
         topic_slug: str,
         page: Union[int, None] = None,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> List[Post]:
         """
         Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1572,6 +2482,25 @@ class DerpiClient(object):
         :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
         :type  page: int|None
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forum_posts(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forum_posts(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forum_posts(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  List[Post]
         """
@@ -1579,6 +2508,7 @@ class DerpiClient(object):
             short_name=short_name,
             topic_slug=topic_slug,
             page=page,
+            _client=_client if _client else self.__client,
         )
     # end def forum_posts
     
@@ -1588,6 +2518,7 @@ class DerpiClient(object):
         short_name: str,
         topic_slug: str,
         post_id: int,
+        _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
     ) -> Post:
         """
         Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
@@ -1607,6 +2538,25 @@ class DerpiClient(object):
         :param post_id: the variable post_id part of the url.
         :type  post_id: int
         
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = forum_post(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = forum_post(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = forum_post(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
+        
         :return: The parsed result from the API.
         :rtype:  Post
         """
@@ -1614,6 +2564,7 @@ class DerpiClient(object):
             short_name=short_name,
             topic_slug=topic_slug,
             post_id=post_id,
+            _client=_client if _client else self.__client,
         )
     # end def forum_post
     

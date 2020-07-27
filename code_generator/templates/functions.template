@@ -12,8 +12,10 @@ from .models import *
 {% if not is_asyncio -%}
 # import either requests or httpx, whichever sync http client is available.
 try:
+    is_requests = True
     import requests as internet
 except ImportError:
+    is_requests = False
     try:
         import httpx as internet
     except ImportError:
@@ -62,8 +64,8 @@ route = \
     #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
     {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
     {%- endfor %}{% if is_asyncio %}
-    _client: Union[None, internet.AsyncClient] = None,
-    {% endif %}
+    _client: Union[None, internet.AsyncClient] = None,{% else %}
+    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,{% endif %}
 ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
     """
     {{ route.description }}
@@ -85,6 +87,25 @@ route = \
                     ...    result = await {{ route.name }}(…, _client=client)
 
     :type  _client: httpx.AsyncClient|None
+    {% else %}
+    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                    For example with requests:
+                    >>> client = requests.Session()
+                    >>> result = {{ route.name }}(…, _client=client)
+
+                    If you use httpx instead of requests, this would be with a context manager:
+                    >>> with httpx.Client() as client:
+                    ...     result = {{ route.name }}(…, _client=client)
+
+                    Or httpx and manually closing it:
+                    >>> client = httpx.Client()
+                    >>> try:
+                    ...     result = {{ route.name }}(…, _client=client)
+                    ... finally:
+                    ...     client.close()
+
+
+    :type  _client: requests.Session|httpx.Client|None
     {% endif %}
     :return: The parsed result from the API.
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
@@ -118,13 +139,12 @@ class DerpiClient(object):
     """
     _base_url = 'https://derpibooru.org'
 
-    def __init__(self, key{% if is_asyncio %}, client: Union[None, internet.AsyncClient] = None{% endif %}):
+    def __init__(self, key, client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None):
         """
         :param key: API key
         """
-        self.__key = key{% if is_asyncio %}
+        self.__key = key
         self.__client = client,
-        {% endif %}
     # end def
 
     @classmethod {#-
@@ -139,7 +159,12 @@ class DerpiClient(object):
         cls._check_response(response)
         return response
     # end def{% else %}
-    def request(cls: Type['DerpiClient'], method, url, params=None) -> internet.Response:
+    def request(cls: Type['DerpiClient'], method, url, params=None, client: Union[None, (internet.Session if is_requests else internet.Client)] = None) -> internet.Response:
+        if client is None:  # if we have no client, call ourself recursively with a with statement.
+            with internet.Session() if is_requests else internet.Client() as client:
+                return cls.request(method=method, url=url, params=params, client=client)
+            # end with
+        # end if
         response: internet.Response = internet.request(method=method, url=url, params=params)
         cls._check_response(response)
         return response
@@ -160,13 +185,12 @@ class DerpiClient(object):
 
     {% for route in routes %}
     # noinspection PyMethodMayBeStatic
-    {%if is_asyncio %}async {% endif %}def {{ route.name }}(
+    {% if is_asyncio %}async {% endif %}def {{ route.name }}(
         self, {#
         #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
-        {%- endfor %}{% if is_asyncio %}
-        _client: Union[None, internet.AsyncClient] = None,
-        {%- endif %}
+        {%- endfor %}
+        _client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None,
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
         """
         {{ route.description }}
@@ -187,6 +211,25 @@ class DerpiClient(object):
                         ...    result = await {{ route.name }}(…, _client=client)
 
         :type  _client: httpx.AsyncClient|None
+        {% else %}
+        :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+                        For example with requests:
+                        >>> client = requests.Session()
+                        >>> result = {{ route.name }}(…, _client=client)
+
+                        If you use httpx instead of requests, this would be with a context manager:
+                        >>> with httpx.Client() as client:
+                        ...     result = {{ route.name }}(…, _client=client)
+
+                        Or httpx and manually closing it:
+                        >>> client = httpx.Client()
+                        >>> try:
+                        ...     result = {{ route.name }}(…, _client=client)
+                        ... finally:
+                        ...     client.close()
+
+
+        :type  _client: requests.Session|httpx.Client|None
         {% endif %}
         :return: The parsed result from the API.
         :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
@@ -196,9 +239,8 @@ class DerpiClient(object):
             {{ param.name }}={{ param.name }},
             {%- else %}
             {{ param.name }}=self.__key,
-            {%- endif %}{%- endfor %}{% if is_asyncio %}
+            {%- endif %}{%- endfor %}
             _client=_client if _client else self.__client,
-            {% endif %}
         )
     # end def {{ route.name }}
     {% endfor %}
