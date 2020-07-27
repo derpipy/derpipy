@@ -8,3 +8,5 @@ VERSION = __version__
 import logging
 logger = logging.getLogger(__name__)
 logger.debug(f'derpi version: {VERSION}')
+
+from .syncrounous import client

@@ -45,17 +45,27 @@ classes_template = get_template("classes.template")
 functions_template = get_template("functions.template")
 
 mkdir_p('../derpi/syncrounous/')
+mkdir_p('../derpi/asyncrounous/')
 
 with open('../derpi/syncrounous/__init__.py', 'w') as f:
     f.write(init_template.render(is_asyncio=False))
+# end with
+with open('../derpi/asyncrounous/__init__.py', 'w') as f:
+    f.write(init_template.render(is_asyncio=True))
 # end with
 
 with open('../derpi/syncrounous/client.py', 'w') as f:
     f.write(functions_template.render(routes=routes, is_asyncio=False))
 # end with
+with open('../derpi/asyncrounous/client.py', 'w') as f:
+    f.write(functions_template.render(routes=routes, is_asyncio=True))
+# end with
 
 with open('../derpi/syncrounous/models.py', 'w') as f:
     f.write(classes_template.render(classes=classes, is_asyncio=False))
+# end with
+with open('../derpi/asyncrounous/models.py', 'w') as f:
+    f.write(classes_template.render(classes=classes, is_asyncio=True))
 # end with
 
 

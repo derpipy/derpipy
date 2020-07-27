@@ -9,8 +9,8 @@ from luckydonaldUtils.exceptions import assert_type_or_raise
 from typing import Union, List, Dict, Type
 from .models import *
 
-# import either requests or httpx
-# as internet
+{% if not is_asyncio -%}
+# import either requests or httpx, whichever sync http client is available.
 try:
     import requests as internet
 except ImportError:
@@ -20,6 +20,10 @@ except ImportError:
         raise ImportError('Neither "requests" nor "httpx" could be found. Make sure either of them is installed.')
     # end try
 # end try
+{% else -%}
+# import httpx, an async http client
+import httpx as internet
+{% endif %}
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -54,10 +58,12 @@ route = \
 #}
 {% for route in routes %}
 
-def {{ route.name }}( {#-
+{%if is_asyncio %}async {% endif %}def {{ route.name }}( {#-
     #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
     {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
-    {%- endfor %}
+    {%- endfor %}{% if is_asyncio %}
+    _client: Union[None, internet.AsyncClient] = None,
+    {% endif %}
 ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
     """
     {{ route.description }}
@@ -72,12 +78,19 @@ def {{ route.name }}( {#-
     :param {{ param.name }}: {{ param.description | indent(width=8 + 7 + param.name.__len__() + 2) | trim() }}{% if param.api_name != param.name %}
     {{ " " * (7 + param.name.__len__() + 2) }}Note, on derpibooru's side this parameter is called `{{ param.api_name }}`.{% endif %}
     :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-    {% endfor %}
+    {% endfor %}{% if is_asyncio %}
+    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
+                    For example:
+                    >>> async with httpx.AsyncClient() as client:
+                    ...    result = await {{ route.name }}(…, _client=client)
+
+    :type  _client: httpx.AsyncClient|None
+    {% endif %}
     :return: The parsed result from the API.
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
     """
     _url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
-    response: internet.Response = DerpiClient.request({{route.method.__repr__()}}, _url{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+    response: internet.Response = {% if is_asyncio %}await {% endif %}DerpiClient.request({{route.method.__repr__()}}, url=_url, client=_client{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
          #}{% for param in route.all_parameters_ordered_generator(include_url_params=False) %}
         {{ param.api_name.__repr__() }}: {{ param.name }},
         {%- endfor %}
@@ -105,19 +118,32 @@ class DerpiClient(object):
     """
     _base_url = 'https://derpibooru.org'
 
-    def __init__(self, key):
+    def __init__(self, key{% if is_asyncio %}, client: Union[None, internet.AsyncClient] = None{% endif %}):
         """
         :param key: API key
         """
-        self.__key = key
+        self.__key = key{% if is_asyncio %}
+        self.__client = client,
+        {% endif %}
     # end def
 
-    @classmethod
+    @classmethod {#-
+    #}{%if is_asyncio %}
+    async def request(cls: Type['DerpiClient'], method: str, url: str, params: Union[Dict, None] = None, client: Union[None, internet.AsyncClient] = None) -> internet.Response:
+        if client is None:  # if we have no client, call ourself recursively with a with statement.
+            async with internet.AsyncClient() as client:
+                return await cls.request(method=method, url=url, params=params, client=client)
+            # end with
+        # end if
+        response: internet.Response = await client.request(method=method, url=url, params=params)
+        cls._check_response(response)
+        return response
+    # end def{% else %}
     def request(cls: Type['DerpiClient'], method, url, params=None) -> internet.Response:
         response: internet.Response = internet.request(method=method, url=url, params=params)
         cls._check_response(response)
         return response
-    # end def
+    # end def{% endif %}
 
     @staticmethod
     def _check_response(response: internet.Response) -> None:
@@ -134,11 +160,13 @@ class DerpiClient(object):
 
     {% for route in routes %}
     # noinspection PyMethodMayBeStatic
-    def {{ route.name }}(
+    {%if is_asyncio %}async {% endif %}def {{ route.name }}(
         self, {#
         #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
         {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
-        {%- endfor %}
+        {%- endfor %}{% if is_asyncio %}
+        _client: Union[None, internet.AsyncClient] = None,
+        {%- endif %}
     ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
         """
         {{ route.description }}
@@ -152,16 +180,25 @@ class DerpiClient(object):
         {% for param in route.all_parameters_ordered_generator(include_url_params=True) %}
         :param {{ param.name }}: {{ param.description | indent(width=8 + 9 + param.name.__len__()) | trim() }}
         :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
-        {% endfor %}
+        {% endfor %}{% if is_asyncio %}
+        :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
+                        For example:
+                        >>> async with httpx.AsyncClient() as client:
+                        ...    result = await {{ route.name }}(…, _client=client)
+
+        :type  _client: httpx.AsyncClient|None
+        {% endif %}
         :return: The parsed result from the API.
         :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
         """
-        return {{ route.name }}( {#-
+        return {%if is_asyncio %}await {% endif %}{{ route.name }}( {#-
             #}{% for param in route.all_parameters_ordered_generator(include_url_params=True) %}{% if param.name != 'key' %}
             {{ param.name }}={{ param.name }},
             {%- else %}
             {{ param.name }}=self.__key,
-            {%- endif %}{%- endfor %}
+            {%- endif %}{%- endfor %}{% if is_asyncio %}
+            _client=_client if _client else self.__client,
+            {% endif %}
         )
     # end def {{ route.name }}
     {% endfor %}
