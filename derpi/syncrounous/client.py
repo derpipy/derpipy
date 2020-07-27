@@ -96,6 +96,43 @@ def image(
 # end def image
 
 
+def image_upload(
+    url: str,
+    key: Union[str, None] = None,
+) -> Image:
+    """
+    Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
+
+    A request will be sent to the following endpoint: `/api/v1/json/images`
+    It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+    which would for example look like this: https://derpibooru.org#posting-images
+
+    The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
+    
+    :param url: Link a deviantART page, a Tumblr post, or the image directly.
+    :type  url: str
+    
+    :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+    :type  key: str|None
+    
+    :return: The parsed result from the API.
+    :rtype:  Image
+    """
+    _url: str = DerpiClient._base_url + f'/api/v1/json/images'
+    response: internet.Response = DerpiClient.request('POST', url=_url, client=_client, params={
+        'url': url,
+        'key': key,
+    })
+    result: Dict[str, Dict] = response.json()
+    result: Dict = result['image']
+    assert_type_or_raise(result, dict, parameter_name='result')
+    result: Image = Image.from_dict(result)
+    return result
+# end def image_upload
+
+
 def featured_image(
 ) -> Image:
     """
@@ -928,6 +965,38 @@ class DerpiClient(object):
             key=self.__key,
         )
     # end def image
+    
+    # noinspection PyMethodMayBeStatic
+    def image_upload(
+        self, 
+        url: str,
+        key: Union[str, None] = None,
+    ) -> Image:
+        """
+        Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
+
+        A request will be sent to the following endpoint: `/api/v1/json/images`
+        It will take in account `self._base_url` and fill in all url variables and append the data parameters as needed,
+        which would for example look like this: https://derpibooru.org#posting-images
+
+        The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
+        
+        :param url: Link a deviantART page, a Tumblr post, or the image directly.
+        :type  url: str
+        
+        :param key: An optional authentication token. If omitted, no user will be authenticated.
+
+                    You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
+        :type  key: str|None
+        
+        :return: The parsed result from the API.
+        :rtype:  Image
+        """
+        return image_upload(
+            url=url,
+            key=self.__key,
+        )
+    # end def image_upload
     
     # noinspection PyMethodMayBeStatic
     def featured_image(

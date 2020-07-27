@@ -12,7 +12,7 @@ from luckydonaldUtils.exceptions import assert_type_or_raise
 
 
 __author__ = 'luckydonald'
-__all__ = ['DerpiModel', 'SearchResult', 'Image', 'Representations', 'Intensities', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Oembed']
+__all__ = ['DerpiModel', 'SearchResult', 'Image', 'Representations', 'Intensities', 'Comment', 'Forum', 'Topic', 'Post', 'Tag', 'User', 'Filter', 'Links', 'Awards', 'Gallery', 'Image Errors', 'Oembed']
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -253,8 +253,8 @@ class Image(DerpiModel):
     :param uploader: The image's uploader.
     :type  uploader: str
     
-    :param uploader_id: The ID of the image's uploader.
-    :type  uploader_id: int
+    :param uploader_id: The ID of the image's uploader. `null` if uploaded anonymously.
+    :type  uploader_id: int|None
     
     :param upvotes: The image's number of upvotes.
     :type  upvotes: int
@@ -358,8 +358,8 @@ class Image(DerpiModel):
     """ The image's uploader. """
     uploader: str
     
-    """ The ID of the image's uploader. """
-    uploader_id: int
+    """ The ID of the image's uploader. `null` if uploaded anonymously. """
+    uploader_id: Union[int, None]
     
     """ The image's number of upvotes. """
     upvotes: int
@@ -401,7 +401,6 @@ class Image(DerpiModel):
         thumbnails_generated: bool,
         updated_at: datetime,
         uploader: str,
-        uploader_id: int,
         upvotes: int,
         view_url: str,
         width: int,
@@ -409,6 +408,7 @@ class Image(DerpiModel):
         deletion_reason: Union[str, None] = None,
         duplicate_of: Union[int, None] = None,
         intensities: Union[Intensities, None] = None,
+        uploader_id: Union[int, None] = None,
     ):
         """
         A parsed Image response of the Derpibooru API.
@@ -502,8 +502,8 @@ class Image(DerpiModel):
         :param uploader: The image's uploader.
         :type  uploader: str
         
-        :param uploader_id: The ID of the image's uploader.
-        :type  uploader_id: int
+        :param uploader_id: The ID of the image's uploader. `null` if uploaded anonymously.
+        :type  uploader_id: int|None
         
         :param upvotes: The image's number of upvotes.
         :type  upvotes: int
@@ -594,7 +594,7 @@ class Image(DerpiModel):
         arguments['thumbnails_generated'] = data['thumbnails_generated']
         arguments['updated_at'] = iso8601.parse_date(data['updated_at'])
         arguments['uploader'] = data['uploader']
-        arguments['uploader_id'] = data['uploader_id']
+        arguments['uploader_id'] = data['uploader_id'] if data.get('uploader_id', None) is not None else None
         arguments['upvotes'] = data['upvotes']
         arguments['view_url'] = data['view_url']
         arguments['width'] = data['width']
@@ -635,7 +635,9 @@ class Image(DerpiModel):
         del data['thumbnails_generated']
         del data['updated_at']
         del data['uploader']
-        del data['uploader_id']
+        if 'uploader_id' in data:
+            del data['uploader_id']
+        # end if
         del data['upvotes']
         del data['view_url']
         del data['width']
@@ -1480,7 +1482,7 @@ class Topic(DerpiModel):
     :param locked: Whether the topic is locked.
     :type  locked: bool
     
-    :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
+    :param user_id: The ID of the user who made the topic. `null` if posted anonymously.
     :type  user_id: int|None
     
     :param author: The name of the user who made the topic.
@@ -1510,7 +1512,7 @@ class Topic(DerpiModel):
     """ Whether the topic is locked. """
     locked: bool
     
-    """ The ID of the user who made the topic. `Null` if posted anonymously. """
+    """ The ID of the user who made the topic. `null` if posted anonymously. """
     user_id: Union[int, None]
     
     """ The name of the user who made the topic. """
@@ -1554,7 +1556,7 @@ class Topic(DerpiModel):
         :param locked: Whether the topic is locked.
         :type  locked: bool
         
-        :param user_id: The ID of the user who made the topic. `Null` if posted anonymously.
+        :param user_id: The ID of the user who made the topic. `null` if posted anonymously.
         :type  user_id: int|None
         
         :param author: The name of the user who made the topic.
@@ -1923,7 +1925,7 @@ class Tag(DerpiModel):
     :param slug: The slug for the tag.
     :type  slug: str
     
-    :param spoiler_image_uri: The spoiler image URL for the tag, or `null` if none provided. 
+    :param spoiler_image_uri: The spoiler image for the tag, or `null` if none provided. 
     :type  spoiler_image_uri: str|None
     
     """
@@ -1971,7 +1973,7 @@ class Tag(DerpiModel):
     """ The slug for the tag. """
     slug: str
     
-    """ The spoiler image URL for the tag, or `null` if none provided.  """
+    """ The spoiler image for the tag, or `null` if none provided.  """
     spoiler_image_uri: Union[str, None]
     
     def __init__(
@@ -2039,7 +2041,7 @@ class Tag(DerpiModel):
         :param slug: The slug for the tag.
         :type  slug: str
         
-        :param spoiler_image_uri: The spoiler image URL for the tag, or `null` if none provided. 
+        :param spoiler_image_uri: The spoiler image for the tag, or `null` if none provided. 
         :type  spoiler_image_uri: str|None
         
         """
@@ -2185,7 +2187,7 @@ class User(DerpiModel):
     :param description: The description (bio) of the user.
     :type  description: str
     
-    :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
+    :param avatar_url: The URL of the user's thumbnail. `null` if the avatar is not set.
     :type  avatar_url: str|None
     
     :param created_at: The creation time, in UTC, of the user.
@@ -2227,7 +2229,7 @@ class User(DerpiModel):
     """ The description (bio) of the user. """
     description: str
     
-    """ The URL of the user's thumbnail. `Null` if they haven't set one. """
+    """ The URL of the user's thumbnail. `null` if the avatar is not set. """
     avatar_url: Union[str, None]
     
     """ The creation time, in UTC, of the user. """
@@ -2287,7 +2289,7 @@ class User(DerpiModel):
         :param description: The description (bio) of the user.
         :type  description: str
         
-        :param avatar_url: The URL of the user's thumbnail. `Null` if they haven't set one.
+        :param avatar_url: The URL of the user's thumbnail. `null` if the avatar is not set.
         :type  avatar_url: str|None
         
         :param created_at: The creation time, in UTC, of the user.
@@ -2442,7 +2444,7 @@ class Filter(DerpiModel):
     :param description: The description of the filter.
     :type  description: str
     
-    :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
+    :param user_id: The id of the user the filter belongs to. `null` if it isn't assigned to a user (usually `system` filters only).
     :type  user_id: int|None
     
     :param user_count: The amount of users employing this filter.
@@ -2478,7 +2480,7 @@ class Filter(DerpiModel):
     """ The description of the filter. """
     description: str
     
-    """ The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only). """
+    """ The id of the user the filter belongs to. `null` if it isn't assigned to a user (usually `system` filters only). """
     user_id: Union[int, None]
     
     """ The amount of users employing this filter. """
@@ -2530,7 +2532,7 @@ class Filter(DerpiModel):
         :param description: The description of the filter.
         :type  description: str
         
-        :param user_id: The id of the user the filter belongs to. `Null` if it isn't assigned to a user (usually `system` filters only).
+        :param user_id: The id of the user the filter belongs to. `null` if it isn't assigned to a user (usually `system` filters only).
         :type  user_id: int|None
         
         :param user_count: The amount of users employing this filter.
@@ -2679,7 +2681,7 @@ class Links(DerpiModel):
     :param state: The state of this link.
     :type  state: str
     
-    :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
+    :param tag_id: The ID of an associated tag for this link. `null` if no tag linked.
     :type  tag_id: int|None
     
     """
@@ -2694,7 +2696,7 @@ class Links(DerpiModel):
     """ The state of this link. """
     state: str
     
-    """ The ID of an associated tag for this link. `Null` if no tag linked. """
+    """ The ID of an associated tag for this link. `null` if no tag linked. """
     tag_id: Union[int, None]
     
     def __init__(
@@ -2718,7 +2720,7 @@ class Links(DerpiModel):
         :param state: The state of this link.
         :type  state: str
         
-        :param tag_id: The ID of an associated tag for this link. `Null` if no tag linked.
+        :param tag_id: The ID of an associated tag for this link. `null` if no tag linked.
         :type  tag_id: int|None
         
         """
@@ -3146,6 +3148,254 @@ class Gallery(DerpiModel):
             return False
         # end if
         return self.description == other.description and self.id == other.id and self.spoiler_warning == other.spoiler_warning and self.thumbnail_id == other.thumbnail_id and self.title == other.title and self.user == other.user and self.user_id == other.user_id
+    # end __eq__
+# end class
+
+
+class Image Errors(DerpiModel):
+    """
+    A parsed Image Errors response of the Derpibooru API.
+    Yes, a better description should be here.
+
+    
+    :param image: Errors in the submitted image
+    :type  image: list
+    
+    :param image_aspect_ratio: Errors in the submitted image
+    :type  image_aspect_ratio: list
+    
+    :param image_format: When an image is unsupported (ex. WEBP)
+    :type  image_format: list
+    
+    :param image_height: Errors in the submitted image
+    :type  image_height: list
+    
+    :param image_width: Errors in the submitted image
+    :type  image_width: list
+    
+    :param image_size: Usually if an image that is too large is uploaded.
+    :type  image_size: list
+    
+    :param image_is_animated: Errors in the submitted image
+    :type  image_is_animated: list
+    
+    :param image_mime_type: Errors in the submitted image
+    :type  image_mime_type: list
+    
+    :param image_orig_sha512_hash: Errors in the submitted image. If **has already been taken** is present, means the image already exists in the database.
+    :type  image_orig_sha512_hash: list
+    
+    :param image_sha512_hash: Errors in the submitted image
+    :type  image_sha512_hash: list
+    
+    :param tag_input: Errors with the tag metadata.
+    :type  tag_input: list
+    
+    :param uploaded_image: Errors in the submitted image
+    :type  uploaded_image: list
+    
+    """
+
+    
+    """ Errors in the submitted image """
+    image: list
+    
+    """ Errors in the submitted image """
+    image_aspect_ratio: list
+    
+    """ When an image is unsupported (ex. WEBP) """
+    image_format: list
+    
+    """ Errors in the submitted image """
+    image_height: list
+    
+    """ Errors in the submitted image """
+    image_width: list
+    
+    """ Usually if an image that is too large is uploaded. """
+    image_size: list
+    
+    """ Errors in the submitted image """
+    image_is_animated: list
+    
+    """ Errors in the submitted image """
+    image_mime_type: list
+    
+    """ Errors in the submitted image. If **has already been taken** is present, means the image already exists in the database. """
+    image_orig_sha512_hash: list
+    
+    """ Errors in the submitted image """
+    image_sha512_hash: list
+    
+    """ Errors with the tag metadata. """
+    tag_input: list
+    
+    """ Errors in the submitted image """
+    uploaded_image: list
+    
+    def __init__(
+        self, 
+        image: list,
+        image_aspect_ratio: list,
+        image_format: list,
+        image_height: list,
+        image_width: list,
+        image_size: list,
+        image_is_animated: list,
+        image_mime_type: list,
+        image_orig_sha512_hash: list,
+        image_sha512_hash: list,
+        tag_input: list,
+        uploaded_image: list,
+    ):
+        """
+        A parsed Image Errors response of the Derpibooru API.
+        Yes, a better description should be here.
+
+        
+        :param image: Errors in the submitted image
+        :type  image: list
+        
+        :param image_aspect_ratio: Errors in the submitted image
+        :type  image_aspect_ratio: list
+        
+        :param image_format: When an image is unsupported (ex. WEBP)
+        :type  image_format: list
+        
+        :param image_height: Errors in the submitted image
+        :type  image_height: list
+        
+        :param image_width: Errors in the submitted image
+        :type  image_width: list
+        
+        :param image_size: Usually if an image that is too large is uploaded.
+        :type  image_size: list
+        
+        :param image_is_animated: Errors in the submitted image
+        :type  image_is_animated: list
+        
+        :param image_mime_type: Errors in the submitted image
+        :type  image_mime_type: list
+        
+        :param image_orig_sha512_hash: Errors in the submitted image. If **has already been taken** is present, means the image already exists in the database.
+        :type  image_orig_sha512_hash: list
+        
+        :param image_sha512_hash: Errors in the submitted image
+        :type  image_sha512_hash: list
+        
+        :param tag_input: Errors with the tag metadata.
+        :type  tag_input: list
+        
+        :param uploaded_image: Errors in the submitted image
+        :type  uploaded_image: list
+        
+        """
+        self.image = image
+        self.image_aspect_ratio = image_aspect_ratio
+        self.image_format = image_format
+        self.image_height = image_height
+        self.image_width = image_width
+        self.image_size = image_size
+        self.image_is_animated = image_is_animated
+        self.image_mime_type = image_mime_type
+        self.image_orig_sha512_hash = image_orig_sha512_hash
+        self.image_sha512_hash = image_sha512_hash
+        self.tag_input = tag_input
+        self.uploaded_image = uploaded_image
+    # end def __init__
+
+    @classmethod
+    def prepare_dict(cls: Type[Image Errors], data: Union[Dict[str, JSONType]]) -> Dict[str, JSONType]:
+        """
+        Builds a new dict with valid values for the Image Errors constructor.
+
+        :return: new dict with valid values
+        :rtype: dict
+        """
+        assert_type_or_raise(data, dict, parameter_name="data")
+
+        arguments = super().prepare_dict(data) 
+        arguments['image'] = data['image']
+        arguments['image_aspect_ratio'] = data['image_aspect_ratio']
+        arguments['image_format'] = data['image_format']
+        arguments['image_height'] = data['image_height']
+        arguments['image_width'] = data['image_width']
+        arguments['image_size'] = data['image_size']
+        arguments['image_is_animated'] = data['image_is_animated']
+        arguments['image_mime_type'] = data['image_mime_type']
+        arguments['image_orig_sha512_hash'] = data['image_orig_sha512_hash']
+        arguments['image_sha512_hash'] = data['image_sha512_hash']
+        arguments['tag_input'] = data['tag_input']
+        arguments['uploaded_image'] = data['uploaded_image']
+        
+        del data['image']
+        del data['image_aspect_ratio']
+        del data['image_format']
+        del data['image_height']
+        del data['image_width']
+        del data['image_size']
+        del data['image_is_animated']
+        del data['image_mime_type']
+        del data['image_orig_sha512_hash']
+        del data['image_sha512_hash']
+        del data['tag_input']
+        del data['uploaded_image']
+
+        if data:
+            logger.warning(f'still got leftover data: {data!r}')
+            if cls._assert_consuming_all_params:
+                raise ValueError(
+                    f'the dict should be consumed completely, but still has the following elements left: {list(data.keys())!r}'
+                )
+            # end if
+        # end if
+        return arguments
+    # end def prepare_dict
+
+    @classmethod
+    def from_dict(cls: Type[Image Errors], data: Union[Dict, None, List[Dict]]) -> Union[Image Errors, None]:
+        """
+        Deserialize a new Image Errors from a given dictionary.
+
+        :return: new Image Errors instance.
+        :rtype: Image Errors|None
+        """
+        if not data:  # None or {}
+            return None
+        # end if
+        if isinstance(data, list):
+            return [cls.from_dict(item) for item in data]
+        # end if
+
+        data: Dict = cls.prepare_dict(data)
+        instance: Image Errors = cls(**data)
+        instance._raw = data
+        return instance
+    # end def from_dict
+
+    def __str__(self):
+        """
+        Implements `str(image errors_instance)`
+        """
+        return "{s.__class__.__name__}(image={s.image!r}, image_aspect_ratio={s.image_aspect_ratio!r}, image_format={s.image_format!r}, image_height={s.image_height!r}, image_width={s.image_width!r}, image_size={s.image_size!r}, image_is_animated={s.image_is_animated!r}, image_mime_type={s.image_mime_type!r}, image_orig_sha512_hash={s.image_orig_sha512_hash!r}, image_sha512_hash={s.image_sha512_hash!r}, tag_input={s.tag_input!r}, uploaded_image={s.uploaded_image!r})".format(s=self)
+    # end def __str__
+
+    def __repr__(self):
+        """
+        Implements `repr(image errors_instance)`
+        """
+        
+        return "{s.__class__.__name__}(image={s.image!r}, image_aspect_ratio={s.image_aspect_ratio!r}, image_format={s.image_format!r}, image_height={s.image_height!r}, image_width={s.image_width!r}, image_size={s.image_size!r}, image_is_animated={s.image_is_animated!r}, image_mime_type={s.image_mime_type!r}, image_orig_sha512_hash={s.image_orig_sha512_hash!r}, image_sha512_hash={s.image_sha512_hash!r}, tag_input={s.tag_input!r}, uploaded_image={s.uploaded_image!r})".format(s=self)
+    # end def __repr__
+
+    def __eq__(self, other):
+        """
+        Implements equality check, i.e. `image errors_instance_a == image errors_instance_b`
+        """
+        if not (hasattr(other, 'image') and hasattr(other, 'image_aspect_ratio') and hasattr(other, 'image_format') and hasattr(other, 'image_height') and hasattr(other, 'image_width') and hasattr(other, 'image_size') and hasattr(other, 'image_is_animated') and hasattr(other, 'image_mime_type') and hasattr(other, 'image_orig_sha512_hash') and hasattr(other, 'image_sha512_hash') and hasattr(other, 'tag_input') and hasattr(other, 'uploaded_image')):
+            return False
+        # end if
+        return self.image == other.image and self.image_aspect_ratio == other.image_aspect_ratio and self.image_format == other.image_format and self.image_height == other.image_height and self.image_width == other.image_width and self.image_size == other.image_size and self.image_is_animated == other.image_is_animated and self.image_mime_type == other.image_mime_type and self.image_orig_sha512_hash == other.image_orig_sha512_hash and self.image_sha512_hash == other.image_sha512_hash and self.tag_input == other.tag_input and self.uploaded_image == other.uploaded_image
     # end __eq__
 # end class
 
