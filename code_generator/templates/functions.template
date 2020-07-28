@@ -143,8 +143,8 @@ class DerpiClient(object):
         """
         :param key: API key
         """
-        self.__key = key
-        self.__client = client,
+        self._key = key
+        self._client = client,
     # end def
 
     @classmethod {#-
@@ -238,9 +238,9 @@ class DerpiClient(object):
             #}{% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}{% if param.name != 'key' %}
             {{ param.name }}={{ param.name }},
             {%- else %}
-            {{ param.name }}=self.__key,
+            {{ param.name }}=self._key,
             {%- endif %}{%- endfor %}
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def {{ route.name }}
     {% endfor %}

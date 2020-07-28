@@ -1342,8 +1342,8 @@ class DerpiClient(object):
         """
         :param key: API key
         """
-        self.__key = key
-        self.__client = client,
+        self._key = key
+        self._client = client,
     # end def
 
     @classmethod
@@ -1414,7 +1414,7 @@ class DerpiClient(object):
         """
         return comment(
             comment_id=comment_id,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def comment
     
@@ -1470,8 +1470,8 @@ class DerpiClient(object):
         return image(
             image_id=image_id,
             filter_id=filter_id,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def image
     
@@ -1522,8 +1522,8 @@ class DerpiClient(object):
         """
         return image_upload(
             url=url,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def image_upload
     
@@ -1564,7 +1564,7 @@ class DerpiClient(object):
         :rtype:  Image
         """
         return featured_image(
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def featured_image
     
@@ -1610,7 +1610,7 @@ class DerpiClient(object):
         """
         return tag(
             tag_id=tag_id,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def tag
     
@@ -1656,7 +1656,7 @@ class DerpiClient(object):
         """
         return post(
             post_id=post_id,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def post
     
@@ -1702,7 +1702,7 @@ class DerpiClient(object):
         """
         return user(
             user_id=user_id,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def user
     
@@ -1753,8 +1753,8 @@ class DerpiClient(object):
         """
         return filter(
             filter_id=filter_id,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def filter
     
@@ -1800,7 +1800,7 @@ class DerpiClient(object):
         """
         return system_filters(
             page=page,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def system_filters
     
@@ -1850,9 +1850,9 @@ class DerpiClient(object):
         :rtype:  List[Filter]
         """
         return user_filters(
-            key=self.__key,
+            key=self._key,
             page=page,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def user_filters
     
@@ -1898,7 +1898,7 @@ class DerpiClient(object):
         """
         return oembed(
             url=url,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def oembed
     
@@ -1954,8 +1954,8 @@ class DerpiClient(object):
         return search_comments(
             query=query,
             page=page,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def search_comments
     
@@ -2011,8 +2011,8 @@ class DerpiClient(object):
         return search_galleries(
             query=query,
             page=page,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def search_galleries
     
@@ -2068,8 +2068,8 @@ class DerpiClient(object):
         return search_posts(
             query=query,
             page=page,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def search_posts
     
@@ -2145,8 +2145,8 @@ class DerpiClient(object):
             per_page=per_page,
             sort_direction=sort_direction,
             sort_field=sort_field,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def search_images
     
@@ -2197,7 +2197,7 @@ class DerpiClient(object):
         return search_tags(
             query=query,
             page=page,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def search_tags
     
@@ -2253,8 +2253,8 @@ class DerpiClient(object):
         return search_reverse(
             url=url,
             distance=distance,
-            key=self.__key,
-            _client=_client if _client else self.__client,
+            key=self._key,
+            _client=_client if _client else self._client,
         )
     # end def search_reverse
     
@@ -2295,7 +2295,7 @@ class DerpiClient(object):
         :rtype:  List[Forum]
         """
         return forums(
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forums
     
@@ -2341,7 +2341,7 @@ class DerpiClient(object):
         """
         return forum(
             short_name=short_name,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forum
     
@@ -2392,7 +2392,7 @@ class DerpiClient(object):
         return forum_topics(
             short_name=short_name,
             page=page,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forum_topics
     
@@ -2443,7 +2443,7 @@ class DerpiClient(object):
         return forum_topic(
             short_name=short_name,
             topic_slug=topic_slug,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forum_topic
     
@@ -2499,7 +2499,7 @@ class DerpiClient(object):
             short_name=short_name,
             topic_slug=topic_slug,
             page=page,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forum_posts
     
@@ -2555,7 +2555,7 @@ class DerpiClient(object):
             short_name=short_name,
             topic_slug=topic_slug,
             post_id=post_id,
-            _client=_client if _client else self.__client,
+            _client=_client if _client else self._client,
         )
     # end def forum_post
     
