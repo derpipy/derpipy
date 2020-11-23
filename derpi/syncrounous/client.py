@@ -1486,7 +1486,6 @@ class DerpiClient(object):
         assert response.status_code == 200  # TODO
         assert response.headers['content-type'] == 'application/json; charset=utf-8'
     # end def
-
     
     # noinspection PyMethodMayBeStatic
     def comment(

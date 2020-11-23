@@ -209,8 +209,8 @@ class DerpiClient(object):
         """
         assert response.status_code == 200  # TODO
         assert response.headers['content-type'] == 'application/json; charset=utf-8'
-    # end def
-
+    # end def{#
+#}
     {% for route in routes %}
     # noinspection PyMethodMayBeStatic
     {% if is_asyncio %}async {% endif %}def {{ route.name }}(
