@@ -64,8 +64,8 @@ route = \
     #}{% for param in route.all_parameters_ordered_generator(include_url_params=True, include_key=True) %}
     {{ param.name }}: {% if param.optional %}Union[{% endif %}{{ param.python_typing_representation() }}{% if param.optional %}, None] = None{% endif %},
     {%- endfor %}{% if is_asyncio %}
-    _client: Union[None, internet.AsyncClient] = None,{% else %}
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,{% endif %}
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,{% else %}
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,{% endif %}
 ) -> {{ route.response_format.python_typing_representation(json_mode=False) }}:
     """
     {{ route.description }}
@@ -81,14 +81,25 @@ route = \
     {{ " " * (7 + param.name.__len__() + 2) }}Note, on derpibooru's side this parameter is called `{{ param.api_name }}`.{% endif %}
     :type  {{ param.name }}: {{ param.python_typing_representation(classes) }}{% if param.optional %}|None{% endif %}
     {% endfor %}{% if is_asyncio %}
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await {{ route.name }}(…, _client=client)
+                    ...    result = await {{ route.name }}(..., _client=client)
 
-    :type  _client: httpx.AsyncClient|None
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await {{ route.name }}(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await {{ route.name }}(..., _client=derpi_client)
+
+    :type  _client: httpx.AsyncClient|DerpiClient|None
     {% else %}
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = {{ route.name }}(…, _client=client)
@@ -104,8 +115,12 @@ route = \
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = {{ route.name }}(…, _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     {% endif %}
     :return: The parsed result from the API.
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}

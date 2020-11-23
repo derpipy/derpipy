@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
 async def comment(
     comment_id: int,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Comment:
     """
     Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -35,10 +35,21 @@ async def comment(
     :param comment_id: the variable comment_id part of the url.
     :type  comment_id: int
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await comment(…, _client=client)
+                    ...    result = await comment(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await comment(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await comment(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -59,7 +70,7 @@ async def image(
     image_id: int,
     filter_id: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -81,10 +92,21 @@ async def image(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await image(…, _client=client)
+                    ...    result = await image(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await image(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await image(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -107,7 +129,7 @@ async def image(
 async def image_upload(
     url: str,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Image:
     """
     Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
@@ -126,10 +148,21 @@ async def image_upload(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await image_upload(…, _client=client)
+                    ...    result = await image_upload(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await image_upload(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await image_upload(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -150,7 +183,7 @@ async def image_upload(
 
 
 async def featured_image(
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Image:
     """
     Fetches an **image response** for the for the current featured image.
@@ -161,10 +194,21 @@ async def featured_image(
 
     The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await featured_image(…, _client=client)
+                    ...    result = await featured_image(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await featured_image(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await featured_image(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -183,7 +227,7 @@ async def featured_image(
 
 async def tag(
     tag_id: str,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
@@ -197,10 +241,21 @@ async def tag(
     :param tag_id: the variable tag_id part of the url.
     :type  tag_id: str
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await tag(…, _client=client)
+                    ...    result = await tag(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await tag(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await tag(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -219,7 +274,7 @@ async def tag(
 
 async def post(
     post_id: int,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Post:
     """
     Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -233,10 +288,21 @@ async def post(
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await post(…, _client=client)
+                    ...    result = await post(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await post(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await post(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -255,7 +321,7 @@ async def post(
 
 async def user(
     user_id: int,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> User:
     """
     Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -269,10 +335,21 @@ async def user(
     :param user_id: the variable user_id part of the url.
     :type  user_id: int
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await user(…, _client=client)
+                    ...    result = await user(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await user(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await user(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -292,7 +369,7 @@ async def user(
 async def filter(
     filter_id: int,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Filter:
     """
     Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -311,10 +388,21 @@ async def filter(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await filter(…, _client=client)
+                    ...    result = await filter(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await filter(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await filter(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -335,7 +423,7 @@ async def filter(
 
 async def system_filters(
     page: Union[int, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -349,10 +437,21 @@ async def system_filters(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await system_filters(…, _client=client)
+                    ...    result = await system_filters(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await system_filters(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await system_filters(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -377,7 +476,7 @@ async def system_filters(
 async def user_filters(
     key: str,
     page: Union[int, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -396,10 +495,21 @@ async def user_filters(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await user_filters(…, _client=client)
+                    ...    result = await user_filters(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await user_filters(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await user_filters(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -424,7 +534,7 @@ async def user_filters(
 
 async def oembed(
     url: str,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Oembed:
     """
     Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -438,10 +548,21 @@ async def oembed(
     :param url: Link a deviantART page, a Tumblr post, or the image directly.
     :type  url: str
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await oembed(…, _client=client)
+                    ...    result = await oembed(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await oembed(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await oembed(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -463,7 +584,7 @@ async def search_comments(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -486,10 +607,21 @@ async def search_comments(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_comments(…, _client=client)
+                    ...    result = await search_comments(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_comments(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_comments(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -517,7 +649,7 @@ async def search_galleries(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -540,10 +672,21 @@ async def search_galleries(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_galleries(…, _client=client)
+                    ...    result = await search_galleries(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_galleries(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_galleries(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -571,7 +714,7 @@ async def search_posts(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -594,10 +737,21 @@ async def search_posts(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_posts(…, _client=client)
+                    ...    result = await search_posts(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_posts(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_posts(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -629,7 +783,7 @@ async def search_images(
     sort_direction: Union[str, None] = None,
     sort_field: Union[str, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -666,10 +820,21 @@ async def search_images(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_images(…, _client=client)
+                    ...    result = await search_images(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_images(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_images(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -700,7 +865,7 @@ async def search_images(
 async def search_tags(
     query: str,
     page: Union[int, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Tag]:
     """
     Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -718,10 +883,21 @@ async def search_tags(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_tags(…, _client=client)
+                    ...    result = await search_tags(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_tags(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_tags(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -748,7 +924,7 @@ async def search_reverse(
     url: str,
     distance: Union[float, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -770,10 +946,21 @@ async def search_reverse(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await search_reverse(…, _client=client)
+                    ...    result = await search_reverse(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await search_reverse(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await search_reverse(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -798,7 +985,7 @@ async def search_reverse(
 
 
 async def forums(
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Forum]:
     """
     Fetches a list of **forum responses**.
@@ -809,10 +996,21 @@ async def forums(
 
     The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forums(…, _client=client)
+                    ...    result = await forums(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forums(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forums(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -834,7 +1032,7 @@ async def forums(
 
 async def forum(
     short_name: str,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Forum:
     """
     Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -848,10 +1046,21 @@ async def forum(
     :param short_name: the variable short_name part of the url.
     :type  short_name: str
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forum(…, _client=client)
+                    ...    result = await forum(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forum(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forum(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -871,7 +1080,7 @@ async def forum(
 async def forum_topics(
     short_name: str,
     page: Union[int, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Topic]:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -888,10 +1097,21 @@ async def forum_topics(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forum_topics(…, _client=client)
+                    ...    result = await forum_topics(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forum_topics(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forum_topics(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -916,7 +1136,7 @@ async def forum_topics(
 async def forum_topic(
     short_name: str,
     topic_slug: str,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Topic:
     """
     Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -933,10 +1153,21 @@ async def forum_topic(
     :param topic_slug: the variable topic_slug part of the url.
     :type  topic_slug: str
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forum_topic(…, _client=client)
+                    ...    result = await forum_topic(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forum_topic(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forum_topic(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -957,7 +1188,7 @@ async def forum_posts(
     short_name: str,
     topic_slug: str,
     page: Union[int, None] = None,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> List[Post]:
     """
     Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -977,10 +1208,21 @@ async def forum_posts(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forum_posts(…, _client=client)
+                    ...    result = await forum_posts(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forum_posts(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forum_posts(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     
@@ -1006,7 +1248,7 @@ async def forum_post(
     short_name: str,
     topic_slug: str,
     post_id: int,
-    _client: Union[None, internet.AsyncClient] = None,
+    _client: Union[None, 'DerpiClient', internet.AsyncClient] = None,
 ) -> Post:
     """
     Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
@@ -1026,10 +1268,21 @@ async def forum_post(
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
     
-    :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
-                    For example:
+    :param _client: If you wanna to provide your custom `DerpiClient`, or just an already opened `httpx.AsyncClient`.
+                    Example with `httpx.AsyncClient`:
                     >>> async with httpx.AsyncClient() as client:
-                    ...    result = await forum_post(…, _client=client)
+                    ...    result = await forum_post(..., _client=client)
+
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='...')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = await forum_post(..., _client=client)
+                    In this example we wanted to modify the base url to go to a different booru.
+
+                    Combined example:
+                    >>> async with httpx.AsyncClient() as web_client:
+                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    ...    result = await forum_post(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|None
     

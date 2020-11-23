@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
 def comment(
     comment_id: int,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Comment:
     """
     Fetches a **comment response** for the comment ID referenced by the `comment_id` URL parameter.
@@ -45,7 +45,7 @@ def comment(
     :param comment_id: the variable comment_id part of the url.
     :type  comment_id: int
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = comment(…, _client=client)
@@ -61,6 +61,10 @@ def comment(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = comment(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -81,7 +85,7 @@ def image(
     image_id: int,
     filter_id: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Image:
     """
     Fetches an **image response** for the image ID referenced by the `image_id` URL parameter.
@@ -103,7 +107,7 @@ def image(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = image(…, _client=client)
@@ -119,6 +123,10 @@ def image(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = image(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -141,7 +149,7 @@ def image(
 def image_upload(
     url: str,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Image:
     """
     Submits a new image. Both `key` and `url` are required. Errors will result in an `{"errors":image-errors-response}`.
@@ -160,7 +168,7 @@ def image_upload(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = image_upload(…, _client=client)
@@ -176,6 +184,10 @@ def image_upload(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = image_upload(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -196,7 +208,7 @@ def image_upload(
 
 
 def featured_image(
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Image:
     """
     Fetches an **image response** for the for the current featured image.
@@ -207,7 +219,7 @@ def featured_image(
 
     The API should return json looking like `{"image":Image}` which will then be parsed to the python result `Image`.
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = featured_image(…, _client=client)
@@ -223,6 +235,10 @@ def featured_image(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = featured_image(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -241,7 +257,7 @@ def featured_image(
 
 def tag(
     tag_id: str,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Tag:
     """
     Fetches a **tag response** for the **tag slug** given by the `tag_id` URL parameter. The tag's ID is **not** used. For getting a tag by ID the search endpoint can be used like `search/tags?q=id:4458`.
@@ -255,7 +271,7 @@ def tag(
     :param tag_id: the variable tag_id part of the url.
     :type  tag_id: str
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = tag(…, _client=client)
@@ -271,6 +287,10 @@ def tag(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = tag(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -289,7 +309,7 @@ def tag(
 
 def post(
     post_id: int,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Post:
     """
     Fetches a **post response** for the post ID given by the `post_id` URL parameter.
@@ -303,7 +323,7 @@ def post(
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = post(…, _client=client)
@@ -319,6 +339,10 @@ def post(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = post(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -337,7 +361,7 @@ def post(
 
 def user(
     user_id: int,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> User:
     """
     Fetches a **profile response** for the user ID given by the `user_id` URL parameter.
@@ -351,7 +375,7 @@ def user(
     :param user_id: the variable user_id part of the url.
     :type  user_id: int
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = user(…, _client=client)
@@ -367,6 +391,10 @@ def user(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = user(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -386,7 +414,7 @@ def user(
 def filter(
     filter_id: int,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Filter:
     """
     Fetches a **filter response** for the filter ID given by the `filter_id` URL parameter.
@@ -405,7 +433,7 @@ def filter(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = filter(…, _client=client)
@@ -421,6 +449,10 @@ def filter(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = filter(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -441,7 +473,7 @@ def filter(
 
 def system_filters(
     page: Union[int, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that are flagged as being **system** filters (and thus usable by anyone).
@@ -455,7 +487,7 @@ def system_filters(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = system_filters(…, _client=client)
@@ -471,6 +503,10 @@ def system_filters(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = system_filters(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -495,7 +531,7 @@ def system_filters(
 def user_filters(
     key: str,
     page: Union[int, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Filter]:
     """
     Fetches a list of **filter responses** that belong to the user given by **key**. If no **key** is given or it is invalid, will return a **403 Forbidden** error.
@@ -514,7 +550,7 @@ def user_filters(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = user_filters(…, _client=client)
@@ -530,6 +566,10 @@ def user_filters(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = user_filters(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -554,7 +594,7 @@ def user_filters(
 
 def oembed(
     url: str,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Oembed:
     """
     Fetches an **oEmbed response** for the given app link or CDN URL.
@@ -568,7 +608,7 @@ def oembed(
     :param url: Link a deviantART page, a Tumblr post, or the image directly.
     :type  url: str
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = oembed(…, _client=client)
@@ -584,6 +624,10 @@ def oembed(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = oembed(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -605,7 +649,7 @@ def search_comments(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Comment]:
     """
     Executes the search given by the `q` query parameter (case insensitive and stemming is applied. If you search for **best pony** results like **Best Ponies** are also be returned), and returns **comment responses** sorted by descending creation time.
@@ -628,7 +672,7 @@ def search_comments(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_comments(…, _client=client)
@@ -644,6 +688,10 @@ def search_comments(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_comments(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -671,7 +719,7 @@ def search_galleries(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Gallery]:
     """
     Executes the search given by the `q` query parameter, and returns **gallery responses** sorted by descending creation time.
@@ -694,7 +742,7 @@ def search_galleries(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_galleries(…, _client=client)
@@ -710,6 +758,10 @@ def search_galleries(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_galleries(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -737,7 +789,7 @@ def search_posts(
     query: str,
     page: Union[int, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Post]:
     """
     Executes the search given by the `q` query parameter, and returns **post responses** sorted by descending creation time.
@@ -760,7 +812,7 @@ def search_posts(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_posts(…, _client=client)
@@ -776,6 +828,10 @@ def search_posts(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_posts(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -807,7 +863,7 @@ def search_images(
     sort_direction: Union[str, None] = None,
     sort_field: Union[str, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Image]:
     """
     Executes the search given by the `q` query parameter, and returns **image responses**.
@@ -844,7 +900,7 @@ def search_images(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_images(…, _client=client)
@@ -860,6 +916,10 @@ def search_images(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_images(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -890,7 +950,7 @@ def search_images(
 def search_tags(
     query: str,
     page: Union[int, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Tag]:
     """
     Executes the search given by the `q` query parameter, and returns **tag responses** sorted by descending image count.
@@ -908,7 +968,7 @@ def search_tags(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_tags(…, _client=client)
@@ -924,6 +984,10 @@ def search_tags(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_tags(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -950,7 +1014,7 @@ def search_reverse(
     url: str,
     distance: Union[float, None] = None,
     key: Union[str, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Image]:
     """
     Returns **image responses** based on the results of reverse-searching the image given by the `url` query parameter.
@@ -972,7 +1036,7 @@ def search_reverse(
                     You can find your authentication token in your [account settings](https://derpibooru.org/registration/edit).
     :type  key: str|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = search_reverse(…, _client=client)
@@ -988,6 +1052,10 @@ def search_reverse(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = search_reverse(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1012,7 +1080,7 @@ def search_reverse(
 
 
 def forums(
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Forum]:
     """
     Fetches a list of **forum responses**.
@@ -1023,7 +1091,7 @@ def forums(
 
     The API should return json looking like `{"forums":[Forum]}` which will then be parsed to the python result `List[Forum]`.
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forums(…, _client=client)
@@ -1039,6 +1107,10 @@ def forums(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forums(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1060,7 +1132,7 @@ def forums(
 
 def forum(
     short_name: str,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Forum:
     """
     Fetches a **forum response** for the abbreviated name given by the `short_name` URL parameter.
@@ -1074,7 +1146,7 @@ def forum(
     :param short_name: the variable short_name part of the url.
     :type  short_name: str
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forum(…, _client=client)
@@ -1090,6 +1162,10 @@ def forum(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forum(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1109,7 +1185,7 @@ def forum(
 def forum_topics(
     short_name: str,
     page: Union[int, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Topic]:
     """
     Fetches a list of **topic responses** for the abbreviated forum name given by the `short_name` URL parameter.
@@ -1126,7 +1202,7 @@ def forum_topics(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forum_topics(…, _client=client)
@@ -1142,6 +1218,10 @@ def forum_topics(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forum_topics(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1166,7 +1246,7 @@ def forum_topics(
 def forum_topic(
     short_name: str,
     topic_slug: str,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Topic:
     """
     Fetches a **topic response** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1183,7 +1263,7 @@ def forum_topic(
     :param topic_slug: the variable topic_slug part of the url.
     :type  topic_slug: str
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forum_topic(…, _client=client)
@@ -1199,6 +1279,10 @@ def forum_topic(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forum_topic(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1219,7 +1303,7 @@ def forum_posts(
     short_name: str,
     topic_slug: str,
     page: Union[int, None] = None,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> List[Post]:
     """
     Fetches a list of **post responses** for the abbreviated forum name given by the `short_name` and topic given by `topic_slug` URL parameters.
@@ -1239,7 +1323,7 @@ def forum_posts(
     :param page: Controls the current page of the response, if the response is paginated. Empty values default to the first page. The first page is `1`.
     :type  page: int|None
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forum_posts(…, _client=client)
@@ -1255,6 +1339,10 @@ def forum_posts(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forum_posts(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
@@ -1280,7 +1368,7 @@ def forum_post(
     short_name: str,
     topic_slug: str,
     post_id: int,
-    _client: Union[None, (internet.Session if is_requests else internet.Client)] = None,
+    _client: Union[None, 'DerpiClient', (internet.Session if is_requests else internet.Client)] = None,
 ) -> Post:
     """
     Fetches a **post response** for the abbreviated forum name given by the `short_name`, topic given by `topic_slug` and post given by `post_id` URL parameters.
@@ -1300,7 +1388,7 @@ def forum_post(
     :param post_id: the variable post_id part of the url.
     :type  post_id: int
     
-    :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
+    :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
                     >>> result = forum_post(…, _client=client)
@@ -1316,6 +1404,10 @@ def forum_post(
                     ... finally:
                     ...     client.close()
 
+                    You can provide a DerpiClient instance as well, to that same variable:
+                    >>> client = DerpiClient(api_key='…')
+                    >>> client._base_url = 'https://furbooru.org'
+                    >>> result = forum_post(…, _client=client)
 
     :type  _client: requests.Session|httpx.Client|None
     
