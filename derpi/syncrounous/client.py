@@ -1343,7 +1343,7 @@ class DerpiClient(object):
         :param key: API key
         """
         self._key = key
-        self._client = client,
+        self._client = client
     # end def
 
     @classmethod
