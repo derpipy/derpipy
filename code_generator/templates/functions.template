@@ -6,7 +6,7 @@ __author__ = 'luckydonald'
 from luckydonaldUtils.logger import logging
 from luckydonaldUtils.exceptions import assert_type_or_raise
 
-from typing import Union, List, Dict, Type
+from typing import Union, List, Dict, Type, Any
 from .models import *
 
 {% if not is_asyncio -%}
@@ -110,7 +110,7 @@ route = \
     :return: The parsed result from the API.
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
     """
-    _url: str = DerpiClient._base_url + f{{ route.path.template.__repr__() }}
+    _url = DerpiClient.get_url(client=_client, path=f{{ route.path.template.__repr__() }})
     response: internet.Response = {% if is_asyncio %}await {% endif %}DerpiClient.request({{route.method.__repr__()}}, url=_url, client=_client{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
          #}{% for param in route.all_parameters_ordered_generator(include_url_params=False, include_key=True) %}
         {{ param.api_name.__repr__() }}: {{ param.name }},
@@ -137,15 +137,28 @@ class DerpiClient(object):
     """
     Synchronous client for Derpibooru.org
     """
-    _base_url = 'https://derpibooru.org'
+    DEFAULT_BASE_URL = 'https://derpibooru.org'  # default base url.
 
-    def __init__(self, key, client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None):
+    def __init__(self, key, client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None, base_url = None):
         """
         :param key: API key
         """
+        if base_url is None:
+            base_url = self.DEFAULT_BASE_URL
+        # end if
         self._key = key
         self._client = client
+        self._base_url = base_url
     # end def
+
+    @classmethod
+    def get_url(cls, client: Union['DerpiClient', Any], path: str) -> str:
+        if isinstance(client, DerpiClient):
+            return client._base_url + path
+        else:
+            return cls.DEFAULT_BASE_URL + path
+        # end if
+    # end if
 
     @classmethod {#-
     #}{%if is_asyncio %}
