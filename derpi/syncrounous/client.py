@@ -48,25 +48,25 @@ def comment(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = comment(…, _client=client)
+                    >>> result = comment(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = comment(…, _client=client)
+                    ...     result = comment(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = comment(…, _client=client)
+                    ...     result = comment(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = comment(…, _client=client)
+                    >>> result = comment(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Comment
@@ -110,25 +110,25 @@ def image(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = image(…, _client=client)
+                    >>> result = image(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = image(…, _client=client)
+                    ...     result = image(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = image(…, _client=client)
+                    ...     result = image(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = image(…, _client=client)
+                    >>> result = image(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Image
@@ -171,25 +171,25 @@ def image_upload(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = image_upload(…, _client=client)
+                    >>> result = image_upload(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = image_upload(…, _client=client)
+                    ...     result = image_upload(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = image_upload(…, _client=client)
+                    ...     result = image_upload(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = image_upload(…, _client=client)
+                    >>> result = image_upload(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Image
@@ -222,25 +222,25 @@ def featured_image(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = featured_image(…, _client=client)
+                    >>> result = featured_image(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = featured_image(…, _client=client)
+                    ...     result = featured_image(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = featured_image(…, _client=client)
+                    ...     result = featured_image(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = featured_image(…, _client=client)
+                    >>> result = featured_image(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Image
@@ -274,25 +274,25 @@ def tag(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = tag(…, _client=client)
+                    >>> result = tag(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = tag(…, _client=client)
+                    ...     result = tag(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = tag(…, _client=client)
+                    ...     result = tag(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = tag(…, _client=client)
+                    >>> result = tag(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Tag
@@ -326,25 +326,25 @@ def post(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = post(…, _client=client)
+                    >>> result = post(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = post(…, _client=client)
+                    ...     result = post(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = post(…, _client=client)
+                    ...     result = post(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = post(…, _client=client)
+                    >>> result = post(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Post
@@ -378,25 +378,25 @@ def user(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = user(…, _client=client)
+                    >>> result = user(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = user(…, _client=client)
+                    ...     result = user(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = user(…, _client=client)
+                    ...     result = user(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = user(…, _client=client)
+                    >>> result = user(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  User
@@ -436,25 +436,25 @@ def filter(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = filter(…, _client=client)
+                    >>> result = filter(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = filter(…, _client=client)
+                    ...     result = filter(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = filter(…, _client=client)
+                    ...     result = filter(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = filter(…, _client=client)
+                    >>> result = filter(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Filter
@@ -490,25 +490,25 @@ def system_filters(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = system_filters(…, _client=client)
+                    >>> result = system_filters(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = system_filters(…, _client=client)
+                    ...     result = system_filters(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = system_filters(…, _client=client)
+                    ...     result = system_filters(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = system_filters(…, _client=client)
+                    >>> result = system_filters(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
@@ -553,25 +553,25 @@ def user_filters(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = user_filters(…, _client=client)
+                    >>> result = user_filters(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = user_filters(…, _client=client)
+                    ...     result = user_filters(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = user_filters(…, _client=client)
+                    ...     result = user_filters(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = user_filters(…, _client=client)
+                    >>> result = user_filters(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Filter]
@@ -611,25 +611,25 @@ def oembed(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = oembed(…, _client=client)
+                    >>> result = oembed(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = oembed(…, _client=client)
+                    ...     result = oembed(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = oembed(…, _client=client)
+                    ...     result = oembed(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = oembed(…, _client=client)
+                    >>> result = oembed(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Oembed
@@ -675,25 +675,25 @@ def search_comments(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_comments(…, _client=client)
+                    >>> result = search_comments(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_comments(…, _client=client)
+                    ...     result = search_comments(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_comments(…, _client=client)
+                    ...     result = search_comments(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_comments(…, _client=client)
+                    >>> result = search_comments(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Comment]
@@ -745,25 +745,25 @@ def search_galleries(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_galleries(…, _client=client)
+                    >>> result = search_galleries(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_galleries(…, _client=client)
+                    ...     result = search_galleries(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_galleries(…, _client=client)
+                    ...     result = search_galleries(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_galleries(…, _client=client)
+                    >>> result = search_galleries(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Gallery]
@@ -815,25 +815,25 @@ def search_posts(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_posts(…, _client=client)
+                    >>> result = search_posts(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_posts(…, _client=client)
+                    ...     result = search_posts(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_posts(…, _client=client)
+                    ...     result = search_posts(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_posts(…, _client=client)
+                    >>> result = search_posts(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Post]
@@ -903,25 +903,25 @@ def search_images(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_images(…, _client=client)
+                    >>> result = search_images(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_images(…, _client=client)
+                    ...     result = search_images(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_images(…, _client=client)
+                    ...     result = search_images(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_images(…, _client=client)
+                    >>> result = search_images(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Image]
@@ -971,25 +971,25 @@ def search_tags(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_tags(…, _client=client)
+                    >>> result = search_tags(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_tags(…, _client=client)
+                    ...     result = search_tags(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_tags(…, _client=client)
+                    ...     result = search_tags(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_tags(…, _client=client)
+                    >>> result = search_tags(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Tag]
@@ -1039,25 +1039,25 @@ def search_reverse(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = search_reverse(…, _client=client)
+                    >>> result = search_reverse(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = search_reverse(…, _client=client)
+                    ...     result = search_reverse(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = search_reverse(…, _client=client)
+                    ...     result = search_reverse(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = search_reverse(…, _client=client)
+                    >>> result = search_reverse(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Image]
@@ -1094,25 +1094,25 @@ def forums(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forums(…, _client=client)
+                    >>> result = forums(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forums(…, _client=client)
+                    ...     result = forums(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forums(…, _client=client)
+                    ...     result = forums(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forums(…, _client=client)
+                    >>> result = forums(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Forum]
@@ -1149,25 +1149,25 @@ def forum(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forum(…, _client=client)
+                    >>> result = forum(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forum(…, _client=client)
+                    ...     result = forum(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forum(…, _client=client)
+                    ...     result = forum(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forum(…, _client=client)
+                    >>> result = forum(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Forum
@@ -1205,25 +1205,25 @@ def forum_topics(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forum_topics(…, _client=client)
+                    >>> result = forum_topics(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forum_topics(…, _client=client)
+                    ...     result = forum_topics(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forum_topics(…, _client=client)
+                    ...     result = forum_topics(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forum_topics(…, _client=client)
+                    >>> result = forum_topics(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Topic]
@@ -1266,25 +1266,25 @@ def forum_topic(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forum_topic(…, _client=client)
+                    >>> result = forum_topic(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forum_topic(…, _client=client)
+                    ...     result = forum_topic(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forum_topic(…, _client=client)
+                    ...     result = forum_topic(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forum_topic(…, _client=client)
+                    >>> result = forum_topic(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Topic
@@ -1326,25 +1326,25 @@ def forum_posts(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forum_posts(…, _client=client)
+                    >>> result = forum_posts(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forum_posts(…, _client=client)
+                    ...     result = forum_posts(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forum_posts(…, _client=client)
+                    ...     result = forum_posts(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forum_posts(…, _client=client)
+                    >>> result = forum_posts(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  List[Post]
@@ -1391,25 +1391,25 @@ def forum_post(
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = forum_post(…, _client=client)
+                    >>> result = forum_post(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = forum_post(…, _client=client)
+                    ...     result = forum_post(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = forum_post(…, _client=client)
+                    ...     result = forum_post(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = forum_post(…, _client=client)
+                    >>> result = forum_post(..., _client=client)
 
-    :type  _client: requests.Session|httpx.Client|None
+    :type  _client: requests.Session|httpx.Client|DerpiClient|None
     
     :return: The parsed result from the API.
     :rtype:  Post
@@ -1498,16 +1498,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = comment(…, _client=client)
+                        >>> result = comment(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = comment(…, _client=client)
+                        ...     result = comment(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = comment(…, _client=client)
+                        ...     result = comment(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1553,16 +1553,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = image(…, _client=client)
+                        >>> result = image(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = image(…, _client=client)
+                        ...     result = image(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = image(…, _client=client)
+                        ...     result = image(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1606,16 +1606,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = image_upload(…, _client=client)
+                        >>> result = image_upload(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = image_upload(…, _client=client)
+                        ...     result = image_upload(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = image_upload(…, _client=client)
+                        ...     result = image_upload(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1649,16 +1649,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = featured_image(…, _client=client)
+                        >>> result = featured_image(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = featured_image(…, _client=client)
+                        ...     result = featured_image(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = featured_image(…, _client=client)
+                        ...     result = featured_image(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1694,16 +1694,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = tag(…, _client=client)
+                        >>> result = tag(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = tag(…, _client=client)
+                        ...     result = tag(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = tag(…, _client=client)
+                        ...     result = tag(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1740,16 +1740,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = post(…, _client=client)
+                        >>> result = post(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = post(…, _client=client)
+                        ...     result = post(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = post(…, _client=client)
+                        ...     result = post(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1786,16 +1786,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = user(…, _client=client)
+                        >>> result = user(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = user(…, _client=client)
+                        ...     result = user(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = user(…, _client=client)
+                        ...     result = user(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1837,16 +1837,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = filter(…, _client=client)
+                        >>> result = filter(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = filter(…, _client=client)
+                        ...     result = filter(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = filter(…, _client=client)
+                        ...     result = filter(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1884,16 +1884,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = system_filters(…, _client=client)
+                        >>> result = system_filters(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = system_filters(…, _client=client)
+                        ...     result = system_filters(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = system_filters(…, _client=client)
+                        ...     result = system_filters(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1935,16 +1935,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = user_filters(…, _client=client)
+                        >>> result = user_filters(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = user_filters(…, _client=client)
+                        ...     result = user_filters(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = user_filters(…, _client=client)
+                        ...     result = user_filters(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -1982,16 +1982,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = oembed(…, _client=client)
+                        >>> result = oembed(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = oembed(…, _client=client)
+                        ...     result = oembed(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = oembed(…, _client=client)
+                        ...     result = oembed(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2037,16 +2037,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_comments(…, _client=client)
+                        >>> result = search_comments(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_comments(…, _client=client)
+                        ...     result = search_comments(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_comments(…, _client=client)
+                        ...     result = search_comments(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2094,16 +2094,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_galleries(…, _client=client)
+                        >>> result = search_galleries(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_galleries(…, _client=client)
+                        ...     result = search_galleries(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_galleries(…, _client=client)
+                        ...     result = search_galleries(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2151,16 +2151,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_posts(…, _client=client)
+                        >>> result = search_posts(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_posts(…, _client=client)
+                        ...     result = search_posts(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_posts(…, _client=client)
+                        ...     result = search_posts(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2224,16 +2224,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_images(…, _client=client)
+                        >>> result = search_images(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_images(…, _client=client)
+                        ...     result = search_images(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_images(…, _client=client)
+                        ...     result = search_images(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2280,16 +2280,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_tags(…, _client=client)
+                        >>> result = search_tags(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_tags(…, _client=client)
+                        ...     result = search_tags(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_tags(…, _client=client)
+                        ...     result = search_tags(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2336,16 +2336,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = search_reverse(…, _client=client)
+                        >>> result = search_reverse(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = search_reverse(…, _client=client)
+                        ...     result = search_reverse(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = search_reverse(…, _client=client)
+                        ...     result = search_reverse(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2380,16 +2380,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forums(…, _client=client)
+                        >>> result = forums(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forums(…, _client=client)
+                        ...     result = forums(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forums(…, _client=client)
+                        ...     result = forums(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2425,16 +2425,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forum(…, _client=client)
+                        >>> result = forum(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forum(…, _client=client)
+                        ...     result = forum(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forum(…, _client=client)
+                        ...     result = forum(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2475,16 +2475,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forum_topics(…, _client=client)
+                        >>> result = forum_topics(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forum_topics(…, _client=client)
+                        ...     result = forum_topics(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forum_topics(…, _client=client)
+                        ...     result = forum_topics(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2526,16 +2526,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forum_topic(…, _client=client)
+                        >>> result = forum_topic(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forum_topic(…, _client=client)
+                        ...     result = forum_topic(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forum_topic(…, _client=client)
+                        ...     result = forum_topic(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2581,16 +2581,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forum_posts(…, _client=client)
+                        >>> result = forum_posts(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forum_posts(…, _client=client)
+                        ...     result = forum_posts(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forum_posts(…, _client=client)
+                        ...     result = forum_posts(..., _client=client)
                         ... finally:
                         ...     client.close()
 
@@ -2637,16 +2637,16 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = forum_post(…, _client=client)
+                        >>> result = forum_post(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = forum_post(…, _client=client)
+                        ...     result = forum_post(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = forum_post(…, _client=client)
+                        ...     result = forum_post(..., _client=client)
                         ... finally:
                         ...     client.close()
 

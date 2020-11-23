@@ -87,14 +87,14 @@ route = \
                     ...    result = await {{ route.name }}(..., _client=client)
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='...')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
                     >>> result = await {{ route.name }}(..., _client=client)
                     In this example we wanted to modify the base url to go to a different booru.
 
                     Combined example:
                     >>> async with httpx.AsyncClient() as web_client:
-                    >>>    derpi_client = DerpiClient(api_key='...', client=web_client)
+                    >>>    derpi_client = DerpiClient(key='...', client=web_client)
                     ...    result = await {{ route.name }}(..., _client=derpi_client)
 
     :type  _client: httpx.AsyncClient|DerpiClient|None
@@ -102,23 +102,23 @@ route = \
     :param _client: If you wanna to provide your custom `DerpiClient` or just an already opened `requests.Session`/`httpx.Client`.
                     For example with requests:
                     >>> client = requests.Session()
-                    >>> result = {{ route.name }}(…, _client=client)
+                    >>> result = {{ route.name }}(..., _client=client)
 
                     If you use httpx instead of requests, this would be with a context manager:
                     >>> with httpx.Client() as client:
-                    ...     result = {{ route.name }}(…, _client=client)
+                    ...     result = {{ route.name }}(..., _client=client)
 
                     Or httpx and manually closing it:
                     >>> client = httpx.Client()
                     >>> try:
-                    ...     result = {{ route.name }}(…, _client=client)
+                    ...     result = {{ route.name }}(..., _client=client)
                     ... finally:
                     ...     client.close()
 
                     You can provide a DerpiClient instance as well, to that same variable:
-                    >>> client = DerpiClient(api_key='…')
+                    >>> client = DerpiClient(key='...')
                     >>> client._base_url = 'https://furbooru.org'
-                    >>> result = {{ route.name }}(…, _client=client)
+                    >>> result = {{ route.name }}(..., _client=client)
 
     :type  _client: requests.Session|httpx.Client|DerpiClient|None
     {% endif %}
@@ -236,23 +236,23 @@ class DerpiClient(object):
         :param _client: If you wanna to provide your custom, already opened httpx.AsyncClient.
                         For example:
                         >>> async with httpx.AsyncClient() as client:
-                        ...    result = await {{ route.name }}(…, _client=client)
+                        ...    result = await {{ route.name }}(..., _client=client)
 
         :type  _client: httpx.AsyncClient|None
         {% else %}
         :param _client: If you wanna to provide your custom, already opened requests.Session/httpx.Client.
                         For example with requests:
                         >>> client = requests.Session()
-                        >>> result = {{ route.name }}(…, _client=client)
+                        >>> result = {{ route.name }}(..., _client=client)
 
                         If you use httpx instead of requests, this would be with a context manager:
                         >>> with httpx.Client() as client:
-                        ...     result = {{ route.name }}(…, _client=client)
+                        ...     result = {{ route.name }}(..., _client=client)
 
                         Or httpx and manually closing it:
                         >>> client = httpx.Client()
                         >>> try:
-                        ...     result = {{ route.name }}(…, _client=client)
+                        ...     result = {{ route.name }}(..., _client=client)
                         ... finally:
                         ...     client.close()
 
