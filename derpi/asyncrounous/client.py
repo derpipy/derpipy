@@ -57,7 +57,7 @@ async def comment(
     :rtype:  Comment
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/comments/{comment_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['comment']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -114,7 +114,7 @@ async def image(
     :rtype:  Image
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/images/{image_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'filter_id': filter_id,
         'key': key,
     })
@@ -170,7 +170,7 @@ async def image_upload(
     :rtype:  Image
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/images')
-    response: internet.Response = await DerpiClient.request('POST', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('POST', url=_url, client=_client, params={
         'url': url,
         'key': key,
     })
@@ -216,7 +216,7 @@ async def featured_image(
     :rtype:  Image
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/images/featured')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['image']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -263,7 +263,7 @@ async def tag(
     :rtype:  Tag
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/tags/{tag_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['tag']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -310,7 +310,7 @@ async def post(
     :rtype:  Post
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/posts/{post_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['post']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -357,7 +357,7 @@ async def user(
     :rtype:  User
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/profiles/{user_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['user']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -410,7 +410,7 @@ async def filter(
     :rtype:  Filter
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/filters/{filter_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'key': key,
     })
     result: Dict[str, Dict] = response.json()
@@ -459,7 +459,7 @@ async def system_filters(
     :rtype:  List[Filter]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/filters/system')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
@@ -517,7 +517,7 @@ async def user_filters(
     :rtype:  List[Filter]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/filters/user')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'key': key,
         'page': page,
     })
@@ -570,7 +570,7 @@ async def oembed(
     :rtype:  Oembed
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/oembed')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'url': url,
     })
     result: Dict = response.json()
@@ -629,7 +629,7 @@ async def search_comments(
     :rtype:  List[Comment]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/comments')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'q': query,
         'page': page,
         'key': key,
@@ -694,7 +694,7 @@ async def search_galleries(
     :rtype:  List[Gallery]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/galleries')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'q': query,
         'page': page,
         'key': key,
@@ -759,7 +759,7 @@ async def search_posts(
     :rtype:  List[Post]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/posts')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'q': query,
         'page': page,
         'key': key,
@@ -842,7 +842,7 @@ async def search_images(
     :rtype:  List[Image]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/images')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'q': query,
         'filter_id': filter_id,
         'page': page,
@@ -905,7 +905,7 @@ async def search_tags(
     :rtype:  List[Tag]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/tags')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'q': query,
         'page': page,
     })
@@ -968,7 +968,7 @@ async def search_reverse(
     :rtype:  List[Image]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/search/reverse')
-    response: internet.Response = await DerpiClient.request('POST', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('POST', url=_url, client=_client, params={
         'url': url,
         'distance': distance,
         'key': key,
@@ -1018,7 +1018,7 @@ async def forums(
     :rtype:  List[Forum]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, List[Dict]] = response.json()
     result: List[Dict] = result['forums']
     assert_type_or_raise(result, list, parameter_name='result')
@@ -1068,7 +1068,7 @@ async def forum(
     :rtype:  Forum
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums/{short_name}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['forum']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -1119,7 +1119,7 @@ async def forum_topics(
     :rtype:  List[Topic]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums/{short_name}/topics')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
@@ -1175,7 +1175,7 @@ async def forum_topic(
     :rtype:  Topic
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums/{short_name}/topics/{topic_slug}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['topic']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -1230,7 +1230,7 @@ async def forum_posts(
     :rtype:  List[Post]
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client, params={
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client, params={
         'page': page,
     })
     result: Dict[str, List[Dict]] = response.json()
@@ -1290,7 +1290,7 @@ async def forum_post(
     :rtype:  Post
     """
     _url = DerpiClient.get_url(client=_client, path=f'/api/v1/json/forums/{short_name}/topics/{topic_slug}/posts/{post_id}')
-    response: internet.Response = await DerpiClient.request('GET', url=_url, client=_client)
+    response: internet.Response = await DerpiClient.static_request('GET', url=_url, client=_client)
     result: Dict[str, Dict] = response.json()
     result: Dict = result['post']
     assert_type_or_raise(result, dict, parameter_name='result')
@@ -1327,10 +1327,19 @@ class DerpiClient(object):
     # end if
 
     @classmethod
-    async def request(cls: Type['DerpiClient'], method: str, url: str, params: Union[Dict, None] = None, client: Union[None, internet.AsyncClient] = None) -> internet.Response:
+    async def static_request(
+        cls: Type['DerpiClient'],
+        method: str,
+        url: str,
+        params: Union[Dict, None] = None,
+        client: Union[None, internet.AsyncClient, 'DerpiClient'] = None
+    ) -> internet.Response:
+        if isinstance(client, DerpiClient):
+            client: internet.AsyncClient = client._client
+        # end if
         if client is None:  # if we have no client, call ourself recursively with a with statement.
             async with internet.AsyncClient() as client:
-                return await cls.request(method=method, url=url, params=params, client=client)
+                return await cls.static_request(method=method, url=url, params=params, client=client)
             # end with
         # end if
         response: internet.Response = await client.request(method=method, url=url, params=params)

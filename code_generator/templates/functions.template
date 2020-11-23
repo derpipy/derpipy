@@ -14,6 +14,7 @@ from .models import *
 try:
     is_requests = True
     import requests as internet
+    CLIENT_TYPE = internet.Session
 except ImportError:
     is_requests = False
     try:
@@ -21,6 +22,7 @@ except ImportError:
     except ImportError:
         raise ImportError('Neither "requests" nor "httpx" could be found. Make sure either of them is installed.')
     # end try
+    CLIENT_TYPE = internet.Client
 # end try
 {% else -%}
 # import httpx, an async http client
@@ -126,7 +128,7 @@ route = \
     :rtype:  {{ route.response_format.python_typing_representation(json_mode=False) }}
     """
     _url = DerpiClient.get_url(client=_client, path=f{{ route.path.template.__repr__() }})
-    response: internet.Response = {% if is_asyncio %}await {% endif %}DerpiClient.request({{route.method.__repr__()}}, url=_url, client=_client{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
+    response: internet.Response = {% if is_asyncio %}await {% endif %}DerpiClient.static_request({{route.method.__repr__()}}, url=_url, client=_client{% if route.allowed_query_parameters  %}, params={{ '{' }} {#-
          #}{% for param in route.all_parameters_ordered_generator(include_url_params=False, include_key=True) %}
         {{ param.api_name.__repr__() }}: {{ param.name }},
         {%- endfor %}
@@ -154,7 +156,7 @@ class DerpiClient(object):
     """
     DEFAULT_BASE_URL = 'https://derpibooru.org'  # default base url.
 
-    def __init__(self, key, client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}(internet.Session if is_requests else internet.Client){% endif %}] = None, base_url = None):
+    def __init__(self, key, client: Union[None, {% if is_asyncio %}internet.AsyncClient{% else %}CLIENT_TYPE{% endif %}] = None, base_url = None):
         """
         :param key: API key
         """
@@ -175,28 +177,26 @@ class DerpiClient(object):
         # end if
     # end if
 
-    @classmethod {#-
-    #}{%if is_asyncio %}
-    async def request(cls: Type['DerpiClient'], method: str, url: str, params: Union[Dict, None] = None, client: Union[None, internet.AsyncClient] = None) -> internet.Response:
+    @classmethod
+    {%if is_asyncio %}async {% endif %}def static_request(
+        cls: Type['DerpiClient'],
+        method: str,
+        url: str,
+        params: Union[Dict, None] = None,
+        client: Union[None, {%if is_asyncio %}internet.AsyncClient{% else %}CLIENT_TYPE{% endif %}, 'DerpiClient'] = None
+    ) -> internet.Response:
+        if isinstance(client, DerpiClient):
+            client: {%if is_asyncio %}internet.AsyncClient{% else %}CLIENT_TYPE{% endif %} = client._client
+        # end if
         if client is None:  # if we have no client, call ourself recursively with a with statement.
-            async with internet.AsyncClient() as client:
-                return await cls.request(method=method, url=url, params=params, client=client)
+            {%if is_asyncio %}async {% endif %}with {%if is_asyncio %}internet.AsyncClient(){% else %}internet.Session() if is_requests else internet.Client(){% endif %} as client:
+                return {%if is_asyncio %}await {% endif %}cls.static_request(method=method, url=url, params=params, client=client)
             # end with
         # end if
-        response: internet.Response = await client.request(method=method, url=url, params=params)
+        response: {%if is_asyncio %}internet.Response{% else %}internet.Response{% endif %} = {%if is_asyncio %}await {% endif %}client.request(method=method, url=url, params=params)
         cls._check_response(response)
         return response
-    # end def{% else %}
-    def request(cls: Type['DerpiClient'], method, url, params=None, client: Union[None, (internet.Session if is_requests else internet.Client)] = None) -> internet.Response:
-        if client is None:  # if we have no client, call ourself recursively with a with statement.
-            with internet.Session() if is_requests else internet.Client() as client:
-                return cls.request(method=method, url=url, params=params, client=client)
-            # end with
-        # end if
-        response: internet.Response = internet.request(method=method, url=url, params=params)
-        cls._check_response(response)
-        return response
-    # end def{% endif %}
+    # end def
 
     @staticmethod
     def _check_response(response: internet.Response) -> None:
